@@ -1,0 +1,28 @@
+{
+  "name": "armada-board",
+  "version": "1.0.0",
+  "description": "Une plateforme web de gestion de la maintenance préventive d'un parc de véhicules",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aminebma/armada-board.git"
+  },
+  "author": "ESI 2CS SIT 2019-2020 / Equipe 7 - Vorherrschaft",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aminebma/armada-board/issues"
+  },
+  "homepage": "https://github.com/aminebma/armada-board#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mocha": "^8.0.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.12",
+    "sequelize-auto": "^0.4.29",
+    "sequelize-cli": "^5.5.1"
+  }
+}
