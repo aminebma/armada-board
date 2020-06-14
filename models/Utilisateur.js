@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     Sexe: {
-      type: ""CHAR"",
+      type: DataTypes.CHAR,
       allowNull: false
     },
     Affectation: {

@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     Sexe: {
-      type: ""CHAR"",
+      type: DataTyoes.CHAR,
       allowNull: false
     },
     Affectation: {
