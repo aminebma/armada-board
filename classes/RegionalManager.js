@@ -1,0 +1,3 @@
+class RegionalManager extends Manager{
+
+}
