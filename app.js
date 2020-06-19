@@ -1,6 +1,9 @@
 const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
+const {Pool} = require('pg')
+const configIndex = require('./config/index')
+const config = require('config')
 const accounts = require('./routes/accounts')
 const administrators = require('./routes/administrators')
 const maintenances = require('./routes/maintenances')
@@ -20,7 +23,14 @@ app.use('/api/maintenances', maintenances)
 app.use('/api/vehicules', vehicules)
 app.use('/api/reports', reports)
 
-const port = process.env.PORT || 3000
-const ip = process.env.IP || '127.0.0.1'
+const postgres = new Pool({
+    connectionString: configIndex.getDbConnectionString()
+})
+postgres.connect().then(
+    console.log(`Successfully connected to the database...`)
+).catch(err=>console.log(new Error(err)))
 
-app.listen(port, ip, ()=> console.log(`Listening on: ${ip}:${port}`))
+const port = config.get("server.port")
+const ip = config.get("server.ip")
+
+app.listen(port, ip, () => console.log(`Listening on ${ip}:${port}`))

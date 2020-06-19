@@ -1,0 +1,8 @@
+{
+  "name": "Armada Board - Default",
+  "database": {
+    "name": "db-armada",
+    "ip": "localhost",
+    "port": "5432"
+  }
+}

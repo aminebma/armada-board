@@ -1,0 +1,10 @@
+{
+  "database": {
+    "username": "armada_db_admin_username",
+    "password": "armada_db_admin_password"
+  },
+  "server": {
+    "ip": "armada_server_ip",
+    "port": "armada_server_port"
+  }
+}
