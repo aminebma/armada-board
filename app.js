@@ -1,7 +1,7 @@
 const express = require('express')
 const helmet = require('helmet')
 const morgan = require('morgan')
-const {Pool} = require('pg')
+const {Client} = require('pg')
 const configIndex = require('./config/index')
 const config = require('config')
 const accounts = require('./routes/accounts')
@@ -23,12 +23,13 @@ app.use('/api/maintenances', maintenances)
 app.use('/api/vehicules', vehicules)
 app.use('/api/reports', reports)
 
-const postgres = new Pool({
+const client = new Client({
     connectionString: configIndex.getDbConnectionString()
 })
-postgres.connect().then(
+client.connect().then(
     console.log(`Successfully connected to the database...`)
 ).catch(err=>console.log(new Error(err)))
+client.end()
 
 const port = config.get("server.port")
 const ip = config.get("server.ip")
