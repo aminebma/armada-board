@@ -1,0 +1,76 @@
+.Grid{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 70px, 510px ;
+
+}
+
+.Maintenance-details{
+    margin-left:16px;
+    width: 330px;
+    height: 340px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.div-global{
+    margin-top: 100px;
+}
+
+.Text-Planning-Maintenance{
+margin-left: 32px;
+width: 391px;
+height: 37px;
+font-family: Roboto;
+font-size: 25px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 0.5;
+letter-spacing: normal;
+text-align: left;
+color: #4d4f5c;
+}
+
+.Text-Detail-Maintenance{
+width: 280px;
+height: 37px;
+margin-left: 32px;
+font-family: Roboto;
+font-size: 25px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 0.5;
+letter-spacing: normal;
+text-align: left;
+color: #4d4f5c;
+}
+
+.Calendar{
+margin-left: 16px;
+margin-right: 16px;
+width: 710px;
+height: 480px;
+box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+background-color: #FFFFFF;
+}
+
+.button-under-maintenance > button{
+margin-top: 24px;
+margin-left: 56px;
+width: 240px;
+height: 36px;
+box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+background-color: #174a84;
+font-family: Roboto;
+font-size: 12px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.21;
+letter-spacing: 1.25px;
+text-align: center;
+color: #FFFFFF;
+}
+

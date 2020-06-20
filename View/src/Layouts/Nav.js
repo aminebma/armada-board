@@ -6,7 +6,7 @@ import MapIcon from '@material-ui/icons/Map';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LineStyleIcon from '@material-ui/icons/LineStyle';
 import SettingsIcon from '@material-ui/icons/Settings';
-
+import Maintenance from '../Maintenance/Maintenance'
 import MaintenanceNav from '../TableauDeBord/TBindex'
 
 const useStyles = makeStyles((theme) => ({
@@ -133,9 +133,7 @@ export default function Nav (){
                         </Container>
                     </Route>
                     <Route exact path="/Maintenance">
-                        <Container style={{paddingTop : '50px'}}>
-                            <Typography variant="h1">Maintenance</Typography>
-                        </Container>
+                        <Maintenance/>
                     </Route>
                     <Route exact path="/TableauDeBord">
                         <Grid container style={{paddingTop : '55px'}}>

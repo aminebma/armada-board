@@ -1,0 +1,40 @@
+.Grid-Dialog{
+    display: grid;
+    width: 500px;
+    height: 170px;
+    grid-template-columns: 1fr 1fr;
+    margin: 2%;
+
+}
+
+.button-Upload {
+width: 220px;
+height: 36px;
+text-align: center;
+}
+
+
+.Dialog-Text{
+  font-family: Roboto;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: var#4d4f5c
+  ;
+}
+.label{
+    opacity: 0.5;
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: 0.4px;
+  text-align: left;
+  color: #000000;
+}
