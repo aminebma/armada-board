@@ -5,7 +5,7 @@
 -- Dumped from database version 11.3
 -- Dumped by pg_dump version 11.3
 
--- Started on 2020-06-19 21:39:56
+-- Started on 2020-06-21 04:28:06
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -71,7 +71,9 @@ ALTER SEQUENCE public."Chauffeur_id_seq" OWNED BY public."Chauffeur".id;
 
 CREATE TABLE public."Fichier" (
     id bigint NOT NULL,
-    "Contenu" character(1) NOT NULL
+    "Contenu" character(1),
+    "Url" character(150),
+    "Nom" character(100)
 );
 
 
@@ -555,7 +557,7 @@ ALTER TABLE ONLY public."Utilisateur"
     ADD CONSTRAINT "Utilisateur_Affectation_fkey" FOREIGN KEY ("Affectation") REFERENCES public."Unite"(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
--- Completed on 2020-06-19 21:39:57
+-- Completed on 2020-06-21 04:28:06
 
 --
 -- PostgreSQL database dump complete

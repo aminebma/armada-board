@@ -11,13 +11,13 @@ router.post('/chauffeurs', async(req,res)=>{
     const text = "INSERT INTO \"Chauffeur\"(\"Nom\", \"Prenom\", \"DateNaiss\", \"Adresse\", \"Sexe\", \"Affectation\") VALUES($1, $2, $3, $4, $5, $6) RETURNING id"
     const values = [req.body.nom, req.body.prenom, req.body.dateNaiss, req.body.adresseResidence, req.body.sexe, req.body.affectation]
 
-    client.connect().then(
+    await client.connect().then(
         client.query(text, values).then(result =>{
             console.log(`New driver added successfully. id: ${result.rows[0].id}`)
             client.end()
             res.send(result.rows[0].id)
         }).catch(e => console.error(e.message))
-    ).catch(err=>console.log(new Error(err)))
+    ).catch(err => console.log(new Error(err.message)))
 })
 
 router.post('/users', async(req,res)=>{
@@ -33,7 +33,7 @@ router.post('/users', async(req,res)=>{
             client.end()
             res.send(result.rows[0].id)
         }).catch(e => console.error(e.message))
-    ).catch(err=>console.log(new Error(err)))
+    ).catch(err => console.log(new Error(err.message)))
 })
 
 router.delete('/users', async(req,res)=>{
@@ -42,12 +42,12 @@ router.delete('/users', async(req,res)=>{
     const values = [req.body.id]
 
     client.connect().then(
-        client.query(text, values).then(result =>{
+        client.query(text, values).then(() =>{
             console.log(`UserId: ${req.body.id} deleted successfully`)
             client.end()
             res.send()
         }).catch(e => console.error(e.message))
-    ).catch(err=>console.log(new Error(err)))
+    ).catch(err => console.log(new Error(err.message)))
 })
 
 module.exports = router
