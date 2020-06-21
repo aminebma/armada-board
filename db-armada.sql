@@ -35,6 +35,18 @@ CREATE DATABASE "db-armada"
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
+-- SCHEMA: public
+
+CREATE SCHEMA public
+    AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA public
+    IS 'standard public schema';
+
+GRANT ALL ON SCHEMA public TO postgres;
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
 --
 -- TOC entry 197 (class 1259 OID 16490)
 -- Name: Chauffeur; Type: TABLE; Schema: public; Owner: postgres
