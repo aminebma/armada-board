@@ -6,6 +6,7 @@ const { Pool } = require('pg')
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
+pool.connect()
 const multer = require('multer')
 
 const storageManager = multer.diskStorage({
@@ -79,20 +80,16 @@ module.exports = router
 
 async function init(){
     const text = "SELECT \"Url\",\"Nom\" FROM \"Fichier\" WHERE \"Url\"<>''"
-    await pool.connect()
-        .then(
-            pool.query(text)
-                .then(result=>{
-                    let newReport
-                    for(i=0 ; i<result.rows.length ; i+=2){
-                        newReport = {
-                            jrxml: result.rows[i].Url,
-                            jasper: result.rows[i+1].Url
-                        }
-                        jasper.add(result.rows[i].Nom,newReport)
-                    }
-                })
-                .catch(e => console.error(e.message))
-        )
-        .catch(err => console.log(new Error(err.message)))
+    await pool.query(text)
+        .then(result=> {
+            let newReport
+            for (i = 0; i < result.rows.length; i += 2) {
+                newReport = {
+                    jrxml: result.rows[i].Url,
+                    jasper: result.rows[i + 1].Url
+                }
+                jasper.add(result.rows[i].Nom, newReport)
+            }
+        })
+        .catch(e => console.error(e.message))
 }

@@ -6,6 +6,7 @@ const { Pool } = require('pg')
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
+pool.connect()
 
 router.post('/chauffeurs', async(req,res)=>{
     const text = "INSERT INTO \"Chauffeur\"(\"Nom\", \"Prenom\", \"DateNaiss\", \"Adresse\", \"Sexe\", \"Affectation\") VALUES($1, $2, $3, $4, $5, $6) RETURNING id"
