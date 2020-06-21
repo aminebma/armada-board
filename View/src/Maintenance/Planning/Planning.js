@@ -7,22 +7,23 @@ import {
     MonthView,
     Toolbar,
     DateNavigator,
-    Appointments,
     TodayButton,
     ViewSwitcher,
     AppointmentTooltip,
+    Appointments,
     ConfirmationDialog,
     DayView,
     AppointmentForm,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { appointments } from './TestData';
+import { MaintenanceData } from './TestData';
 import BuildIcon from '@material-ui/icons/Build';
+import DataTemplate from './DataTemplate';
 
 class Planning extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: appointments,
+            data: MaintenanceData,
             currentViewName: 'Week',
         };
         this.currentViewNameChange = (currentViewName) => {
@@ -53,7 +54,7 @@ class Planning extends Component {
         const { data, currentViewName } = this.state;
         return (
             <Paper className="Calendar">
-                <Scheduler data={data}>
+                <Scheduler data={data} >
                     <ViewState defaultCurrentDate={Date.currentDate} currentViewName={currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                     <EditingState
                         onCommitChanges={this.commitChanges}
@@ -68,9 +69,8 @@ class Planning extends Component {
                     <TodayButton />
                     <ViewSwitcher />
                     <ConfirmationDialog />
-                    <Appointments recurringIconComponent={<BuildIcon></BuildIcon>}/>
-                    <AppointmentTooltip showOpenButton
-                        showDeleteButton />
+                    <Appointments appointmentContentComponent={DataTemplate}/>
+                    <AppointmentTooltip showOpenButton showDeleteButton />
                     <AppointmentForm />
                 </Scheduler>
             </Paper>

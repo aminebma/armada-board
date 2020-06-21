@@ -13,6 +13,11 @@
     width: 100%;
 }
 
+.maintenance-preview  {
+    font-size: 12px;
+    white-space: normal;
+  }
+
 .avatar {
     width: 155px;
     float: left;
