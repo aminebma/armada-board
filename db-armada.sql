@@ -22,6 +22,19 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+-- Database: db-armada
+
+DROP DATABASE "db-armada";
+
+CREATE DATABASE "db-armada"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'French_France.1252'
+    LC_CTYPE = 'French_France.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
 --
 -- TOC entry 197 (class 1259 OID 16490)
 -- Name: Chauffeur; Type: TABLE; Schema: public; Owner: postgres
