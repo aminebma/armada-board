@@ -63,7 +63,10 @@ router.post('/', reportUpload.array('report', 2), async (req, res)=>{
                     await client.query(text, values).then(result => {
                         console.log(`File added successfully. id: ${result.rows[0].id}`)
                         if(index==1) client.end()
-                    }).catch(e => console.error(e.message))
+                    }).catch(e => {
+                        console.error(e.message)
+                        client.end()
+                    })
                 })
         })
         .catch(err => console.log(new Error(err.message)))
@@ -98,7 +101,10 @@ async function init(){
                     }
                     client.end()
                 })
-                .catch(e => console.error(e.message))
+                .catch(e => {
+                    console.error(e.message)
+                    client.end()
+                })
         )
         .catch(err => console.log(new Error(err.message)))
 }

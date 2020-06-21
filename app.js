@@ -3,8 +3,6 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const fs = require('fs')
 const path = require('path')
-const {Client} = require('pg')
-const configIndex = require('./config/index')
 const config = require('config')
 const accounts = require('./routes/accounts')
 const administrators = require('./routes/administrators')
@@ -26,13 +24,6 @@ app.use('/api/maintenances', maintenances)
 app.use('/api/vehicules', vehicules)
 app.use('/api/reports', reports)
 
-const client = new Client({
-    connectionString: configIndex.getDbConnectionString()
-})
-client.connect().then(
-    console.log(`Successfully connected to the database...`)
-).catch(err=>console.log(new Error(err)))
-client.end()
 
 const port = config.get("server.port")
 const ip = config.get("server.ip")

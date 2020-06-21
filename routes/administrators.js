@@ -16,7 +16,10 @@ router.post('/chauffeurs', async(req,res)=>{
             console.log(`New driver added successfully. id: ${result.rows[0].id}`)
             client.end()
             res.send(result.rows[0].id)
-        }).catch(e => console.error(e.message))
+        }).catch(e => {
+            console.error(e.message)
+            client.end()
+        })
     ).catch(err => console.log(new Error(err.message)))
 })
 
@@ -32,7 +35,10 @@ router.post('/users', async(req,res)=>{
             console.log(`New user added successfully. id: ${result.rows[0].id}`)
             client.end()
             res.send(result.rows[0].id)
-        }).catch(e => console.error(e.message))
+        }).catch(e => {
+            console.error(e.message)
+            client.end()
+        })
     ).catch(err => console.log(new Error(err.message)))
 })
 
@@ -46,7 +52,10 @@ router.delete('/users', async(req,res)=>{
             console.log(`UserId: ${req.body.id} deleted successfully`)
             client.end()
             res.send()
-        }).catch(e => console.error(e.message))
+        }).catch(e => {
+            console.error(e.message)
+            client.end()
+        })
     ).catch(err => console.log(new Error(err.message)))
 })
 
