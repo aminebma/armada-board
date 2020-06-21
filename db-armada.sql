@@ -24,7 +24,7 @@ SET default_with_oids = false;
 
 -- Database: db-armada
 
-DROP DATABASE "db-armada";
+DROP DATABASE IF EXISTS "db-armada";
 
 CREATE DATABASE "db-armada"
     WITH
