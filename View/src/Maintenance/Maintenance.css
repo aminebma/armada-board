@@ -1,17 +1,3 @@
-.Grid{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 70px, 510px ;
-
-}
-
-.Maintenance-details{
-    margin-left:16px;
-    width: 330px;
-    height: 340px;
-    background-color: #FFFFFF;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
-}
 
 .div-global{
     margin-top: 100px;
@@ -48,9 +34,9 @@ color: #4d4f5c;
 }
 
 .Calendar{
-margin-left: 16px;
+margin-left: 64px;
 margin-right: 16px;
-width: 710px;
+width: 1000px;
 height: 480px;
 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
 background-color: #FFFFFF;
@@ -58,7 +44,7 @@ background-color: #FFFFFF;
 
 .button-under-maintenance > button{
 margin-top: 24px;
-margin-left: 56px;
+margin-left: 200px;
 width: 240px;
 height: 36px;
 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
