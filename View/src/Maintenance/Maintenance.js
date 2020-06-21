@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Maintenance_details from './Maintenance_details';
 import Planning from './Planning/Planning';
-import MAJMaintenance from './MAJ_Maintenance';
+import MAJMaintenance from './MAJ_Maintenance/MAJ_Maintenance';
 import Button from '@material-ui/core/Button';
-import ExportPlanning from './Export_Planning';
+import ExportPlanning from './Export_Planning/Export_Planning';
 import './Maintenance.css';
 
 class Maintenance extends Component {
