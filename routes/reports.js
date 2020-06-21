@@ -46,13 +46,13 @@ const jasper = require('node-jasper')({
 
 init()
 
-router.post('/', reportUpload.array('report', 2), async (req, res)=>{
+router.post('/', reportUpload.array('report', 2), async (req, res) => {
     const report = {
         jrxml: `..\\${req.files[0].path}`,
         jasper: `..\\${req.files[1].path}`
     }
     jasper.add(req.body.name,report)
-    const text = "INSERT INTO \"Fichier\"(\"Url\",\"Nom\") VALUES($1,$2) RETURNING id"
+    const text = "INSERT INTO Fichier(url,nom) VALUES($1,$2) RETURNING id"
     let values = []
     for(let file of req.files) {
         values = [
@@ -66,7 +66,7 @@ router.post('/', reportUpload.array('report', 2), async (req, res)=>{
     res.send('Report added successfully')
 })
 
-router.get('/:name', async (req, res)=> {
+router.get('/:name', async (req, res) => {
     const report = req.params.name
     const pdf = await jasper.pdf(report)
     res.set({
@@ -79,16 +79,16 @@ router.get('/:name', async (req, res)=> {
 module.exports = router
 
 async function init(){
-    const text = "SELECT \"Url\",\"Nom\" FROM \"Fichier\" WHERE \"Url\"<>''"
+    const text = "SELECT url,nom FROM Fichier WHERE url<>''"
     await pool.query(text)
         .then(result=> {
             let newReport
             for (i = 0; i < result.rows.length; i += 2) {
                 newReport = {
-                    jrxml: result.rows[i].Url,
-                    jasper: result.rows[i + 1].Url
+                    jrxml: result.rows[i].url,
+                    jasper: result.rows[i + 1].url
                 }
-                jasper.add(result.rows[i].Nom, newReport)
+                jasper.add(result.rows[i].nom, newReport)
             }
         })
         .catch(e => console.error(e.message))
