@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const config = require('config')
 const configIndex = require('../config/index')
-const { Client } = require('pg')
-const client = new Client({
+const { Pool } = require('pg')
+const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
 const multer = require('multer')
@@ -53,29 +53,21 @@ router.post('/', reportUpload.array('report', 2), async (req, res)=>{
     jasper.add(req.body.name,report)
     const text = "INSERT INTO \"Fichier\"(\"Url\",\"Nom\") VALUES($1,$2) RETURNING id"
     let values = []
-    await client.connect()
-        .then(()=> {
-                req.files.forEach(async (file,index) => {
-                    values = [
-                        `..\\${file.path}`,
-                        req.body.name
-                    ]
-                    await client.query(text, values).then(result => {
-                        console.log(`File added successfully. id: ${result.rows[0].id}`)
-                        if(index==1) client.end()
-                    }).catch(e => {
-                        console.error(e.message)
-                        client.end()
-                    })
-                })
-        })
-        .catch(err => console.log(new Error(err.message)))
+    for(let file of req.files) {
+        values = [
+            `..\\${file.path}`,
+            req.body.name
+        ]
+        await pool.query(text, values).then(result => {
+            console.log(`File added successfully. id: ${result.rows[0].id}`)
+        }).catch(e => console.error(e.message))
+    }
     res.send('Report added successfully')
 })
 
 router.get('/:name', async (req, res)=> {
     const report = req.params.name
-    const pdf = jasper.pdf(report)
+    const pdf = await jasper.pdf(report)
     res.set({
         'Content-type': 'application/pdf',
         'Content-Length': pdf.length
@@ -87,9 +79,9 @@ module.exports = router
 
 async function init(){
     const text = "SELECT \"Url\",\"Nom\" FROM \"Fichier\" WHERE \"Url\"<>''"
-    await client.connect()
+    await pool.connect()
         .then(
-            client.query(text)
+            pool.query(text)
                 .then(result=>{
                     let newReport
                     for(i=0 ; i<result.rows.length ; i+=2){
@@ -99,12 +91,8 @@ async function init(){
                         }
                         jasper.add(result.rows[i].Nom,newReport)
                     }
-                    client.end()
                 })
-                .catch(e => {
-                    console.error(e.message)
-                    client.end()
-                })
+                .catch(e => console.error(e.message))
         )
         .catch(err => console.log(new Error(err.message)))
 }
