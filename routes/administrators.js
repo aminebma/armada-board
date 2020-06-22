@@ -16,7 +16,10 @@ router.post('/chauffeurs', async (req,res) => {
             console.log(`New driver added successfully. id: ${result.rows[0].id}`)
             res.send(result.rows[0].id)
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.post('/users', async (req,res) => {
@@ -30,7 +33,10 @@ router.post('/users', async (req,res) => {
             console.log(`New user added successfully. id: ${result.rows[0].id}`)
             res.send(result.rows[0].id)
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.delete('/users', async (req,res) => {
@@ -42,7 +48,10 @@ router.delete('/users', async (req,res) => {
             console.log(`UserId: ${req.body.id} deleted successfully`)
             res.send()
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 module.exports = router

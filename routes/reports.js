@@ -8,6 +8,7 @@ const pool = new Pool({
 })
 pool.connect()
 const multer = require('multer')
+const fs = require('fs')
 
 const storageManager = multer.diskStorage({
     destination: function(req, file, callback){
@@ -61,7 +62,11 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
         ]
         await pool.query(text, values).then(result => {
             console.log(`File added successfully. id: ${result.rows[0].id}`)
-        }).catch(e => console.error(e.message))
+        }).catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+            return
+        })
     }
     res.send('Report added successfully')
 })
@@ -76,6 +81,22 @@ router.get('/:name', async (req, res) => {
     res.send(pdf)
 })
 
+router.delete('/:name', async (req, res)=>{
+    fs.unlink(`../lib/reports/${req.params.name}`, function (err) {
+        if (err) throw err;
+        console.log(`File ..lib/reports/${req.params.name} deleted!`);
+    });
+    const text = "DELETE FROM Fichier WHERE name=$1"
+    const values = [req.params.name]
+    await poo.query(text,values)
+        .then(()=>{
+            res.send('Report deleted successfully')
+        })
+        .catch(err => {
+            console.log(err.message)
+            res.send(err.message)
+        })
+})
 module.exports = router
 
 async function init(){
