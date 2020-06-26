@@ -13,7 +13,10 @@ router.get('/', async (req, res) => {
         .then(result =>{
             res.send(result.rows)
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.post('/', async (req, res) => {
@@ -24,7 +27,10 @@ router.post('/', async (req, res) => {
             console.log(`New vehicule added successfully. id: ${result.rows[0].id}`)
             res.send(result.rows[0].id)
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.get('/piece-de-rechange', async (req, res) => {
@@ -33,7 +39,10 @@ router.get('/piece-de-rechange', async (req, res) => {
         .then(result =>{
             res.send(result.rows)
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.post('/piece-de-rechange', async (req, res) => {
@@ -44,7 +53,10 @@ router.post('/piece-de-rechange', async (req, res) => {
             console.log(`New change piece added successfully. id: ${result.rows[0].id}`)
             res.send(result.rows[0].id)
         })
-        .catch(e => console.error(e.message))
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 module.exports = router
