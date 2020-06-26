@@ -13,7 +13,7 @@ router.post('/chauffeurs', async (req,res) => {
     let values = [req.body.nom, req.body.prenom, req.body.dateNaiss]
     await pool.query(text,values)
         .then(async chauffeur=>{
-            if(!chauffeur.rows.length ==== 0) return res.status(400).send('Driver already registered.')
+            if(!chauffeur.rows.length === 0) return res.status(400).send('Driver already registered.')
             text = "INSERT INTO Chauffeur(nom, prenom, dateNaiss, adresse, sexe, affectation) VALUES($1, $2, $3, $4, $5, $6) RETURNING id"
             values = [req.body.nom, req.body.prenom, req.body.dateNaiss, req.body.adresseResidence, req.body.sexe, req.body.affectation]
             await pool.query(text, values)
