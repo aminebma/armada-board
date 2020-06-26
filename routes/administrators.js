@@ -54,4 +54,12 @@ router.delete('/users', async (req,res) => {
         })
 })
 
+router.put('/users/reset-password', async(req,res)=>{
+    //TODO Modifier le mot de passe
+})
+
+router.put('/users', async(req,res)=>{
+    //TODO Modifier un utilisateur
+})
+
 module.exports = router
