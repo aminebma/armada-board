@@ -26,8 +26,8 @@ router.post('/users', async (req,res) => {
     const salt = await bCrypt.genSalt(10)
     const pass = await bCrypt.hash(req.body.password,salt)
 
-    const text = "INSERT INTO Utilisateur(type, username, password, nom, prenom, dateNaiss, adresse, sexe, affectation) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id"
-    const values = [req.body.type, req.body.username, pass, req.body.nom, req.body.prenom, req.body.dateNaiss, req.body.adresseResidence, req.body.sexe, req.body.affectation]
+    const text = "INSERT INTO Utilisateur(type, username, password, nom, prenom, dateNaiss, adresse, numTel, mail, sexe, affectation) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id"
+    const values = [req.body.type, req.body.username, pass, req.body.nom, req.body.prenom, req.body.dateNaiss, req.body.adresseResidence, req.body.numTel, req.body.mail, req.body.sexe, req.body.affectation]
     await pool.query(text, values)
         .then(result => {
             console.log(`New user added successfully. id: ${result.rows[0].id}`)

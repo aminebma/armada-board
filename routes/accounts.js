@@ -30,4 +30,25 @@ router.post('/sign-in', async(req, res)=>{
         })
 })
 
+router.post('/reset-password', async(req, res)=>{
+    let text = "SELECT affiliation FROM Utilisateur WHERE username = $1"
+    let values = [req.body.username]
+    await pool.query(text, values)
+        .then(async user =>{
+            if(user.rows.length === 0) return res.status(400).send('Invalid username')
+
+            text = "SELECT nom, prenom, numTel, mail FROM Utilisateur where affiliation = $1"
+            values = [user.rows[0].affiliation]
+            await pool.query(text, values)
+                .then(async admins =>{
+                    if(admins.rows.length === 0) return res.status(404).send('Aucun administrateur n\'est disponible.')
+                    res.send(admins.rows)
+                })
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
 module.exports = router
