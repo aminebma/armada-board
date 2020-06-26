@@ -30,8 +30,4 @@ router.post('/sign-in', async(req, res)=>{
         })
 })
 
-router.post('/reset-password', async(req,res)=>{
-    //TODO Mot de passe oublié
-})
-
 module.exports = router

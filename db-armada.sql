@@ -313,6 +313,8 @@ CREATE TABLE public.Utilisateur (
     Prenom character varying(70),
     DateNaiss date,
     Adresse character varying(255),
+    numTel character varying(14),
+    mail character varying(200),
     Sexe character(1),
     Affectation bigint
 );
