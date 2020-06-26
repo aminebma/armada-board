@@ -308,7 +308,7 @@ CREATE TABLE public.Utilisateur (
     id bigint NOT NULL,
     Type integer,
     Username character varying(50),
-    Password character varying(50),
+    Password character varying(70),
     Nom character varying(50),
     Prenom character varying(70),
     DateNaiss date,
