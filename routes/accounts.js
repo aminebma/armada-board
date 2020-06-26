@@ -16,6 +16,8 @@ router.post('/sign-in', async(req, res)=>{
     const values = [req.body.username]
     await pool.query(text, values)
         .then(async user =>{
+            if(user.rows.length === 0) return res.status(400).send('Invalid username or password')
+
             const validPass =  await bCrypt.compare(req.body.password, user.rows[0].password)
             if(!validPass) return res.status(400).send('Invalid username or password.')
 
