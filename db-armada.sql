@@ -22,6 +22,33 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+-- Database: db-armada
+
+DROP DATABASE "db-armada" IF EXISTS;
+
+CREATE DATABASE "db-armada"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'French_France.1252'
+    LC_CTYPE = 'French_France.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+-- SCHEMA: public
+
+-- DROP SCHEMA public ;
+
+CREATE SCHEMA public
+    AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA public
+    IS 'standard public schema';
+
+GRANT ALL ON SCHEMA public TO postgres;
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
 --
 -- TOC entry 197 (class 1259 OID 16490)
 -- Name: Chauffeur; Type: TABLE; Schema: public; Owner: postgres
@@ -71,7 +98,8 @@ ALTER SEQUENCE public.Chauffeur_id_seq OWNED BY public.Chauffeur.id;
 
 CREATE TABLE public.Fichier (
     id bigint NOT NULL,
-    Contenu character(1),
+    type character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    Contenu xml,
     Url character varying(150),
     Nom character varying(100)
 );

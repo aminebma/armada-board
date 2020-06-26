@@ -53,7 +53,7 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
         jasper: `..\\${req.files[1].path}`
     }
     jasper.add(req.body.name,report)
-    const text = "INSERT INTO Fichier(url,nom) VALUES($1,$2) RETURNING id"
+    const text = "INSERT INTO Fichier(type,url,nom) VALUES('KPI',$1,$2) RETURNING id"
     let values = []
     for(let file of req.files) {
         values = [
@@ -100,7 +100,7 @@ router.delete('/:name', async (req, res)=>{
 module.exports = router
 
 async function init(){
-    const text = "SELECT url,nom FROM Fichier WHERE url<>''"
+    const text = "SELECT url,nom FROM Fichier WHERE type='KPI'"
     await pool.query(text)
         .then(result=> {
             let newReport

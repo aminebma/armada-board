@@ -104,8 +104,4 @@ router.put('/users/reset-password', async(req,res)=>{
         })
 })
 
-router.put('/users', async(req,res)=>{
-    //TODO Modifier un utilisateur
-})
-
 module.exports = router
