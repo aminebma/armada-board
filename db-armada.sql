@@ -37,7 +37,7 @@ CREATE DATABASE "db-armada"
 
 -- SCHEMA: public
 
--- DROP SCHEMA public ;
+DROP SCHEMA public IF EXISTS;
 
 CREATE SCHEMA public
     AUTHORIZATION postgres;
