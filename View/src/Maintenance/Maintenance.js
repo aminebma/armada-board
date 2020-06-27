@@ -4,8 +4,8 @@ import Planning from './Planning/Planning.tsx';
 import MAJMaintenance from './MAJ_Maintenance/MAJ_Maintenance';
 import Button from '@material-ui/core/Button';
 import ExportPlanning from './Export_Planning/Export_Planning';
-/*import './Maintenance.css';*/
-import testPlanning from './Planning/testPlanning';
+import './Maintenance.css';
+import TestPlanning from './Planning/Planning';
 import merde from './Planning/test';
 
 class Maintenance extends Component {
@@ -39,7 +39,7 @@ class Maintenance extends Component {
                 </div> : null}
                 <div className="Working-Page">
                         <div className="button-under-maintenance">
-                            <testPlanning/>
+                            <TestPlanning/>
                             <Button variant="contained" color="primary" onClick={() => this.Show_MAJ_Maintenance()}> Mise à jour du calendrier</Button>
                             <Button variant="contained" color="primary" onClick={() => this.Show_Export_Planning()}>exporter le planning</Button>
                         </div>

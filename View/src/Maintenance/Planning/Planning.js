@@ -21,7 +21,7 @@ import { ListeVoiture } from './ListeVoiture';
 import { ListeModèle } from './ListeModèle';
 import { ListeBesoin } from './ListeBesoin';
 import{ UneMaintenance, MaintenanceContent} from './Planning.tsx';
-/*
+
 const resources = [{
     fieldName: 'véhicule',
     title: 'vehicule',
@@ -55,9 +55,9 @@ const resources = [{
     title: 'Besoin',
     instances: ListeBesoin,
 }];
-*/
 
-export default class testPlanning extends Component{
+
+export default class TestPlanning extends Component{
 
     constructor(props) {
         super(props);
@@ -71,7 +71,7 @@ export default class testPlanning extends Component{
     currentViewNameChange = (currentViewName) => {
         this.setState({ currentViewName });
     }
-/*
+
     commitChanges({ added, changed, deleted }) {
         this.setState((state) => {
             let { data } = state;
@@ -88,52 +88,16 @@ export default class testPlanning extends Component{
             }
             return { data };
         });
-    }*/
+    }
 
     render() {
-        /*const donnee = this.state.data;*/
+        const donnee = this.state.data;
         return (
-            <div>JEN AI MARRE
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button><button>CLIK ME</button><button>CLIK ME</button><button>CLIK ME</button><button>CLIK ME</button><button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button><button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-                <button>CLIK ME</button>
-            
-             
+            <div>
             <Paper className="Calendar">
-                <Scheduler >
+                <Scheduler data={donnee} >
                     <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
-                    {/*<EditingState onCommitChanges={this.commitChanges}/>*/}
+                    <EditingState onCommitChanges={this.commitChanges}/>
                     <IntegratedEditing />
                     <WeekView startDayHour={9} endDayHour={19} />
                     <WeekView name="work-week" displayName="Work Week" excludedDays={[6, 7]} startDayHour={7} endDayHour={19} />
@@ -145,7 +109,7 @@ export default class testPlanning extends Component{
                     <ViewSwitcher />
                     <ConfirmationDialog />
                     <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent}/>
-                    <Resources />
+                    <Resources data={resources}/>
                     <AppointmentTooltip showOpenButton showDeleteButton showCloseButton />
                     <AppointmentForm />
                 </Scheduler>
