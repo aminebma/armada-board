@@ -75,3 +75,13 @@ POST /api/files/carnet-de-bord 200 1 - 106.273 ms
 POST /api/files/carnet-de-bord 200 1 - 340.004 ms
 POST /api/files/carnet-de-bord 200 1 - 97.587 ms
 POST /api/files/carnet-de-bord 200 2 - 201.104 ms
+GET /api/files/carnet-de-bord 200 59 - 134.117 ms
+GET /api/files/carnet-de-bord 200 59 - 3708.940 ms
+GET /api/files/carnet-de-bord 200 59 - 11213.491 ms
+GET /api/files/carnet-de-bord 200 59 - 8211.381 ms
+GET /api/files/carnet-de-bord 200 59 - 51168.108 ms
+GET /api/files/carnet-de-bord 200 59 - 7516.459 ms
+POST /api/files/carnet-de-bord - - - - ms
+POST /api/files/carnet-de-bord 200 2 - 110.784 ms
+GET /api/files/carnet-de-bord 200 1365 - 43726.838 ms
+POST /api/files/carnet-de-bord 200 2 - 107.344 ms
