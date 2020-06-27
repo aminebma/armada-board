@@ -98,7 +98,7 @@ ALTER SEQUENCE public.Chauffeur_id_seq OWNED BY public.Chauffeur.id;
 
 CREATE TABLE public.Fichier (
     id bigint NOT NULL,
-    type character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    type character varying(5) COLLATE pg_catalog."default" NOT NULL,
     Contenu xml,
     Url character varying(150),
     Nom character varying(100)

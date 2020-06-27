@@ -9,20 +9,53 @@ const pool = new Pool({
 pool.connect()
 
 router.post('/fiche-suivi', async(req,res)=>{
-    //TODO Upload d'une fiche de suivi
+    let xml = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
+    const text = "INSERT INTO Fichier(type, contenu) VALUES('FS',$1) RETURNING id"
+    const values = [xml]
+    await pool.query(text, values)
+        .then(result=>{
+            console.log(`Fiche de suivi successfully added. id: ${result.rows[0].id}`)
+            res.send(result.rows[0].id)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.post('/fiche-technique', async(req,res)=>{
-    //TODO Upload d'une fiche technique
+    let xml = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
+    const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
+    const values = [xml]
+    await pool.query(text, values)
+        .then(result=>{
+            console.log(`Fiche technique successfully added. id: ${result.rows[0].id}`)
+            res.send(result.rows[0].id)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.post('/fiche-controle-couts', async(req,res)=>{
-    //TODO Upload d'une fiche de controle des couts
+    let xml = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
+    const text = "INSERT INTO Fichier(type, contenu) VALUES('FCC',$1) RETURNING id"
+    const values = [xml]
+    await pool.query(text, values)
+        .then(result=>{
+            console.log(`Fiche de controle des couts successfully added. id: ${result.rows[0].id}`)
+            res.send(result.rows[0].id)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.post('/carnet-de-bord', async(req,res)=>{
     let xml = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
-    const text = "INSERT INTO Fichier(type, contenu) VALUES('Carnet de bord',$1) RETURNING id"
+    const text = "INSERT INTO Fichier(type, contenu) VALUES('CB',$1) RETURNING id"
     const values = [xml]
     await pool.query(text, values)
         .then(result=>{
@@ -36,27 +69,78 @@ router.post('/carnet-de-bord', async(req,res)=>{
 })
 
 router.post('/guide-constructeur', async(req,res)=>{
-    //TODO Upload d'un guide constructeur
+    let xml = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
+    const text = "INSERT INTO Fichier(type, contenu) VALUES('GC',$1) RETURNING id"
+    const values = [xml]
+    await pool.query(text, values)
+        .then(result=>{
+            console.log(`Guide constructeur successfully added. id: ${result.rows[0].id}`)
+            res.send(result.rows[0].id)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.get('/fiche-suivi', async(req,res)=>{
-    //TODO Download des fiches de suivi
+    const text = "SELECT * FROM Fichier WHERE type = 'FS'"
+    await pool.query(text)
+        .then(files=>{
+            res.send(files)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.get('/fiche-technique', async(req,res)=>{
-    //TODO Download des fiches technique
+    const text = "SELECT * FROM Fichier WHERE type = 'FT'"
+    await pool.query(text)
+        .then(files=>{
+            res.send(files)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.get('/fiche-controle-couts', async(req,res)=>{
-    //TODO Download des fiches de controle des couts
+    const text = "SELECT * FROM Fichier WHERE type = 'FCC'"
+    await pool.query(text)
+        .then(files=>{
+            res.send(files)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.get('/carnet-de-bord', async(req,res)=>{
-    //TODO Download d'un carnet de bord
+    const text = "SELECT * FROM Fichier WHERE type = 'CB'"
+    await pool.query(text)
+        .then(files=>{
+            res.send(files)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.get('/guide-constructeur', async(req,res)=>{
-    //TODO Download des guides constructeur
+    const text = "SELECT * FROM Fichier WHERE type = 'GC'"
+    await pool.query(text)
+        .then(files=>{
+            res.send(files)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 module.exports = router
