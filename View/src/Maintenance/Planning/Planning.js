@@ -17,44 +17,8 @@ import {
     Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { MaintenanceData } from './TestData';
-import { ListeVoiture } from './ListeVoiture';
-import { ListeModèle } from './ListeModèle';
-import { ListeBesoin } from './ListeBesoin';
-import{ UneMaintenance, MaintenanceContent} from './Planning.tsx';
 
-const resources = [{
-    fieldName: 'véhicule',
-    title: 'vehicule',
-    instances: ListeVoiture,
-}, {
-    fieldName: 'modèle',
-    title: 'modèle',
-    instances: ListeModèle
-}, {
-    fieldName: 'Niveau_maintenance',
-    title: 'Niveau Maintenance',
-    instances: [
-        { id: '1', text: 'Niveau 1', color: '#e8eaf6' },
-        { id: '2', text: 'Niveau 2', color: '#e8eaf6' },
-        { id: '3', text: 'Niveau 3', color: '#e8eaf6' },
-        { id: '4', text: 'Niveau 4', color: '#e8eaf6' },
-        { id: '5', text: 'Niveau 5', color: '#e8eaf6' },
-    ],
-}, {
-    fieldName: 'echelon_maintenance',
-    title: 'échelon',
-    instances: [
-        { id: '1', text: 'échelon 1', color: '#e8eaf6' },
-        { id: '2', text: 'échelon 2', color: '#e8eaf6' },
-        { id: '3', text: 'échelon 3', color: '#e8eaf6' },
-        { id: '4', text: 'échelon 4', color: '#e8eaf6' },
-        { id: '5', text: 'échelon 5', color: '#e8eaf6' },
-    ],
-}, {
-    fieldName: 'Besoin',
-    title: 'Besoin',
-    instances: ListeBesoin,
-}];
+import{ UneMaintenance, MaintenanceContent, PopHeader, PopContent, Ressources} from './Planning.tsx';
 
 
 export default class TestPlanning extends Component{
@@ -107,10 +71,10 @@ export default class TestPlanning extends Component{
                     <DateNavigator />
                     <TodayButton />
                     <ViewSwitcher />
-                    <ConfirmationDialog />
+                    <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?"/>
                     <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent}/>
-                    <Resources data={resources}/>
-                    <AppointmentTooltip showOpenButton showDeleteButton showCloseButton />
+                    <Resources data={Ressources}/>
+                    <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showOpenButton showDeleteButton showCloseButton />
                     <AppointmentForm />
                 </Scheduler>
             </Paper>

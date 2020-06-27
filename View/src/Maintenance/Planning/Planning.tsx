@@ -1,34 +1,25 @@
 import React, { Component } from 'react';
-import { ViewState, EditingState, IntegratedEditing, Changes } from '@devexpress/dx-react-scheduler';
-import Paper from '@material-ui/core/Paper';
 import {
-    Scheduler,
-    WeekView,
-    MonthView,
-    Toolbar,
-    DateNavigator,
-    TodayButton,
-    ViewSwitcher,
     AppointmentTooltip,
     Appointments,
-    ConfirmationDialog,
-    DayView,
-    AppointmentForm,
-    Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { MaintenanceData } from './TestData';
-import { Resource } from 'devextreme-react/scheduler';
-import BuildIcon from '@material-ui/icons/Build';
 import { withStyles, Theme, createStyles } from '@material-ui/core';
 import { WithStyles } from '@material-ui/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import Grid from '@material-ui/core/Grid';
 import classNames from 'clsx';
+import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import BuildIcon from '@material-ui/icons/Build';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import GradeIcon from '@material-ui/icons/Grade';
+import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import { ListeVoiture } from './ListeVoiture';
 import { ListeModèle } from './ListeModèle';
 import { ListeBesoin } from './ListeBesoin';
-import { eventsHandler } from 'devextreme/events';
 
-const resources = [{
+
+const Ressources = [{
     fieldName: 'véhicule',
     title: 'vehicule',
     instances: ListeVoiture,
@@ -61,6 +52,7 @@ const resources = [{
     title: 'Besoin',
     instances: ListeBesoin,
 }];
+
 
 const styles = ({ palette }: Theme) => createStyles({
     appointment: {
@@ -106,11 +98,88 @@ const styles = ({ palette }: Theme) => createStyles({
     },
 });
 
-const isWeekEnd = (date: Date): boolean => date.getDay() === 0 || date.getDay() === 6;
-const defaultCurrentDate = new Date(2020, 6, 21, 11, 15);
+const styleToolTip = ({ palette }) => createStyles({
+    icon: {
+        color: palette.action.active,
+    },
+    textCenter: {
+        textAlign: 'center',
+    },
+    firstRoom: {
+        background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/Lobby-4.jpg)',
+    },
+    secondRoom: {
+        background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-4.jpg)',
+    },
+    thirdRoom: {
+        background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-0.jpg)',
+    },
+    header: {
+        height: '260px',
+        backgroundSize: 'cover',
+    },
+    commandButton: {
+        backgroundColor: 'rgba(255,255,255,0.65)',
+    },
+});
 
-type AppointmentProps = Appointments.AppointmentProps & WithStyles<typeof styles>
+
+
+type AppointmentProps = Appointments.AppointmentProps & WithStyles<typeof styles>;
 type AppointmentContentProps = Appointments.AppointmentContentProps & WithStyles<typeof styles>;
+type AppointmentTooltipHeaderProps = AppointmentTooltip.HeaderProps & WithStyles<typeof styleToolTip>;
+type AppointmentTooltipContentProps = AppointmentTooltip.ContentProps & WithStyles<typeof styleToolTip>;
+
+
+const PopHeader = withStyles(styleToolTip, { name: 'Header' })(({
+    children, appointmentData, ...restProps
+}: AppointmentTooltipHeaderProps) => (
+        <AppointmentTooltip.Header
+            {...restProps}
+            appointmentData={appointmentData}
+        >
+        </AppointmentTooltip.Header>
+    ));
+
+const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
+    children, appointmentData, classes, ...restProps
+}: AppointmentTooltipContentProps) => (
+        <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
+            <Grid container alignItems="center">
+                <Grid item xs={2} className={classes.textCenter}>
+                    <DriveEtaIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs={10}>
+                    <span>{appointmentData?.véhicule}</span>
+                </Grid>
+                <Grid item xs={2} className={classes.textCenter}>
+                    <LocalOfferIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs={10}>
+                    <span>modèle : {appointmentData?.modèle}</span>
+                </Grid>
+                <Grid item xs={2} className={classes.textCenter}>
+                    <BuildIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs={10}>
+                    <span>Niveau : {appointmentData?.Niveau_maintenance}</span>
+                </Grid>
+                <Grid item xs={2} className={classes.textCenter}>
+                    <GradeIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs={10}>
+                    <span>échelon : {appointmentData?.echelon_maintenance}</span>
+                </Grid>
+                <Grid item xs={2} className={classes.textCenter}>
+                    <BusinessCenterIcon className={classes.icon} />
+                </Grid>
+                <Grid item xs={10}>
+                    <span>{appointmentData?.Besoin}</span>
+                </Grid>
+
+            </Grid >
+        </AppointmentTooltip.Content >
+    ));
 
 const UneMaintenance = withStyles(styles)(({
     data, ...restProps
@@ -137,25 +206,13 @@ const MaintenanceContent = withStyles(styles, { name: 'AppointmentContent' })(({
                 <div className={classes.text}>
                     {data.title}
                 </div>
-                <div className={classNames(classes.text, classes.content)}>
-                    {`véhicule: ${data.véhicule}`}
-                </div>
-                <div className={classNames(classes.text, classes.content)}>
-                    {`modèle: ${data.modèle}`}
-                </div>
-                <div className={classNames(classes.text, classes.content)}>
-                    {`Niveau maintenance: ${data.Niveau_maintenance}`}
-                </div>
-                <div className={classNames(classes.text, classes.content)}>
-                    {`Echelon maintenance: ${data.echelon_maintenance}`}
-                </div>
-                <div className={classNames(classes.text, classes.content)}>
-                    {`Besoin requis: ${data.Besoin}`}
-                </div>
             </div>
         </Appointments.AppointmentContent>
     );
 });
 
-export {UneMaintenance};
-export {MaintenanceContent};
+export { UneMaintenance };
+export { MaintenanceContent };
+export { PopContent };
+export { PopHeader };
+export { Ressources};

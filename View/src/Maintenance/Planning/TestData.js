@@ -1,3 +1,5 @@
+
+
 export const MaintenanceData = [
   {
     title: 'Changement plaquette de frein',
@@ -6,8 +8,8 @@ export const MaintenanceData = [
     id: 0,
     véhicule: 'No chassis :78-FR-5F-DE-DE-VF-85-7E',
     modèle: 'mercedes-class B',
-    Niveau_maintenance: 2,
-    echelon_maintenance: 1,
+    Niveau_maintenance: 5,
+    echelon_maintenance: 3,
     Besoin: 'Plaquette de freins neuf',
   }, {
     title: 'Changement de pneu',
@@ -40,7 +42,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Aucune'
   }, {
-    title: 'Final Budget Review',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 26, 15, 0),
     endDate: new Date(2020, 5, 26, 19, 35),
     id: 4,
@@ -50,7 +52,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'New Brochures',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 26, 14, 30),
     endDate: new Date(2020, 5, 26, 15, 45),
     id: 5,
@@ -60,7 +62,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'Install New Database',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 27, 9, 45),
     endDate: new Date(2020, 5, 27, 11, 15),
     id: 6,
@@ -70,7 +72,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'Approve New Online Marketing Strategy',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 27, 12, 0),
     endDate: new Date(2020, 5, 27, 14, 0),
     id: 7,
@@ -80,7 +82,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'Upgrade Personal Computers',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 27, 15, 15),
     endDate: new Date(2020, 5, 27, 16, 30),
     id: 8,
@@ -90,7 +92,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'Customer Workshop',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 28, 11, 0),
     endDate: new Date(2020, 5, 28, 12, 0),
     id: 9,
@@ -100,7 +102,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'Prepare 2015 Marketing Plan',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 28, 11, 0),
     endDate: new Date(2020, 5, 28, 13, 30),
     id: 10,
@@ -110,7 +112,7 @@ export const MaintenanceData = [
     echelon_maintenance: 1,
     Besoin: 'Plaquette de freins neuf'
   }, {
-    title: 'Brochure Design Review',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 28, 14, 0),
     endDate: new Date(2020, 5, 28, 15, 30),
     id: 11,
@@ -126,7 +128,7 @@ export const MaintenanceData = [
     id: 12,
     location: 'Room 2',
   }, {
-    title: 'Upgrade Server Hardware',
+    title: 'Controle technique',
     startDate: new Date(2020, 5, 29, 14, 30),
     endDate: new Date(2020, 5, 29, 16, 0),
     id: 13,
