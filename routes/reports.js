@@ -90,7 +90,7 @@ router.delete('/:name', async (req, res)=>{
     const values = [req.params.name]
     await poo.query(text,values)
         .then(()=>{
-            res.send('Report deleted successfully')
+            res.send({ Message: 'Report deleted successfully'})
         })
         .catch(err => {
             console.log(err.message)

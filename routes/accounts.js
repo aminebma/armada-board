@@ -16,10 +16,10 @@ router.post('/sign-in', async(req, res)=>{
     const values = [req.body.username]
     await pool.query(text, values)
         .then(async user =>{
-            if(user.rows.length === 0) return res.status(400).send('Invalid username or password')
+            if(user.rows.length === 0) return res.status(400).send(new Error('Invalid username or password.'))
 
             const validPass =  await bCrypt.compare(req.body.password, user.rows[0].password)
-            if(!validPass) return res.status(400).send('Invalid username or password.')
+            if(!validPass) return res.status(400).send(new Error('Invalid username or password.'))
 
             const token = jwt.sign({_id: user.rows[0].id}, config.get('auth.jwtPK'))
             res.send(token)
@@ -37,7 +37,7 @@ router.post('/reset-password', async(req, res)=>{
     let values = [req.body.username]
     await pool.query(text, values)
         .then(async admins =>{
-            if(admins.rows.length === 0) return res.status(404).send('No administrator available.')
+            if(admins.rows.length === 0) return res.status(404).send(new Error('No administrator available.'))
             res.send(admins.rows)
         })
         .catch(e => {

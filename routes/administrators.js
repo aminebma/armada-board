@@ -13,7 +13,7 @@ router.post('/chauffeurs', async (req,res) => {
     let values = [req.body.nom, req.body.prenom, req.body.dateNaiss]
     await pool.query(text,values)
         .then(async chauffeur=>{
-            if(!chauffeur.rows.length === 0) return res.status(400).send('Driver already registered.')
+            if(!chauffeur.rows.length === 0) return res.status(400).send(new Error('Driver already registered.'))
             text = "INSERT INTO Chauffeur(nom, prenom, dateNaiss, adresse, sexe, affectation) VALUES($1, $2, $3, $4, $5, $6) RETURNING id"
             values = [req.body.nom, req.body.prenom, req.body.dateNaiss, req.body.adresseResidence, req.body.sexe, req.body.affectation]
             await pool.query(text, values)
@@ -38,7 +38,7 @@ router.post('/users', async (req,res) => {
     let values = [req.body.username]
     await pool.query(text,values)
         .then(async user=>{
-            if(!user.rows.length === 0) return res.status(400).send('User already registered')
+            if(!user.rows.length === 0) return res.status(400).send(new Error('User already registered'))
             const salt = await bCrypt.genSalt(10)
             const pass = await bCrypt.hash(req.body.password,salt)
 
@@ -82,7 +82,7 @@ router.put('/users/reset-password', async(req,res)=>{
     await pool.query(text, values)
         .then(async user =>{
             const validPass =  await bCrypt.compare(req.body.password, user.rows[0].password)
-            if(!validPass) return res.status(400).send('Invalid password.')
+            if(!validPass) return res.status(400).send(new Error('Invalid password.'))
 
             const salt = await bCrypt.genSalt(10)
             const pass = await bCrypt.hash(req.body.password,salt)
@@ -91,7 +91,7 @@ router.put('/users/reset-password', async(req,res)=>{
             values = [pass, user.id]
             await pool.query(text,values)
                 .then(()=>{
-                    res.send('Password changed successfuly.')
+                    res.send({ Message: 'Password changed successfuly.'})
                 })
                 .catch(e =>{
                     console.error(e.message)
