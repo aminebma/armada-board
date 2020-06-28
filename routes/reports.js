@@ -76,7 +76,15 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
     res.send('Report added successfully')
 })
 
-//This will generate a report in the pdf format and send it. The request body should include the name of the report
+//This will generate a report in the pdf format and send it. The request body should include the name of the report and
+//the report parameters (if they exist) in a data attribute. It will look like something like this (when having parameters):
+//{
+//     "data":{
+//         "affectation":1,
+//         "date_debut":"2020-07-01",
+//         "date_fin":"2020-07-04"
+//     }
+// }
 router.get('/:name', async (req, res) => {
     let report
     if(req.body.data) {
