@@ -73,7 +73,7 @@ export default class TestPlanning extends Component{
                     <ViewSwitcher />
                     <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?"/>
                     <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent}/>
-                    <Resources data={Ressources}/>
+                    <Resources />
                     <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showOpenButton showDeleteButton showCloseButton />
                     <AppointmentForm />
                 </Scheduler>
