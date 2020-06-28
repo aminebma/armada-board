@@ -142,7 +142,7 @@ CREATE TABLE public.Maintenance (
     Echelon integer NOT NULL,
     Date date,
     Vehicule bigint NOT NULL,
-    Interventions xml
+    Besoin xml
 );
 
 
@@ -170,46 +170,6 @@ ALTER TABLE public.Maintenance_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.Maintenance_id_seq OWNED BY public.Maintenance.id;
-
-
---
--- TOC entry 203 (class 1259 OID 16527)
--- Name: Panne; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.Panne (
-    id bigint NOT NULL,
-    Vehicule bigint NOT NULL,
-    Code character varying(10) NOT NULL,
-    Type character varying(20) NOT NULL
-);
-
-
-ALTER TABLE public.Panne OWNER TO postgres;
-
---
--- TOC entry 202 (class 1259 OID 16525)
--- Name: Panne_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.Panne_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.Panne_id_seq OWNER TO postgres;
-
---
--- TOC entry 2894 (class 0 OID 0)
--- Dependencies: 202
--- Name: Panne_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.Panne_id_seq OWNED BY public.Panne.id;
-
 
 --
 -- TOC entry 205 (class 1259 OID 16541)
