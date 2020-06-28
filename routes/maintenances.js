@@ -9,12 +9,19 @@ const pool = new Pool({
 pool.connect()
 
 router.post('/maintenance', async(req,res)=>{
-    const text = "INSERT INTO Maintenance(type, niveau,echelon, date, contenu) VALUES('FT',$1) RETURNING id"
-    const values = [data]
-    await pool.query(text, values)
-        .then(result=>{
-            console.log(`Fiche technique successfully added. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
+    const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
+        .then(async ()=>{
+            const text = "INSERT INTO Maintenance(type, niveau,echelon, date_debut, date_fin, vehicule, besoin) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id"
+            const values = [req.body.type,req.body.niveau, req.body.echelon, req.body.date_debut, req.body.date_fin, req.body.vehicule, besoin]
+            await pool.query(text, values)
+                .then(result=>{
+                    console.log(`Maintenance successfully added. id: ${result.rows[0].id}`)
+                    res.send(result.rows[0].id)
+                })
+                .catch(e => {
+                    console.error(e.message)
+                    res.send(e.message)
+                })
         })
         .catch(e => {
             console.error(e.message)
@@ -23,7 +30,7 @@ router.post('/maintenance', async(req,res)=>{
 })
 
 router.get('/planning', async(req,res)=>{
-    //TODO Exporter un planning de maintenance
+    const text = "SELECT * FROM Maintenance WHERE "
 })
 
 router.post('/planning', async(req,res)=>{

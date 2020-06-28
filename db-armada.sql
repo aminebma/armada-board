@@ -144,6 +144,7 @@ CREATE TABLE public.Maintenance (
     Date_debut timestamp without timezone NOT NULL,
     Date_fin timestamp without timezone NOT NULL,
     Vehicule bigint NOT NULL,
+    Affectation bigint NOT NULL,
     Besoin xml
 );
 
@@ -461,6 +462,12 @@ ALTER TABLE ONLY public.PieceRechange ALTER COLUMN id SET DEFAULT nextval('publi
 
 ALTER TABLE ONLY public.PlanningMaintenance ALTER COLUMN id SET DEFAULT nextval('public.PlanningMaintenance_id_seq'::regclass);
 
+--
+-- TOC entry 2741 (class 2604 OID 16552)
+-- Name: Ref_maintenance id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.Ref_maintenance ALTER COLUMN id SET DEFAULT nextval('public.Ref_maintenance_id_seq'::regclass);
 
 --
 -- TOC entry 2744 (class 2604 OID 16584)
@@ -595,6 +602,21 @@ ALTER TABLE ONLY public.Chauffeur
 ALTER TABLE ONLY public.Utilisateur
     ADD CONSTRAINT Utilisateur_Affectation_fkey FOREIGN KEY (Affectation) REFERENCES public.Unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
+--
+-- TOC entry 2764 (class 2606 OID 16587)
+-- Name: Maintenance Maintenance_Vehicule_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.Maintenance
+    ADD CONSTRAINT Maintenance_Vehicule_fkey FOREIGN KEY (Vehicule) REFERENCES public.Vehicule(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+--
+-- TOC entry 2764 (class 2606 OID 16587)
+-- Name: Maintenance Maintenance_Affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.Maintenance
+    ADD CONSTRAINT Maintenance_Affectation_fkey FOREIGN KEY (Affectation) REFERENCES public.Unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 -- Completed on 2020-06-21 20:50:30
 
