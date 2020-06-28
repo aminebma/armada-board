@@ -8,21 +8,6 @@ const pool = new Pool({
 })
 pool.connect()
 
-router.post('/fiche-suivi', async(req,res)=>{
-    let data = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
-    const text = "INSERT INTO Fichier(type, contenu) VALUES('FS',$1) RETURNING id"
-    const values = [data]
-    await pool.query(text, values)
-        .then(result=>{
-            console.log(`Fiche de suivi successfully added. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
-        })
-})
-
 router.post('/fiche-technique', async(req,res)=>{
     let data = xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
     const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
@@ -76,20 +61,6 @@ router.post('/guide-constructeur', async(req,res)=>{
         .then(result=>{
             console.log(`Guide constructeur successfully added. id: ${result.rows[0].id}`)
             res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
-        })
-})
-
-router.get('/fiche-suivi', async(req,res)=>{
-    const text = "SELECT * FROM Fichier WHERE type = 'FS'"
-    await pool.query(text)
-        .then(files=>{
-            if(files.rows.length === 0) return res.status(404).send('No such file found.')
-            const data = xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'})
-            res.send(files)
         })
         .catch(e => {
             console.error(e.message)
