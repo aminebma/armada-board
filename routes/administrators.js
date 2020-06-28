@@ -8,9 +8,12 @@ const pool = new Pool({
 })
 pool.connect()
 
+//This will add a new driver to the database. The request body should contain the firstname, lastname, date of birth in
+//the YYYY-MM-DD format, address, sex that is a single char, and the id of the driver's unity.
 router.post('/chauffeurs', async (req,res) => {
     let text = "SELECT id FROM Chauffeur WHERE nom =$1 and prenom =$2 and dateNaiss=$3"
     let values = [req.body.nom, req.body.prenom, req.body.dateNaiss]
+
     await pool.query(text,values)
         .then(async chauffeur=>{
             if(!chauffeur.rows.length === 0) return res.status(400).send(new Error('Driver already registered.'))
@@ -33,6 +36,13 @@ router.post('/chauffeurs', async (req,res) => {
 
 })
 
+//This will add a new user to the database. The request body should contain the type of the account:
+// 0: Administrator
+// 1: Central Manager
+// 2: Regional Manager
+// 3: Operationnal Manager
+//It should also include the username and password, firstname, lastname, date of birth in the YYYY-MM-DD format, address, phone number, mail,
+//sex that is a single char, and the id of the user's unity.
 router.post('/users', async (req,res) => {
     let text = "SELECT id FROM Utilisateur WHERE username =$1"
     let values = [req.body.username]
@@ -61,6 +71,7 @@ router.post('/users', async (req,res) => {
 
 })
 
+//This will delete a user from the database. The request body should include the id of the user to delete.
 router.delete('/users', async (req,res) => {
 
     const text = "DELETE FROM Utilisateur WHERE id=$1"
@@ -76,6 +87,7 @@ router.delete('/users', async (req,res) => {
         })
 })
 
+//This will reset a user's password. The request body should include the username and the new password.
 router.put('/users/reset-password', async(req,res)=>{
     let text = "SELECT id, password FROM Utilisateur WHERE username=$1"
     let values = [req.body.username]

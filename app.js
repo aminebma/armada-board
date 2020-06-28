@@ -9,13 +9,16 @@ const config = require('config')
 const app = express()
 const accessLogStream = fs.createWriteStream(path.join(__dirname+'/log', 'access.log'), { flags: 'a' })
 
+//Configuring the server
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(helmet())
 app.use(morgan('tiny',{stream: accessLogStream}))
 
+//Displaying environment infos
 console.log(`Application environement: ${config.get('name')}`)
 
+//Testing the database connexion
 const client = new Client({
     connectionString: configIndex.getDbConnectionString()
 })
@@ -24,6 +27,7 @@ client.connect().then(
 ).catch(err=>console.log(new Error(err)))
 client.end()
 
+//Configuring the server's routes
 const accounts = require('./routes/accounts')
 const administrators = require('./routes/administrators')
 const maintenances = require('./routes/maintenances')
@@ -40,4 +44,5 @@ app.use('/api/vehicules', vehicules)
 const port = config.get("server.port")
 const ip = config.get("server.ip")
 
+//Launching the server
 app.listen(port, ip, () => console.log(`Listening on ${ip}:${port}`))

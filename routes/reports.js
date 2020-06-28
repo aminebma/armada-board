@@ -10,6 +10,7 @@ pool.connect()
 const multer = require('multer')
 const fs = require('fs')
 
+//Configuring multer for file upload
 const storageManager = multer.diskStorage({
     destination: function(req, file, callback){
         callback(null, './lib/reports')
@@ -23,6 +24,7 @@ const reportUpload =multer({
     storage: storageManager
 })
 
+//Configuring the jasper server
 const jasper = require('node-jasper')({
     path: '../lib/jasperreports-5.6.0',
     drivers: {
@@ -45,8 +47,11 @@ const jasper = require('node-jasper')({
     defaultConn: 'db_armada'
 })
 
+//Get the current existing reports and adding them to the jasper server when launching it
 init()
 
+//This will add a new report to the jasper server and the database. The report will be stored in lib/reports.
+//The request body should contain the name of the report, the .jrxml and the .jasper file of the report
 router.post('/', reportUpload.array('report', 2), async (req, res) => {
     const report = {
         jrxml: `..\\${req.files[0].path}`,
@@ -71,6 +76,7 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
     res.send('Report added successfully')
 })
 
+//This will generate a report in the pdf format and send it. The request body should include the name of the report
 router.get('/:name', async (req, res) => {
     const report = req.params.name
     const pdf = await jasper.pdf(report)
@@ -81,11 +87,12 @@ router.get('/:name', async (req, res) => {
     res.send(pdf)
 })
 
+//This will delete a report from the database and from the jasper server
 router.delete('/:name', async (req, res)=>{
     fs.unlink(`../lib/reports/${req.params.name}`, function (err) {
-        if (err) throw err;
-        console.log(`File ..lib/reports/${req.params.name} deleted!`);
-    });
+        if (err) throw err
+        console.log(`File ..lib/reports/${req.params.name} deleted!`)
+    })
     const text = "DELETE FROM Fichier WHERE name=$1"
     const values = [req.params.name]
     await poo.query(text,values)
@@ -99,6 +106,7 @@ router.delete('/:name', async (req, res)=>{
 })
 module.exports = router
 
+//This function gets all the urls of the reports in the server when launching it
 async function init(){
     const text = "SELECT url,nom FROM Fichier WHERE type='KPI'"
     await pool.query(text)

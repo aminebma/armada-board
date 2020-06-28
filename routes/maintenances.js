@@ -8,6 +8,24 @@ const pool = new Pool({
 })
 pool.connect()
 
+//This will add a new maintainance to the database. the request body should include the type, level, echelon, start date,
+//end date, vehicule id, unity id and the need in this format:
+// {
+//     "_declaration":{
+//     "_attributes":{
+//         "version": "1.0",
+//             "encoding": "utf-8"
+//     }
+// },
+//     "contenu":{
+//     "piece":[
+//         {
+//             "id": 1,
+//             "quantite": 2
+//         }
+//     ]
+// }
+// }
 router.post('/', async(req,res)=>{
     const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
     const text = "INSERT INTO Maintenance(type, niveau,echelon, date_debut, date_fin, vehicule, affectation, besoin) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id"
@@ -23,6 +41,8 @@ router.post('/', async(req,res)=>{
         })
 })
 
+//This will get a planning from the database that will be between a date range and for a specific unity. The request body
+//should include the start date, end date and unity's id
 router.get('/planning', async(req,res)=>{
     const text = "SELECT * FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
     const values = [req.body.affectation, req.body.date_debut, req.body.date_fin]
@@ -43,10 +63,12 @@ router.get('/planning', async(req,res)=>{
         })
 })
 
+//This will generate a new planning
 router.post('/planning', async(req,res)=>{
     //TODO Generer un planning
 })
 
+//This will delete a maintainance from the database. The request body should include the maintainance id
 router.delete('/', async(req,res)=>{
     const text = "DELETE FROM Maintenance WHERE id=$1"
     const values = [req.body.id]
@@ -61,6 +83,24 @@ router.delete('/', async(req,res)=>{
         })
 })
 
+//This will update a maintainance to the database. the request body should include the id, and the new infos: type,
+// level, echelon, start date, end date, vehicule id, unity id and the need in this format:
+// {
+//     "_declaration":{
+//     "_attributes":{
+//         "version": "1.0",
+//             "encoding": "utf-8"
+//     }
+// },
+//     "contenu":{
+//     "piece":[
+//         {
+//             "id": 1,
+//             "quantite": 2
+//         }
+//     ]
+// }
+// }
 router.put('/', async(req,res)=>{
     const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
     const text = "UPDATE Maintenance SET type=$2, niveau=$3, echelon=$4, date_debut=$5, date_fin=$6, vehicule=$7, affectation=$8, besoin=$9 WHERE id=$1"
