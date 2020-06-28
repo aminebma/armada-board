@@ -62,7 +62,18 @@ router.delete('/', async(req,res)=>{
 })
 
 router.put('/', async(req,res)=>{
-    //TODO Modifier une maintenance
+    const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
+    const text = "UPDATE Maintenance SET type=$2, niveau=$3, echelon=$4, date_debut=$5, date_fin=$6, vehicule=$7, affectation=$8, besoin=$9 WHERE id=$1"
+    const values = [req.body.id, req.body.type,req.body.niveau, req.body.echelon, req.body.date_debut, req.body.date_fin, req.body.vehicule, req.body.affectation, besoin]
+    await pool.query(text, values)
+        .then(()=>{
+            console.log(`Maintenance updated successfully. id: ${req.body.id}`)
+            res.send({ Message: 'Maintainance updated successfully'})
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 module.exports = router
