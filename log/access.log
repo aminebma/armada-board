@@ -98,3 +98,16 @@ POST /api/maintenances/ 200 1 - 47529.760 ms
 GET /api/maintenances/planning 200 464 - 47666.837 ms
 GET /api/maintenances/planning 200 535 - 53856.256 ms
 GET /api/maintenances/planning 200 535 - 33416.207 ms
+POST /api/reports/ 200 25 - 149.715 ms
+POST /api/reports/ 200 25 - 55.015 ms
+GET /api/reports/test 200 2709 - 11655.664 ms
+POST /api/reports/ 200 25 - 508.828 ms
+GET /api/reports/test2 - - - - ms
+POST /api/reports/ 200 25 - 260.854 ms
+POST /api/reports/ 200 25 - 69.617 ms
+GET /api/reports/test2 200 13096 - 17445.432 ms
+GET /api/reports/test2 200 13096 - 5090.132 ms
+POST /api/reports/ 200 25 - 164.543 ms
+POST /api/reports/ 200 25 - 68.740 ms
+POST /api/reports/ 200 25 - 148.045 ms
+GET /api/reports/test2 200 13096 - 12537.244 ms

@@ -78,13 +78,28 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
 
 //This will generate a report in the pdf format and send it. The request body should include the name of the report
 router.get('/:name', async (req, res) => {
-    const report = req.params.name
-    const pdf = await jasper.pdf(report)
-    res.set({
-        'Content-type': 'application/pdf',
-        'Content-Length': pdf.length
-    })
-    res.send(pdf)
+    let report
+    if(req.body.data) {
+        report = {
+            report: req.params.name,
+            data: req.body.data
+        }
+    }else{
+        report = req.params.name
+    }
+    try{
+        const pdf = await jasper.pdf(report)
+        res.set({
+            'Content-type': 'application/pdf',
+            'Content-Length': pdf.length
+        })
+        res.send(pdf)
+    }
+    catch (e) {
+        console.error(e.message)
+        res.send(e.message)
+    }
+
 })
 
 //This will delete a report from the database and from the jasper server
@@ -108,7 +123,7 @@ module.exports = router
 
 //This function gets all the urls of the reports in the server when launching it
 async function init(){
-    const text = "SELECT url,nom FROM Fichier WHERE type='KPI'"
+    const text = "SELECT url,nom FROM Fichier WHERE type='KPI' ORDER BY nom"
     await pool.query(text)
         .then(result=> {
             let newReport

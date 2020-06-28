@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="benbakhtest" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="02148c22-2244-4942-9391-37460da440fd">
-	<property name="com.jaspersoft.studio.data.sql.tables" value="IlV0aWxpc2F0ZXVyIiBBUyAsNjQsMzgsYjkyYzU4M2EtMjA4Zi00YzFhLThmYzgtZjRkMTk4ODdk&#xA;MWQxOw==&#xA;"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
@@ -31,39 +31,39 @@
 		</box>
 	</style>
 	<subDataset name="ArmadaSet" uuid="77cdb96e-a0c2-4946-8458-90e591532e51">
-		<property name="com.jaspersoft.studio.data.sql.tables" value="IlV0aWxpc2F0ZXVyIiAsMTUsMTUsY2UxNzBjZjAtMTE2Yi00NWI2LWI1OGItZjhlMGI2Yzg2ZWVi&#xA;Ow==&#xA;"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT "Utilisateur"."Nom",
-	"Utilisateur"."Prenom"
-FROM "Utilisateur"]]>
+			<![CDATA[SELECT Nom,
+	Prenom
+FROM Utilisateur]]>
 		</queryString>
-		<field name="Nom" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="Nom"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="Utilisateur"/>
+		<field name="nom" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="nom"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="utilisateur"/>
 		</field>
-		<field name="Prenom" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="Prenom"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="Utilisateur"/>
+		<field name="prenom" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="prenom"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="utilisateur"/>
 		</field>
 	</subDataset>
 	<queryString language="SQL">
-		<![CDATA[SELECT "Utilisateur".id,
-	"Utilisateur"."Nom",
-	"Utilisateur"."Prenom"
-FROM "Utilisateur"]]>
+		<![CDATA[SELECT id,
+	nom,
+	prenom
+FROM utilisateur]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="Utilisateur"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="utilisateur"/>
 	</field>
-	<field name="Nom" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="Nom"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="Utilisateur"/>
+	<field name="nom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="utilisateur"/>
 	</field>
-	<field name="Prenom" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="Prenom"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="Utilisateur"/>
+	<field name="prenom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="prenom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="utilisateur"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -101,7 +101,7 @@ FROM "Utilisateur"]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="100" height="30" uuid="41bb490f-9ac5-4ed0-a4d4-b9fd8232ef8d"/>
-								<textFieldExpression><![CDATA[$F{Nom}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -116,7 +116,7 @@ FROM "Utilisateur"]]>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="100" height="30" uuid="2c6403ee-c5b4-46bf-b339-17802403b1ea"/>
-								<textFieldExpression><![CDATA[$F{Prenom}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{prenom}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
