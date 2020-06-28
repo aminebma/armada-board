@@ -141,7 +141,8 @@ CREATE TABLE public.Maintenance (
     Type character varying(150) NOT NULL,
     Niveau integer[] NOT NULL,
     Echelon integer[] NOT NULL,
-    Date date,
+    Date_debut timestamp without timezone NOT NULL,
+    Date_fin timestamp without timezone NOT NULL,
     Vehicule bigint NOT NULL,
     Besoin xml
 );

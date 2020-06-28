@@ -9,7 +9,7 @@ const pool = new Pool({
 pool.connect()
 
 router.post('/maintenance', async(req,res)=>{
-    const text = "INSERT INTO Maintenance(type, niveau, contenu) VALUES('FT',$1) RETURNING id"
+    const text = "INSERT INTO Maintenance(type, niveau,echelon, date, contenu) VALUES('FT',$1) RETURNING id"
     const values = [data]
     await pool.query(text, values)
         .then(result=>{
