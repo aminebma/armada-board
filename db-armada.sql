@@ -246,6 +246,42 @@ ALTER TABLE public.PlanningMaintenance_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.PlanningMaintenance_id_seq OWNED BY public.PlanningMaintenance.id;
 
+--
+-- TOC entry 207 (class 1259 OID 16549)
+-- Name: Ref_maintenance; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE Ref_maintenance (
+	id bigint not null,
+	type character varying(150) not null,
+	besoin xml not null
+);
+
+ALTER TABLE public.Ref_maintenance OWNER TO postgres;
+
+
+--
+-- TOC entry 206 (class 1259 OID 16547)
+-- Name: Ref_maintenance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.Ref_maintenance_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.Ref_maintenance_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2896 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: Ref_maintenance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.Ref_maintenance_id_seq OWNED BY public.Ref_maintenance.id;
 
 --
 -- TOC entry 213 (class 1259 OID 16581)
@@ -500,6 +536,17 @@ ALTER TABLE ONLY public.PieceRechange
 
 ALTER TABLE ONLY public.PlanningMaintenance
     ADD CONSTRAINT PlanningMaintenance_pkey PRIMARY KEY (id);
+
+
+
+--
+-- TOC entry 2762 (class 2606 OID 16586)
+-- Name: Unite Unite_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.Ref_maintenance
+    ADD CONSTRAINT Ref_maintenance_pkey PRIMARY KEY (id);
+
 
 
 --
