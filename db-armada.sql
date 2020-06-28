@@ -138,6 +138,7 @@ ALTER SEQUENCE public.Fichier_id_seq OWNED BY public.Fichier.id;
 
 CREATE TABLE public.Maintenance (
     id bigint NOT NULL,
+    Type character varying(150) NOT NULL,
     Niveau integer NOT NULL,
     Echelon integer NOT NULL,
     Date date,
