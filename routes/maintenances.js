@@ -48,7 +48,17 @@ router.post('/planning', async(req,res)=>{
 })
 
 router.delete('/', async(req,res)=>{
-    //TODO Supprimer une maintenance
+    const text = "DELETE FROM Maintenance WHERE id=$1"
+    const values = [req.body.id]
+    await pool.query(text, values)
+        .then(()=>{
+            console.log(`Maintenance deleted successfully. id: ${req.body.id}`)
+            res.send({ Message: 'Maintainance deleted successfully.'})
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
 })
 
 router.put('/', async(req,res)=>{
