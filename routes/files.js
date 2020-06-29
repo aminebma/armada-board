@@ -173,11 +173,11 @@ router.get('/guide-constructeur', async(req,res)=>{
         })
 })
 
-// readFicheTechnique()
+// readGuideConstructeur()
 
 module.exports = router
 
-// function readFicheTechnique() {
+// function readGuideConstructeur() {
 //     let result = {
 //         "_declaration":{
 //             "_attributes":{
@@ -192,26 +192,23 @@ module.exports = router
 //         "modele":"Classe G63 AMG 544ch",
 //     }
 //     let data = excelToJson({
-//         sourceFile: 'lib/files/Fiche_technique.xlsx',
+//         sourceFile: 'lib/files/Guide_constructeur.xlsx',
 //         header:{
 //             rows: 1
 //         },
 //         columnToKey:{
 //             A: 'categorie',
 //             B: 'sous_categorie',
-//             C: 'type',
-//             D: 'label',
-//             E: 'mesure',
-//             F: 'informations'
+//             C: 'informations',
 //         }
 //     })
-//     result.contenu.donnee = data['Fiche technique']
+//     result.contenu.donnee = data['Guide constructeur']
 //     let file = xmlConverter.json2xml(result,{compact: true, spaces: '\t'})
-//     const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
+//     const text = "INSERT INTO Fichier(type, contenu) VALUES('GC',$1) RETURNING id"
 //     const values = [file]
 //     pool.query(text, values)
 //         .then(resultat=>{
-//             console.log(`Fiche technique successfully added. id: ${resultat.rows[0].id}`)
+//             console.log(`Guide constructeur successfully added. id: ${resultat.rows[0].id}`)
 //         })
 //         .catch(e => {
 //             console.error(e.message)

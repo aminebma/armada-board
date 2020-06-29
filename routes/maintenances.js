@@ -9,9 +9,10 @@ const pool = new Pool({
 const moment = require('moment')
 pool.connect()
 const ref_motor = [
-    'Carburant',
-    'Refroidissement',
-    'Capacité en huile'
+    'Courroie',
+    'Vidange',
+    'Capacité en huile',
+    'Huile moteur'
 ]
 
 const Maintenance = require('../modules/Maintenance')
@@ -116,8 +117,12 @@ router.post('/planning', async(req,res)=>{
                     }
 
                     //Retrieving the needed motor info from Fiche Technique
-                    const motorInfo = await jsonFiles[0].contenu.donnee
-                        .filter(ligne => ligne.categorie._text === 'Moteur' && ref_motor.includes(ligne.sous_categorie._text))
+                    const motorInfo = []
+                    for(jsonFile of jsonFiles){
+                        let fileData = await jsonFile.contenu.donnee
+                            .filter(ligne => ligne.categorie._text === 'Moteur' && ref_motor.includes(ligne.sous_categorie._text))
+                        fileData.forEach(data => motorInfo.push(data))
+                    }
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
                     //Checking for the next oil appointment
@@ -138,7 +143,10 @@ router.post('/planning', async(req,res)=>{
                                     maintenance.besoin
                                 ]
                                 await pool.query(text, values)
-                                    .then(newMaintenance => result[index].id = newMaintenance.rows[0].id)
+                                    .then(newMaintenance => {
+                                        console.log(`New Maintainance added successfully. id: ${newMaintenance.rows[0].id}`)
+                                        result[index].id = newMaintenance.rows[0].id
+                                    })
                                     .catch(e => {
                                         console.error(e.message)
                                         return res.send(e.message)
