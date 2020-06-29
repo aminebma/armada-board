@@ -250,6 +250,69 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
     })
 }
 
+async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
+    return new Promise(async (resolve, reject)=>{
+        let text, values, appointments = [], errors = [], maintenanceType
+
+        //Calculating the remaining distance before the next gear checkup
+        const gearRemKm = gearInfo[1].informations._text - (sorties[sorties.length - 1].compteur_fin % gearInfo[1].informations._text)
+        let nextGearAppointment = moment().add(Math.floor(gearRemKm / avgKm), 'days')
+        //If there is no gear appointment coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Vidange Boite à Vitesses')[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextGearAppointment, 'day')) {
+            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "ORDER BY date_fin::date, date_fin DESC"
+            values = [
+                nextGearAppointment.format('YYYY-MM-DD')
+            ]
+            await pool.query(text, values)
+                .then(async dates => {
+                    //Checking for the next free appointments date
+                    await getNextAppointment(dates, nextGearAppointment)
+                        .then(async nextGearAppointment => {
+                            //Getting the needed level and echelon
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Vidange Boite à vitesses'"
+                            await pool.query(text)
+                                .then(async reference => {
+                                    let besoin = {
+                                        "_declaration": {
+                                            "_attributes": {
+                                                "version": "1.0",
+                                                "encoding": "utf-8"
+                                            }
+                                        },
+                                        "contenu": {
+                                            "besoin": [
+                                                {
+                                                    "intitule": "Huile boite à vitesse",
+                                                    "quantite": parseInt(gearInfo[0].mesure._text)
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                    appointments.push({
+                                        type: "Vidange Boite à Vitesses",
+                                        niveau: reference.rows[0].niveau,
+                                        echelon: reference.rows[0].echelon,
+                                        date_debut: nextGearAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        date_fin: nextGearAppointment.hour(nextGearAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        vehicule: maintenances.rows[0].id_vehicule,
+                                        affectation: maintenances.rows[0].affectation,
+                                        besoin: besoin
+                                    })
+                                })
+                                .catch(e => reject(e.message))
+                        })
+                        .catch(e => reject(e.message))
+                })
+                .catch(e => reject(e.message))
+        } else errors.push({ Message: 'There is already a gear appointment pending.'})
+        resolve({"appointments": appointments,"errors": errors})
+    })
+}
+
 async function getNextAppointment(dates,nextAppointment){
     return new Promise(async (resolve, reject)=>{
         try { //If there is no appointment that day
@@ -285,5 +348,6 @@ async function getNextAppointment(dates,nextAppointment){
 
 module.exports = {
     generateMotorAppointments,
-    generateBrakesAppointments
+    generateBrakesAppointments,
+    generateGearAppointment
 }

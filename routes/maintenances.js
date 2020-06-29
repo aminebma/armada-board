@@ -15,11 +15,15 @@ const refMotor = [
     'Huile moteur'
 ]
 const refBrakes = [
-    'Frein des services',
+    'Frein de service',
     'Frein à parcage',
     'Frein de secours',
     'Liquide',
     'Plaquettes'
+]
+const refGear = [
+    'Vidange',
+    'Capacité en huile'
 ]
 
 const Maintenance = require('../modules/Maintenance')
@@ -111,7 +115,8 @@ router.post('/planning', async(req,res)=>{
             text =`SELECT xpath('/contenu', contenu) as fichier, type FROM Fichier
             WHERE xpath_exists('/contenu[type="${maintenances.rows[0].type_vehicule}" 
             and marque="${maintenances.rows[0].marque}" and modele="${maintenances.rows[0].modele}"]', contenu) 
-            AND type IN ('FT', 'GC')`
+            AND type IN ('FT', 'GC')
+            ORDER BY type ASC`
 
             //Retrieving the Fiche Technique and Guide Constructeur related to the vehicule
             await pool.query(text)
@@ -124,7 +129,7 @@ router.post('/planning', async(req,res)=>{
                     }
 
                     //Retrieving the needed motor info from Fiche Technique
-                    const motorInfo = [], brakesInfo = []
+                    const motorInfo = [], brakesInfo = [], gearInfo = []
                     let fileData
                     for(jsonFile of jsonFiles){
                         fileData = await jsonFile.contenu.donnee
@@ -137,6 +142,11 @@ router.post('/planning', async(req,res)=>{
                                 (ligne.categorie._text === 'Freinage' || ligne.categorie._text === 'Freins')
                                     && refBrakes.includes(ligne.sous_categorie._text))
                         fileData.forEach(data => brakesInfo.push(data))
+                        fileData = await jsonFile.contenu.donnee
+                            .filter(ligne =>
+                                ligne.categorie._text === 'Boite à vitesses'
+                                    && refGear.includes(ligne.sous_categorie._text))
+                        fileData.forEach(data => gearInfo.push(data))
                     }
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
@@ -150,9 +160,10 @@ router.post('/planning', async(req,res)=>{
                     //Checking for the next oil appointment
                     const motorAppointments = await Maintenance.generateMotorAppointments(sorties, avgKm, maintenances, motorInfo)
                     const brakesAppointments = await Maintenance.generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo)
+                    const gearAppointments = await Maintenance.generateGearAppointment(sorties, avgKm, maintenances, gearInfo)
 
                     //Inserting generated appointments to the database
-                    Promise.all([motorAppointments, brakesAppointments])
+                    Promise.all([motorAppointments, brakesAppointments, gearAppointments])
                         .then(async result=>{
                             text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
                                 "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
