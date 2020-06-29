@@ -1,18 +1,25 @@
 const express = require('express')
 const router = express.Router()
 const xmlConverter = require('xml-js')
+const moment = require('moment')
 const configIndex = require('../config/index')
 const { Pool } = require('pg')
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
-const moment = require('moment')
 pool.connect()
-const ref_motor = [
+const refMotor = [
     'Courroie',
     'Vidange',
     'Capacité en huile',
     'Huile moteur'
+]
+const refBrakes = [
+    'Frein des services',
+    'Frein à parcage',
+    'Frein de secours',
+    'Liquide',
+    'Plaquettes'
 ]
 
 const Maintenance = require('../modules/Maintenance')
@@ -117,44 +124,62 @@ router.post('/planning', async(req,res)=>{
                     }
 
                     //Retrieving the needed motor info from Fiche Technique
-                    const motorInfo = []
+                    const motorInfo = [], brakesInfo = []
+                    let fileData
                     for(jsonFile of jsonFiles){
-                        let fileData = await jsonFile.contenu.donnee
-                            .filter(ligne => ligne.categorie._text === 'Moteur' && ref_motor.includes(ligne.sous_categorie._text))
+                        fileData = await jsonFile.contenu.donnee
+                            .filter(ligne =>
+                                ligne.categorie._text === 'Moteur'
+                                    && refMotor.includes(ligne.sous_categorie._text))
                         fileData.forEach(data => motorInfo.push(data))
+                        fileData = await jsonFile.contenu.donnee
+                            .filter(ligne =>
+                                (ligne.categorie._text === 'Freinage' || ligne.categorie._text === 'Freins')
+                                    && refBrakes.includes(ligne.sous_categorie._text))
+                        fileData.forEach(data => brakesInfo.push(data))
                     }
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
+                    //Average distance per day in kilometers
+                    let avgKm = 0.0
+                    for (let sortie of sorties)
+                        avgKm += (sortie.compteur_fin - sortie.compteur_debut)
+                    let nbDays = (moment(sorties[sorties.length - 1].date).diff(moment(sorties[0].date), 'days'))
+                    avgKm /= ((nbDays === 0) ? 1 : nbDays)
+
                     //Checking for the next oil appointment
-                    const motorAppointments = await Maintenance.generateMotorAppointments(sorties, maintenances, motorInfo)
+                    const motorAppointments = await Maintenance.generateMotorAppointments(sorties, avgKm, maintenances, motorInfo)
+                    const brakesAppointments = await Maintenance.generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo)
 
                     //Inserting generated appointments to the database
-                    Promise.all([motorAppointments])
+                    Promise.all([motorAppointments, brakesAppointments])
                         .then(async result=>{
                             text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
                                 "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
-                            for(let [index, maintenance] of result[0].appointments.entries()){
-                                values = [
-                                    maintenance.type,
-                                    maintenance.niveau,
-                                    maintenance.echelon,
-                                    maintenance.date_debut,
-                                    maintenance.date_fin,
-                                    maintenance.vehicule,
-                                    maintenance.affectation,
-                                    maintenance.besoin
-                                ]
-                                await pool.query(text, values)
-                                    .then(newMaintenance => {
-                                        console.log(`New appointment added successfully. id: ${newMaintenance.rows[0].id}`)
-                                        result[0].appointments[index].id = newMaintenance.rows[0].id
-                                    })
-                                    .catch(e => {
-                                        console.error(e.message)
-                                        return res.send(e.message)
-                                    })
+                            for (let [resultIndex, appointments] of result.entries()) {
+                                for(let [appointmentIndex, appointment] of appointments.appointments.entries()) {
+                                    values = [
+                                        appointment.type,
+                                        appointment.niveau,
+                                        appointment.echelon,
+                                        appointment.date_debut,
+                                        appointment.date_fin,
+                                        appointment.vehicule,
+                                        appointment.affectation,
+                                        appointment.besoin
+                                    ]
+                                    await pool.query(text, values)
+                                        .then(newAppointment => {
+                                            console.log(`New appointment added successfully. id: ${newAppointment.rows[0].id}`)
+                                            result[resultIndex].appointments[appointmentIndex].id = newAppointment.rows[0].id
+                                        })
+                                        .catch(e => {
+                                            console.error(e.message)
+                                            return res.send(e.message)
+                                        })
+                                }
                             }
-                            res.send(result[0])
+                            res.send(result)
                         })
                         .catch(e=> {
                             console.error(e.message)
