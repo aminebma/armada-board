@@ -3,6 +3,7 @@ const router = express.Router()
 const xmlConverter = require('xml-js')
 const configIndex = require('../config/index')
 const { Pool } = require('pg')
+const excelToJson = require('convert-excel-to-json')
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
@@ -118,8 +119,8 @@ router.get('/fiche-technique', async(req,res)=>{
     await pool.query(text)
         .then(files=>{
             if(files.rows.length === 0) return res.status(404).send(new Error('No such file found.'))
-            const data = xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'})
-            res.send(files)
+            const data = JSON.parse(xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'}))
+            res.send(data)
         })
         .catch(e => {
             console.error(e.message)
@@ -133,8 +134,8 @@ router.get('/fiche-controle-couts', async(req,res)=>{
     await pool.query(text)
         .then(files=>{
             if(files.rows.length === 0) return res.status(404).send(new Error('No such file found.'))
-            const data = xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'})
-            res.send(files)
+            const data = JSON.parse(xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'}))
+            res.send(data)
         })
         .catch(e => {
             console.error(e.message)
@@ -148,7 +149,7 @@ router.get('/carnet-de-bord', async(req,res)=>{
     await pool.query(text)
         .then(files=>{
             if(files.rows.length === 0) return res.status(404).send(new Error('No such file found.'))
-            const data = xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'})
+            const data = JSON.parse(xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'}))
             res.send(data)
         })
         .catch(e => {
@@ -163,8 +164,8 @@ router.get('/guide-constructeur', async(req,res)=>{
     await pool.query(text)
         .then(files=>{
             if(files.rows.length === 0) return res.status(404).send(new Error('No such file found.'))
-            const data = xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'})
-            res.send(files)
+            const data = JSON.parse(xmlConverter.xml2json(files.rows[0].contenu,{compact: true, spaces: '\t'}))
+            res.send(data)
         })
         .catch(e => {
             console.error(e.message)
@@ -172,4 +173,47 @@ router.get('/guide-constructeur', async(req,res)=>{
         })
 })
 
+// readFicheTechnique()
+
 module.exports = router
+
+// function readFicheTechnique() {
+//     let result = {
+//         "_declaration":{
+//             "_attributes":{
+//                 "version": "1.0",
+//                 "encoding": "utf-8"
+//             }
+//         }
+//     }
+//     result.contenu = {
+//         "type":"Voiture",
+//         "marque":"Mercedes",
+//         "modele":"Classe G63 AMG 544ch",
+//     }
+//     let data = excelToJson({
+//         sourceFile: 'lib/files/Fiche_technique.xlsx',
+//         header:{
+//             rows: 1
+//         },
+//         columnToKey:{
+//             A: 'categorie',
+//             B: 'sous_categorie',
+//             C: 'type',
+//             D: 'label',
+//             E: 'mesure',
+//             F: 'informations'
+//         }
+//     })
+//     result.contenu.donnee = data['Fiche technique']
+//     let file = xmlConverter.json2xml(result,{compact: true, spaces: '\t'})
+//     const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
+//     const values = [file]
+//     pool.query(text, values)
+//         .then(resultat=>{
+//             console.log(`Fiche technique successfully added. id: ${resultat.rows[0].id}`)
+//         })
+//         .catch(e => {
+//             console.error(e.message)
+//         })
+// }
