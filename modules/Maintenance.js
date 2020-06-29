@@ -17,7 +17,7 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
         let nextOilAppointment = moment().add(Math.floor(oilRemKm / avgKm), 'days')
         //If there is no oil appointments coming
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Vidange')[0]
-        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextOilAppointment)) {
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextOilAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
                 "FROM Maintenance WHERE date_debut >= $1 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
@@ -74,7 +74,7 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
         let nextMotorChainAppointment = moment().add(Math.floor(motorChainRemKm / avgKm), 'days')
         //If there is no motor chain appointments coming
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Courroie')[0]
-        if (typeof maintenanceType === 'undefined' || moment(maintenanceType).isBefore(nextMotorChainAppointment)) {
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType).isBefore(nextMotorChainAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
                 "FROM Maintenance WHERE date_debut >= $1 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
@@ -133,16 +133,14 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
 async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
-        let brakesTypes = brakesInfo.filter(info =>
-            info.informations._text === 'Oui'
-        )
+        let brakesTypes = brakesInfo.filter(info => info.informations._text === 'Oui')
 
         //Calculating the remaining distance before the next brake pads checkup
         const brakePadsRemKm = brakesInfo[6].informations._text - (sorties[sorties.length - 1].compteur_fin % brakesInfo[6].informations._text)
         let nextBrakePadsAppointment = moment().add(Math.floor(brakePadsRemKm / avgKm), 'days')
         //If there is no brake pads appointments coming
-        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Freins')[0]
-        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextBrakePadsAppointment)) {
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Plaquettes de Freins')[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextBrakePadsAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
                 "FROM Maintenance WHERE date_debut >= $1 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
@@ -155,7 +153,7 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                     await getNextAppointment(dates, nextBrakePadsAppointment)
                         .then(async nextBrakePadsAppointment => {
                             //Getting the needed level and echelon
-                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Freins'"
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Plaquettes de Freins'"
                             await pool.query(text)
                                 .then(async reference => {
                                     let besoin = {
@@ -176,7 +174,7 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Freins",
+                                        type: "Plaquettes de Freins",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextBrakePadsAppointment.format('YYYY-MM-DD HH:mm:ss'),
@@ -196,9 +194,9 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
         //Calculating the remaining distance before the next brakes liquid checkup
         const brakesLiquid = brakesInfo[7].informations._text - (sorties[sorties.length - 1].compteur_fin % brakesInfo[7].informations._text)
         let nextBrakesLiquidAppointment = moment().add(Math.floor(brakesLiquid / avgKm), 'days')
-        //If there is no brake pads appointments coming
-        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Freins')[0]
-        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextBrakesLiquidAppointment)) {
+        //If there is no brakes liquid appointments coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Liquide de Freins')[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextBrakesLiquidAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
                 "FROM Maintenance WHERE date_debut >= $1 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
@@ -211,7 +209,7 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                     await getNextAppointment(dates, nextBrakesLiquidAppointment)
                         .then(async nextBrakesLiquidAppointment => {
                             //Getting the needed level and echelon
-                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Freins'"
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Liquide de Freins'"
                             await pool.query(text)
                                 .then(async reference => {
                                     let besoin = {
@@ -224,15 +222,15 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                         "contenu": {
                                             "besoin": [
                                                 {
-                                                    "intitule": "Plaquettes de Freins",
-                                                    "quantite": brakesTypes.length
+                                                    "intitule": "Liquide de Freins",
+                                                    "quantite": 1
                                                 }
                                             ]
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Freins",
+                                        type: "Liquide de Freins",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextBrakesLiquidAppointment.format('YYYY-MM-DD HH:mm:ss'),
