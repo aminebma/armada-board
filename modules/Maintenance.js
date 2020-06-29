@@ -250,6 +250,7 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
     })
 }
 
+//Generates the next gear appointment
 async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
@@ -313,6 +314,71 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
     })
 }
 
+//Generate the next clutch kit appointment
+async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo){
+    return new Promise(async (resolve, reject)=>{
+        let text, values, appointments = [], errors = [], maintenanceType
+
+        //Calculating the remaining distance before the next gear checkup
+        const gearRemKm = clutchInfo[0].informations._text - (sorties[sorties.length - 1].compteur_fin % clutchInfo[0].informations._text)
+        let nextClutchAppointment = moment().add(Math.floor(gearRemKm / avgKm), 'days')
+        //If there is no gear appointment coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Kit embrayage")[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextClutchAppointment, 'day')) {
+            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "ORDER BY date_fin::date, date_fin DESC"
+            values = [
+                nextClutchAppointment.format('YYYY-MM-DD')
+            ]
+            await pool.query(text, values)
+                .then(async dates => {
+                    //Checking for the next free appointments date
+                    await getNextAppointment(dates, nextClutchAppointment)
+                        .then(async nextClutchAppointment => {
+                            //Getting the needed level and echelon
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Kit embrayage'"
+                            await pool.query(text)
+                                .then(async reference => {
+                                    let besoin = {
+                                        "_declaration": {
+                                            "_attributes": {
+                                                "version": "1.0",
+                                                "encoding": "utf-8"
+                                            }
+                                        },
+                                        "contenu": {
+                                            "besoin": [
+                                                {
+                                                    "intitule": "Kit d'embrayage",
+                                                    "quantite": 1
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                    appointments.push({
+                                        type: "Kit embrayage",
+                                        niveau: reference.rows[0].niveau,
+                                        echelon: reference.rows[0].echelon,
+                                        date_debut: nextClutchAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        date_fin: nextClutchAppointment.hour(nextClutchAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        vehicule: maintenances.rows[0].id_vehicule,
+                                        affectation: maintenances.rows[0].affectation,
+                                        besoin: besoin
+                                    })
+                                })
+                                .catch(e => reject(e.message))
+                        })
+                        .catch(e => reject(e.message))
+                })
+                .catch(e => reject(e.message))
+        } else errors.push({ Message: 'There is already a clutch appointment pending.'})
+        resolve({"appointments": appointments,"errors": errors})
+    })
+}
+
+//Get the next free date for an appointment
 async function getNextAppointment(dates,nextAppointment){
     return new Promise(async (resolve, reject)=>{
         try { //If there is no appointment that day
@@ -349,5 +415,6 @@ async function getNextAppointment(dates,nextAppointment){
 module.exports = {
     generateMotorAppointments,
     generateBrakesAppointments,
-    generateGearAppointment
+    generateGearAppointment,
+    generateClutchAppointment
 }

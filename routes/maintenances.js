@@ -25,6 +25,9 @@ const refGear = [
     'Vidange',
     'Capacité en huile'
 ]
+const refClutch = [
+    'Kit'
+]
 
 const Maintenance = require('../modules/Maintenance')
 
@@ -129,7 +132,7 @@ router.post('/planning', async(req,res)=>{
                     }
 
                     //Retrieving the needed motor info from Fiche Technique
-                    const motorInfo = [], brakesInfo = [], gearInfo = []
+                    const motorInfo = [], brakesInfo = [], gearInfo = [], clutchInfo = []
                     let fileData
                     for(jsonFile of jsonFiles){
                         fileData = await jsonFile.contenu.donnee
@@ -147,6 +150,11 @@ router.post('/planning', async(req,res)=>{
                                 ligne.categorie._text === 'Boite à vitesses'
                                     && refGear.includes(ligne.sous_categorie._text))
                         fileData.forEach(data => gearInfo.push(data))
+                        fileData = await jsonFile.contenu.donnee
+                            .filter(ligne =>
+                                ligne.categorie._text === 'Embrayage'
+                                    && refClutch.includes(ligne.sous_categorie._text))
+                        fileData.forEach(data => clutchInfo.push(data))
                     }
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
@@ -160,10 +168,11 @@ router.post('/planning', async(req,res)=>{
                     //Checking for the next oil appointment
                     const motorAppointments = await Maintenance.generateMotorAppointments(sorties, avgKm, maintenances, motorInfo)
                     const brakesAppointments = await Maintenance.generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo)
-                    const gearAppointments = await Maintenance.generateGearAppointment(sorties, avgKm, maintenances, gearInfo)
+                    const gearAppointment = await Maintenance.generateGearAppointment(sorties, avgKm, maintenances, gearInfo)
+                    const clutchAppointment = await Maintenance.generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo)
 
                     //Inserting generated appointments to the database
-                    Promise.all([motorAppointments, brakesAppointments, gearAppointments])
+                    Promise.all([motorAppointments, brakesAppointments, gearAppointment, clutchAppointment])
                         .then(async result=>{
                             text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
                                 "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
