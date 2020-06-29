@@ -159,3 +159,14 @@ POST /api/maintenances/planning 200 328 - 20459.282 ms
 POST /api/maintenances/planning 200 - - 162.605 ms
 POST /api/maintenances/planning 200 44 - 180.394 ms
 POST /api/maintenances/planning 200 356 - 308.574 ms
+POST /api/maintenances/planning - - - - ms
+POST /api/maintenances/planning 200 75 - 465.077 ms
+POST /api/maintenances/planning 200 680 - 55084.503 ms
+POST /api/maintenances/planning 200 710 - 20946.959 ms
+POST /api/maintenances/planning 200 387 - 252.442 ms
+POST /api/maintenances/planning 200 387 - 91490.564 ms
+POST /api/maintenances/planning 200 36 - 25278.268 ms
+POST /api/maintenances/planning 200 36 - 7607.644 ms
+POST /api/maintenances/planning 200 7 - 3676.697 ms
+POST /api/maintenances/planning 200 36 - 28209.212 ms
+POST /api/maintenances/planning 200 157 - 11204.492 ms

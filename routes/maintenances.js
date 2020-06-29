@@ -126,12 +126,14 @@ router.post('/planning', async(req,res)=>{
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
                     //Checking for the next oil appointment
-                    const oilAppointment = await Maintenance.generateOilAppointment(sorties, maintenances, motorInfo)
-                    Promise.all([oilAppointment])
+                    const motorAppointments = await Maintenance.generateMotorAppointments(sorties, maintenances, motorInfo)
+
+                    //Inserting generated appointments to the database
+                    Promise.all([motorAppointments])
                         .then(async result=>{
                             text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
                                 "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
-                            for(let [index, maintenance] of result.entries()){
+                            for(let [index, maintenance] of result[0].appointments.entries()){
                                 values = [
                                     maintenance.type,
                                     maintenance.niveau,
@@ -144,15 +146,15 @@ router.post('/planning', async(req,res)=>{
                                 ]
                                 await pool.query(text, values)
                                     .then(newMaintenance => {
-                                        console.log(`New Maintainance added successfully. id: ${newMaintenance.rows[0].id}`)
-                                        result[index].id = newMaintenance.rows[0].id
+                                        console.log(`New appointment added successfully. id: ${newMaintenance.rows[0].id}`)
+                                        result[0].appointments[index].id = newMaintenance.rows[0].id
                                     })
                                     .catch(e => {
                                         console.error(e.message)
                                         return res.send(e.message)
                                     })
                             }
-                            res.send(result)
+                            res.send(result[0])
                         })
                         .catch(e=> {
                             console.error(e.message)
