@@ -26,7 +26,9 @@ async function generateOilAppointment(sorties, maintenances, motorInfo, callback
                 text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
                     "FROM Maintenance WHERE date_debut >= $1 \n" +
                     "ORDER BY date_fin::date, date_fin DESC"
-                values = [nextAppointment.format('YYYY-MM-DD')]
+                values = [
+                    nextAppointment.format('YYYY-MM-DD')
+                ]
                 //Checking for the next free appointment date
                 await pool.query(text, values)
                     .then(async dates => {
@@ -65,9 +67,9 @@ async function generateOilAppointment(sorties, maintenances, motorInfo, callback
                                         }
                                     },
                                     "contenu": {
-                                        "piece": [
+                                        "besoin": [
                                             {
-                                                "modele": "Huile",
+                                                "intitule": "Huile Moteur",
                                                 "quantite": parseInt(motorInfo[2].mesure._text)
                                             }
                                         ]
@@ -81,6 +83,7 @@ async function generateOilAppointment(sorties, maintenances, motorInfo, callback
                                     date_debut: nextAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                     date_fin: nextAppointment.hour(nextAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                     vehicule: maintenances.rows[0].id_vehicule,
+                                    affectation: maintenances.rows[0].affectation,
                                     besoin: besoin
                                 }
                                 resolve(appointment)
@@ -89,6 +92,7 @@ async function generateOilAppointment(sorties, maintenances, motorInfo, callback
                     })
                     .catch(e => reject(e.message))
             }
+            else reject(new Error('There is already an oil appointment pending.'))
         }
     })
 }

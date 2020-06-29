@@ -36,8 +36,18 @@ const Maintenance = require('../modules/Maintenance')
 // }
 router.post('/', async(req,res)=>{
     const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
-    const text = "INSERT INTO Maintenance(type, niveau,echelon, date_debut, date_fin, vehicule, affectation, besoin) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id"
-    const values = [req.body.type,req.body.niveau, req.body.echelon, req.body.date_debut, req.body.date_fin, req.body.vehicule, req.body.affectation, besoin]
+    const text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule, affectation, besoin)" +
+        " VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id"
+    const values = [
+        req.body.type,
+        req.body.niveau,
+        req.body.echelon,
+        req.body.date_debut,
+        req.body.date_fin,
+        req.body.vehicule,
+        req.body.affectation,
+        besoin
+    ]
     await pool.query(text, values)
         .then(result=> {
             console.log(`Maintenance successfully added. id: ${result.rows[0].id}`)
@@ -53,7 +63,11 @@ router.post('/', async(req,res)=>{
 //should include the start date, end date and unity's id
 router.get('/planning', async(req,res)=>{
     const text = "SELECT * FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
-    const values = [req.body.affectation, req.body.date_debut, req.body.date_fin]
+    const values = [
+        req.body.affectation,
+        req.body.date_debut,
+        req.body.date_fin
+    ]
     await pool.query(text, values)
         .then(async planning => {
             if(planning.rows.length === 0) return res.status(404).send(new Error('Empty planning.'))
@@ -73,13 +87,15 @@ router.get('/planning', async(req,res)=>{
 
 //This will generate a new planning
 router.post('/planning', async(req,res)=>{
-    let planning = []
-    let text = "SELECT distinct on (m.type) m.type, m.date_debut as date, v.id as id_vehicule, v.type as type_vehicule, v.marque, v.modele\n" +
+    let text = "SELECT distinct on (m.type) m.type, m.affectation, m.date_debut as date, v.id as id_vehicule, v.type as type_vehicule, v.marque, v.modele\n" +
         "FROM Maintenance as m\n" +
         "JOIN Vehicule as v ON v.id=m.vehicule\n" +
         "WHERE v.matricule_interne=$1 and m.affectation=$2\n" +
         "ORDER BY m.type, m.date_debut DESC"
-    let values = [req.body.matricule_interne, req.body.affectation]
+    let values = [
+        req.body.matricule_interne,
+        req.body.affectation
+    ]
 
     //Retrieving all maintainances
     await pool.query(text, values)
@@ -105,19 +121,39 @@ router.post('/planning', async(req,res)=>{
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
                     //Checking for the next oil appointment
-                    await Maintenance.generateOilAppointment(sorties, maintenances, motorInfo)
-                        .then(appointment => {
-                            planning.push(appointment)
+                    const oilAppointment = await Maintenance.generateOilAppointment(sorties, maintenances, motorInfo)
+                    Promise.all([oilAppointment])
+                        .then(async result=>{
+                            text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
+                                "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
+                            for(let [index, maintenance] of result.entries()){
+                                values = [
+                                    maintenance.type,
+                                    maintenance.niveau,
+                                    maintenance.echelon,
+                                    maintenance.date_debut,
+                                    maintenance.date_fin,
+                                    maintenance.vehicule,
+                                    maintenance.affectation,
+                                    maintenance.besoin
+                                ]
+                                await pool.query(text, values)
+                                    .then(newMaintenance => result[index].id = newMaintenance.rows[0].id)
+                                    .catch(e => {
+                                        console.error(e.message)
+                                        return res.send(e.message)
+                                    })
+                            }
+                            res.send(result)
                         })
-                        .catch(e => {
+                        .catch(e=> {
                             console.error(e.message)
-                            res.send(e.message)
+                            return res.send(e.message)
                         })
-                    res.send({ Message: 'Done'})
                 })
                 .catch(e => {
                     console.error(e.message)
-                    res.send(e.message)
+                    return res.send(e.message)
                 })
         })
         .catch(e => {
@@ -129,7 +165,9 @@ router.post('/planning', async(req,res)=>{
 //This will delete a maintainance from the database. The request body should include the maintainance id
 router.delete('/', async(req,res)=>{
     const text = "DELETE FROM Maintenance WHERE id=$1"
-    const values = [req.body.id]
+    const values = [
+        req.body.id
+    ]
     await pool.query(text, values)
         .then(()=>{
             console.log(`Maintenance deleted successfully. id: ${req.body.id}`)
@@ -161,8 +199,19 @@ router.delete('/', async(req,res)=>{
 // }
 router.put('/', async(req,res)=>{
     const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
-    const text = "UPDATE Maintenance SET type=$2, niveau=$3, echelon=$4, date_debut=$5, date_fin=$6, vehicule=$7, affectation=$8, besoin=$9 WHERE id=$1"
-    const values = [req.body.id, req.body.type,req.body.niveau, req.body.echelon, req.body.date_debut, req.body.date_fin, req.body.vehicule, req.body.affectation, besoin]
+    const text = "UPDATE Maintenance SET type=$2, niveau=$3, echelon=$4, date_debut=$5, date_fin=$6, vehicule=$7, " +
+        "affectation=$8, besoin=$9 WHERE id=$1"
+    const values = [
+        req.body.id,
+        req.body.type,
+        req.body.niveau,
+        req.body.echelon,
+        req.body.date_debut,
+        req.body.date_fin,
+        req.body.vehicule,
+        req.body.affectation,
+        besoin
+    ]
     await pool.query(text, values)
         .then(()=>{
             console.log(`Maintenance updated successfully. id: ${req.body.id}`)
