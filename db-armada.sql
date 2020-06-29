@@ -257,7 +257,8 @@ ALTER SEQUENCE public.PlanningMaintenance_id_seq OWNED BY public.PlanningMainten
 CREATE TABLE Ref_maintenance (
 	id bigint not null,
 	type character varying(150) not null,
-	besoin xml not null
+	niveau integer[] not null,
+	echelon integer[] not null
 );
 
 ALTER TABLE public.Ref_maintenance OWNER TO postgres;

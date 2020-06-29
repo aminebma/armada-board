@@ -107,8 +107,9 @@ router.post('/planning', async(req,res)=>{
                         //Average distance per day in kilometers
                         let avgKm = 0.0
                         for(let sortie of sorties)
-                            avgKm += (sortie.compteur_fin-sortie.compteur_debut)
-                        avgKm/=sorties.length
+                            avgKm += (sortie.compteur_fin - sortie.compteur_debut)
+                        let nbDays = (moment(sorties[sorties.length-1].date).diff(moment(sorties[0].date), 'days'))
+                        avgKm/=((nbDays===0) ? 1 : nbDays)
                         //Calculating the remaining distance before the next checkup
                         const remKm= 10000-(sorties[sorties.length-1].compteur_fin % 10000)
                         const nextAppointment = moment().add(Math.floor(remKm/avgKm),'days')
@@ -131,34 +132,42 @@ router.post('/planning', async(req,res)=>{
                                         else
                                             nextAppointment.set({'hour': moment(dates.rows[0].date).hour() + 1, 'minutes': 0, 'seconds': 0})
                                     }
-                                    //Constructing the needs
-                                    let besoin = {
-                                        "_declaration":{
-                                            "_attributes":{
-                                                "version": "1.0",
-                                                "encoding": "utf-8"
-                                            }
-                                        },
-                                        "contenu":{
-                                            "piece":[
-                                                {
-                                                    "modele":"Huile",
-                                                    "quantite": parseInt(motorInfo[2].mesure._text)
+                                    //Getting the needed level and echelon
+                                    text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Vidange'"
+                                    await pool.query(text)
+                                        .then(async reference => {
+                                            let besoin = {
+                                                "_declaration":{
+                                                    "_attributes":{
+                                                        "version": "1.0",
+                                                        "encoding": "utf-8"
+                                                    }
+                                                },
+                                                "contenu":{
+                                                    "piece":[
+                                                        {
+                                                            "modele":"Huile",
+                                                            "quantite": parseInt(motorInfo[2].mesure._text)
+                                                        }
+                                                    ]
                                                 }
-                                            ]
-                                        }
-                                    }
-                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
-                                    const appointment = {
-                                        type: "Vidange",
-                                        niveau: [1],
-                                        echelon: [1],
-                                        date_debut: nextAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextAppointment.hour(nextAppointment.hour()+1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        besoin: besoin
-                                    }
-                                    planning.push(appointment)
+                                            }
+                                            besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                            const appointment = {
+                                                type: "Vidange",
+                                                niveau: reference.rows[0].niveau,
+                                                echelon: reference.rows[0].echelon,
+                                                date_debut: nextAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                                date_fin: nextAppointment.hour(nextAppointment.hour()+1).format('YYYY-MM-DD HH:mm:ss'),
+                                                vehicule: maintenances.rows[0].id_vehicule,
+                                                besoin: besoin
+                                            }
+                                            planning.push(appointment)
+                                        })
+                                        .catch(e => {
+                                            console.error(e.message)
+                                            res.send(e.message)
+                                        })
                                 })
                                 .catch(e => {
                                     console.error(e.message)
