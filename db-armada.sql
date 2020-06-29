@@ -50,29 +50,54 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 --
--- TOC entry 197 (class 1259 OID 16490)
--- Name: Chauffeur; Type: TABLE; Schema: public; Owner: postgres
+-- PostgreSQL database dump
 --
 
-CREATE TABLE public.Chauffeur (
+-- Dumped from database version 11.3
+-- Dumped by pg_dump version 11.3
+
+-- Started on 2020-06-29 16:09:24
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 196 (class 1259 OID 16804)
+-- Name: chauffeur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.chauffeur (
     id bigint NOT NULL,
-    Nom character varying NOT NULL,
-    Prenom character varying NOT NULL,
-    DateNaiss date NOT NULL,
-    Adresse character varying NOT NULL,
-    Sexe character(1) NOT NULL,
-    Affectation bigint NOT NULL
+    nom character varying NOT NULL,
+    prenom character varying NOT NULL,
+    datenaiss date NOT NULL,
+    adresse character varying NOT NULL,
+    numtel character varying(14),
+    sexe character(1) NOT NULL,
+    affectation bigint NOT NULL
 );
 
 
-ALTER TABLE public.Chauffeur OWNER TO postgres;
+ALTER TABLE public.chauffeur OWNER TO postgres;
 
 --
--- TOC entry 196 (class 1259 OID 16488)
--- Name: Chauffeur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 197 (class 1259 OID 16810)
+-- Name: chauffeur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.Chauffeur_id_seq
+CREATE SEQUENCE public.chauffeur_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -80,158 +105,39 @@ CREATE SEQUENCE public.Chauffeur_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.Chauffeur_id_seq OWNER TO postgres;
-
---
--- TOC entry 2891 (class 0 OID 0)
--- Dependencies: 196
--- Name: Chauffeur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.Chauffeur_id_seq OWNED BY public.Chauffeur.id;
-
-
---
--- TOC entry 199 (class 1259 OID 16503)
--- Name: Fichier; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.Fichier (
-    id bigint NOT NULL,
-    type character varying(5) COLLATE pg_catalog."default" NOT NULL,
-    Contenu xml,
-    Url character varying(150),
-    Nom character varying(100)
-);
-
-
-ALTER TABLE public.Fichier OWNER TO postgres;
-
---
--- TOC entry 198 (class 1259 OID 16501)
--- Name: Fichier_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.Fichier_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.Fichier_id_seq OWNER TO postgres;
-
---
--- TOC entry 2892 (class 0 OID 0)
--- Dependencies: 198
--- Name: Fichier_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.Fichier_id_seq OWNED BY public.Fichier.id;
-
-
---
--- TOC entry 201 (class 1259 OID 16511)
--- Name: Maintenance; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.Maintenance (
-    id bigint NOT NULL,
-    Type character varying(150) NOT NULL,
-    Niveau integer[] NOT NULL,
-    Echelon integer[] NOT NULL,
-    Date_debut timestamp without timezone NOT NULL,
-    Date_fin timestamp without timezone NOT NULL,
-    Vehicule bigint NOT NULL,
-    Affectation bigint NOT NULL,
-    Besoin xml
-);
-
-
-ALTER TABLE public.Maintenance OWNER TO postgres;
-
---
--- TOC entry 200 (class 1259 OID 16509)
--- Name: Maintenance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.Maintenance_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.Maintenance_id_seq OWNER TO postgres;
-
---
--- TOC entry 2893 (class 0 OID 0)
--- Dependencies: 200
--- Name: Maintenance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.Maintenance_id_seq OWNED BY public.Maintenance.id;
-
---
--- TOC entry 205 (class 1259 OID 16541)
--- Name: PieceRechange; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.PieceRechange (
-    id bigint NOT NULL,
-    Marque character varying(20) NOT NULL,
-    Modele character varying(20) NOT NULL,
-    Quantite bigint NOT NULL
-);
-
-
-ALTER TABLE public.PieceRechange OWNER TO postgres;
-
---
--- TOC entry 204 (class 1259 OID 16539)
--- Name: PieceRechange_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.PieceRechange_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.PieceRechange_id_seq OWNER TO postgres;
+ALTER TABLE public.chauffeur_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2895 (class 0 OID 0)
--- Dependencies: 204
--- Name: PieceRechange_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Dependencies: 197
+-- Name: chauffeur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.PieceRechange_id_seq OWNED BY public.PieceRechange.id;
+ALTER SEQUENCE public.chauffeur_id_seq OWNED BY public.chauffeur.id;
 
 
 --
--- TOC entry 207 (class 1259 OID 16549)
--- Name: PlanningMaintenance; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 198 (class 1259 OID 16812)
+-- Name: fichier; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.PlanningMaintenance (
+CREATE TABLE public.fichier (
     id bigint NOT NULL,
-    ListeMaintenances xml NOT NULL
+    type character varying(30) NOT NULL,
+    nom character varying(100),
+    url character varying(150),
+    contenu xml
 );
 
 
-ALTER TABLE public.PlanningMaintenance OWNER TO postgres;
+ALTER TABLE public.fichier OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1259 OID 16547)
--- Name: PlanningMaintenance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 199 (class 1259 OID 16815)
+-- Name: fichier_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.PlanningMaintenance_id_seq
+CREATE SEQUENCE public.fichier_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -239,76 +145,43 @@ CREATE SEQUENCE public.PlanningMaintenance_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.PlanningMaintenance_id_seq OWNER TO postgres;
+ALTER TABLE public.fichier_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2896 (class 0 OID 0)
--- Dependencies: 206
--- Name: PlanningMaintenance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Dependencies: 199
+-- Name: fichier_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.PlanningMaintenance_id_seq OWNED BY public.PlanningMaintenance.id;
-
---
--- TOC entry 207 (class 1259 OID 16549)
--- Name: Ref_maintenance; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE Ref_maintenance (
-	id bigint not null,
-	type character varying(150) not null,
-	niveau integer[] not null,
-	echelon integer[] not null
-);
-
-ALTER TABLE public.Ref_maintenance OWNER TO postgres;
+ALTER SEQUENCE public.fichier_id_seq OWNED BY public.fichier.id;
 
 
 --
--- TOC entry 206 (class 1259 OID 16547)
--- Name: Ref_maintenance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 200 (class 1259 OID 16817)
+-- Name: maintenance; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.Ref_maintenance_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.Ref_maintenance_id_seq OWNER TO postgres;
-
---
--- TOC entry 2896 (class 0 OID 0)
--- Dependencies: 206
--- Name: Ref_maintenance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.Ref_maintenance_id_seq OWNED BY public.Ref_maintenance.id;
-
---
--- TOC entry 213 (class 1259 OID 16581)
--- Name: Unite; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.Unite (
+CREATE TABLE public.maintenance (
     id bigint NOT NULL,
-    Nom character varying(50),
-    Classe character varying(25) NOT NULL,
-    Affiliation character varying(20) NOT NULL,
-    Region character varying(15) NOT NULL
+    type character varying(150) NOT NULL,
+    niveau integer[] NOT NULL,
+    echelon integer[] NOT NULL,
+    date_debut timestamp(4) without time zone NOT NULL,
+    date_fin timestamp without time zone NOT NULL,
+    vehicule bigint NOT NULL,
+    affectation bigint NOT NULL,
+    besoin xml
 );
 
 
-ALTER TABLE public.Unite OWNER TO postgres;
+ALTER TABLE public.maintenance OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 16579)
--- Name: Unite_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 201 (class 1259 OID 16823)
+-- Name: maintenance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.Unite_id_seq
+CREATE SEQUENCE public.maintenance_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -316,46 +189,126 @@ CREATE SEQUENCE public.Unite_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.Unite_id_seq OWNER TO postgres;
+ALTER TABLE public.maintenance_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 2897 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: maintenance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.maintenance_id_seq OWNED BY public.maintenance.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 16940)
+-- Name: ref_maintenance; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ref_maintenance (
+    id integer NOT NULL,
+    type character varying(150) NOT NULL,
+    niveau integer[] NOT NULL,
+    echelon integer[] NOT NULL
+);
+
+
+ALTER TABLE public.ref_maintenance OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 16938)
+-- Name: ref_maintenance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ref_maintenance_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ref_maintenance_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2900 (class 0 OID 0)
 -- Dependencies: 212
--- Name: Unite_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ref_maintenance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.Unite_id_seq OWNED BY public.Unite.id;
+ALTER SEQUENCE public.ref_maintenance_id_seq OWNED BY public.ref_maintenance.id;
 
 
 --
--- TOC entry 209 (class 1259 OID 16560)
--- Name: Utilisateur; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 206 (class 1259 OID 16843)
+-- Name: unite; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.Utilisateur (
+CREATE TABLE public.unite (
     id bigint NOT NULL,
-    Type integer,
-    Username character varying(50),
-    Password character varying(70),
-    Nom character varying(50),
-    Prenom character varying(70),
-    DateNaiss date,
-    Adresse character varying(255),
-    numTel character varying(14),
+    nom character varying(50),
+    classe character varying(25) NOT NULL,
+    affiliation character varying(20) NOT NULL,
+    region character varying(15) NOT NULL
+);
+
+
+ALTER TABLE public.unite OWNER TO postgres;
+
+--
+-- TOC entry 207 (class 1259 OID 16846)
+-- Name: unite_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.unite_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.unite_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2901 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: unite_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.unite_id_seq OWNED BY public.unite.id;
+
+
+--
+-- TOC entry 208 (class 1259 OID 16848)
+-- Name: utilisateur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.utilisateur (
+    id bigint NOT NULL,
+    type integer NOT NULL,
+    username character varying(50) NOT NULL,
+    password character varying(70) NOT NULL,
+    nom character varying(50) NOT NULL,
+    prenom character varying(70) NOT NULL,
+    datenaiss date NOT NULL,
+    adresse character varying(255),
+    numtel character varying(14),
     mail character varying(200),
-    Sexe character(1),
-    Affectation bigint
+    sexe character(1) NOT NULL,
+    affectation bigint NOT NULL
 );
 
 
-ALTER TABLE public.Utilisateur OWNER TO postgres;
+ALTER TABLE public.utilisateur OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 16558)
--- Name: Utilisateur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 209 (class 1259 OID 16851)
+-- Name: utilisateur_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.Utilisateur_id_seq
+CREATE SEQUENCE public.utilisateur_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -363,41 +316,41 @@ CREATE SEQUENCE public.Utilisateur_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.Utilisateur_id_seq OWNER TO postgres;
+ALTER TABLE public.utilisateur_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2898 (class 0 OID 0)
--- Dependencies: 208
--- Name: Utilisateur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2902 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: utilisateur_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.Utilisateur_id_seq OWNED BY public.Utilisateur.id;
+ALTER SEQUENCE public.utilisateur_id_seq OWNED BY public.utilisateur.id;
 
 
 --
--- TOC entry 211 (class 1259 OID 16573)
--- Name: Vehicule; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 210 (class 1259 OID 16853)
+-- Name: vehicule; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.Vehicule (
+CREATE TABLE public.vehicule (
     id bigint NOT NULL,
-    Type character varying(50) NOT NULL,
-    Marque character varying(50) NOT NULL,
-    Modele character varying(50) NOT NULL,
-    Matricule_interne character varying(20) NOT NULL,
-    Matricule_externe character varying(20) NOT NULL,
-    Affectation bigint NOT NULL
+    type character varying(50) NOT NULL,
+    marque character varying(50) NOT NULL,
+    modele character varying(50) NOT NULL,
+    matricule_interne character varying(20) NOT NULL,
+    matricule_externe character varying(20) NOT NULL,
+    affectation bigint NOT NULL
 );
 
 
-ALTER TABLE public.Vehicule OWNER TO postgres;
+ALTER TABLE public.vehicule OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 16571)
--- Name: Vehicule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 211 (class 1259 OID 16856)
+-- Name: vehicule_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.Vehicule_id_seq
+CREATE SEQUENCE public.vehicule_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -405,221 +358,163 @@ CREATE SEQUENCE public.Vehicule_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.Vehicule_id_seq OWNER TO postgres;
+ALTER TABLE public.vehicule_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2899 (class 0 OID 0)
--- Dependencies: 210
--- Name: Vehicule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2903 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: vehicule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.Vehicule_id_seq OWNED BY public.Vehicule.id;
-
-
---
--- TOC entry 2736 (class 2604 OID 16493)
--- Name: Chauffeur id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Chauffeur ALTER COLUMN id SET DEFAULT nextval('public.Chauffeur_id_seq'::regclass);
+ALTER SEQUENCE public.vehicule_id_seq OWNED BY public.vehicule.id;
 
 
 --
--- TOC entry 2737 (class 2604 OID 16506)
--- Name: Fichier id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2739 (class 2604 OID 16858)
+-- Name: chauffeur id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Fichier ALTER COLUMN id SET DEFAULT nextval('public.Fichier_id_seq'::regclass);
-
-
---
--- TOC entry 2738 (class 2604 OID 16514)
--- Name: Maintenance id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Maintenance ALTER COLUMN id SET DEFAULT nextval('public.Maintenance_id_seq'::regclass);
+ALTER TABLE ONLY public.chauffeur ALTER COLUMN id SET DEFAULT nextval('public.chauffeur_id_seq'::regclass);
 
 
 --
--- TOC entry 2739 (class 2604 OID 16530)
--- Name: Panne id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2740 (class 2604 OID 16859)
+-- Name: fichier id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Panne ALTER COLUMN id SET DEFAULT nextval('public.Panne_id_seq'::regclass);
-
-
---
--- TOC entry 2740 (class 2604 OID 16544)
--- Name: PieceRechange id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.PieceRechange ALTER COLUMN id SET DEFAULT nextval('public.PieceRechange_id_seq'::regclass);
+ALTER TABLE ONLY public.fichier ALTER COLUMN id SET DEFAULT nextval('public.fichier_id_seq'::regclass);
 
 
 --
--- TOC entry 2741 (class 2604 OID 16552)
--- Name: PlanningMaintenance id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2741 (class 2604 OID 16860)
+-- Name: maintenance id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.PlanningMaintenance ALTER COLUMN id SET DEFAULT nextval('public.PlanningMaintenance_id_seq'::regclass);
-
---
--- TOC entry 2741 (class 2604 OID 16552)
--- Name: Ref_maintenance id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Ref_maintenance ALTER COLUMN id SET DEFAULT nextval('public.Ref_maintenance_id_seq'::regclass);
-
---
--- TOC entry 2744 (class 2604 OID 16584)
--- Name: Unite id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Unite ALTER COLUMN id SET DEFAULT nextval('public.Unite_id_seq'::regclass);
+ALTER TABLE ONLY public.maintenance ALTER COLUMN id SET DEFAULT nextval('public.maintenance_id_seq'::regclass);
 
 
 --
--- TOC entry 2742 (class 2604 OID 16563)
--- Name: Utilisateur id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2747 (class 2604 OID 16943)
+-- Name: ref_maintenance id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Utilisateur ALTER COLUMN id SET DEFAULT nextval('public.Utilisateur_id_seq'::regclass);
-
-
---
--- TOC entry 2743 (class 2604 OID 16576)
--- Name: Vehicule id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Vehicule ALTER COLUMN id SET DEFAULT nextval('public.Vehicule_id_seq'::regclass);
+ALTER TABLE ONLY public.ref_maintenance ALTER COLUMN id SET DEFAULT nextval('public.ref_maintenance_id_seq'::regclass);
 
 
 --
--- TOC entry 2746 (class 2606 OID 16495)
--- Name: Chauffeur Chauffeur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2744 (class 2604 OID 16864)
+-- Name: unite id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Chauffeur
-    ADD CONSTRAINT Chauffeur_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2748 (class 2606 OID 16508)
--- Name: Fichier Fichier_id; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Fichier
-    ADD CONSTRAINT Fichier_id PRIMARY KEY (id);
+ALTER TABLE ONLY public.unite ALTER COLUMN id SET DEFAULT nextval('public.unite_id_seq'::regclass);
 
 
 --
--- TOC entry 2750 (class 2606 OID 16519)
--- Name: Maintenance Maintenance_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2745 (class 2604 OID 16865)
+-- Name: utilisateur id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Maintenance
-    ADD CONSTRAINT Maintenance_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2752 (class 2606 OID 16532)
--- Name: Panne Panne_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Panne
-    ADD CONSTRAINT Panne_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.utilisateur ALTER COLUMN id SET DEFAULT nextval('public.utilisateur_id_seq'::regclass);
 
 
 --
--- TOC entry 2754 (class 2606 OID 16546)
--- Name: PieceRechange PieceRechange_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2746 (class 2604 OID 16866)
+-- Name: vehicule id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.PieceRechange
-    ADD CONSTRAINT PieceRechange_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2756 (class 2606 OID 16557)
--- Name: PlanningMaintenance PlanningMaintenance_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.PlanningMaintenance
-    ADD CONSTRAINT PlanningMaintenance_pkey PRIMARY KEY (id);
-
+ALTER TABLE ONLY public.vehicule ALTER COLUMN id SET DEFAULT nextval('public.vehicule_id_seq'::regclass);
 
 
 --
--- TOC entry 2762 (class 2606 OID 16586)
--- Name: Unite Unite_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2749 (class 2606 OID 16868)
+-- Name: chauffeur chauffeur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Ref_maintenance
-    ADD CONSTRAINT Ref_maintenance_pkey PRIMARY KEY (id);
-
-
-
---
--- TOC entry 2762 (class 2606 OID 16586)
--- Name: Unite Unite_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Unite
-    ADD CONSTRAINT Unite_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.chauffeur
+    ADD CONSTRAINT chauffeur_pkey PRIMARY KEY (id);
 
 
 --
--- TOC entry 2758 (class 2606 OID 16565)
--- Name: Utilisateur Utilisateur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2751 (class 2606 OID 16870)
+-- Name: fichier fichier_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Utilisateur
-    ADD CONSTRAINT Utilisateur_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2760 (class 2606 OID 16578)
--- Name: Vehicule Vehicule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.Vehicule
-    ADD CONSTRAINT Vehicule_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.fichier
+    ADD CONSTRAINT fichier_id PRIMARY KEY (id);
 
 
 --
--- TOC entry 2763 (class 2606 OID 16592)
--- Name: Chauffeur Chauffeur_Affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2753 (class 2606 OID 16872)
+-- Name: maintenance maintenance_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Chauffeur
-    ADD CONSTRAINT Chauffeur_Affectation_fkey FOREIGN KEY (Affectation) REFERENCES public.Unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY public.maintenance
+    ADD CONSTRAINT maintenance_pkey PRIMARY KEY (id);
+
+--
+-- TOC entry 2765 (class 2606 OID 16948)
+-- Name: ref_maintenance ref_maintenance_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ref_maintenance
+    ADD CONSTRAINT ref_maintenance_pkey PRIMARY KEY (id);
 
 
 --
--- TOC entry 2764 (class 2606 OID 16587)
--- Name: Utilisateur Utilisateur_Affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2759 (class 2606 OID 16880)
+-- Name: unite unite_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Utilisateur
-    ADD CONSTRAINT Utilisateur_Affectation_fkey FOREIGN KEY (Affectation) REFERENCES public.Unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY public.unite
+    ADD CONSTRAINT unite_pkey PRIMARY KEY (id);
+
 
 --
--- TOC entry 2764 (class 2606 OID 16587)
--- Name: Maintenance Maintenance_Vehicule_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2761 (class 2606 OID 16882)
+-- Name: utilisateur utilisateur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Maintenance
-    ADD CONSTRAINT Maintenance_Vehicule_fkey FOREIGN KEY (Vehicule) REFERENCES public.Vehicule(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY public.utilisateur
+    ADD CONSTRAINT utilisateur_pkey PRIMARY KEY (id);
+
 
 --
--- TOC entry 2764 (class 2606 OID 16587)
--- Name: Maintenance Maintenance_Affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2763 (class 2606 OID 16884)
+-- Name: vehicule vehicule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.Maintenance
-    ADD CONSTRAINT Maintenance_Affectation_fkey FOREIGN KEY (Affectation) REFERENCES public.Unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY public.vehicule
+    ADD CONSTRAINT vehicule_pkey PRIMARY KEY (id);
 
--- Completed on 2020-06-21 20:50:30
+
+--
+-- TOC entry 2766 (class 2606 OID 16885)
+-- Name: chauffeur chauffeur_affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.chauffeur
+    ADD CONSTRAINT chauffeur_affectation_fkey FOREIGN KEY (affectation) REFERENCES public.unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 2767 (class 2606 OID 16932)
+-- Name: maintenance maintenance_affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.maintenance
+    ADD CONSTRAINT maintenance_affectation_fkey FOREIGN KEY (affectation) REFERENCES public.unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 2768 (class 2606 OID 16890)
+-- Name: utilisateur utilisateur_affectation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.utilisateur
+    ADD CONSTRAINT utilisateur_affectation_fkey FOREIGN KEY (affectation) REFERENCES public.unite(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+-- Completed on 2020-06-29 16:09:26
 
 --
 -- PostgreSQL database dump complete

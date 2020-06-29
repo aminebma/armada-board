@@ -115,22 +115,34 @@ router.post('/planning', async(req,res)=>{
                         const nextAppointment = moment().add(Math.floor(remKm/avgKm),'days')
                         //If there is no oil appointment coming
                         if(moment(maintenances.rows.filter(maintenance => maintenance.type === 'Vidange')[0].date).isBefore(nextAppointment)){
-                            text = "SELECT date_fin as date FROM Maintenance WHERE date_debut::text like $1 ORDER BY date_fin DESC LIMIT(1)"
-                            values = [nextAppointment.format('YYYY-MM-DD')+'%']
+                            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                                "ORDER BY date_fin::date, date_fin DESC"
+                            values = [nextAppointment.format('YYYY-MM-DD')]
                             //Checking for the next free appointment date
                             await pool.query(text, values)
                                 .then(async dates => {
                                     //If there is no appointment that day
-                                    if(dates.rows.length ===0)
+                                    if(dates.rows.length === 0 || !moment(dates.rows[0].date).isSame(nextAppointment,'day'))
                                         nextAppointment.set({'hour':8, 'minutes':0, 'seconds':0})
                                     else {
-                                        if(moment(dates.rows[0].date).hour() === 17) {
-                                            //Avoiding week ends (Friday and Saturday)
-                                            nextAppointment.add(1*(2*nextAppointment.day()/5), 'day')
-                                            nextAppointment.set({'hour': 8, 'minutes':0, 'seconds': 0})
+                                        let appointed = false
+                                        let i=0
+                                        while(!appointed){
+                                            if(moment(dates.rows[i].date).hour() === 17) {
+                                                //Avoiding week ends (Friday and Saturday)
+                                                nextAppointment.add(1*((nextAppointment.day()/5)=== 0 ? 1 : 2), 'day')
+                                                if(((i+1)===dates.rows.length) || !nextAppointment.isSame(moment(dates.rows[i+1].date),'day')){
+                                                    nextAppointment.set({'hour': 8, 'minutes':0, 'seconds': 0})
+                                                    appointed=true
+                                                }
+                                                else i++
+                                            }
+                                            else {
+                                                nextAppointment.set({'hour': moment(dates.rows[i].date).hour() + 1, 'minutes': 0, 'seconds': 0})
+                                                appointed=true
+                                            }
                                         }
-                                        else
-                                            nextAppointment.set({'hour': moment(dates.rows[0].date).hour() + 1, 'minutes': 0, 'seconds': 0})
                                     }
                                     //Getting the needed level and echelon
                                     text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Vidange'"
