@@ -163,7 +163,8 @@ router.get('/planning', async(req,res)=>{
         })
 })
 
-//This will generate a new planning
+//This will generate a new planning. The request body should include the internal matricule of the concerned vehicule,
+//the unity id, and the Carnet de Bord in the JSON Carnet De Bord format explained in the files route.
 router.post('/planning', async(req,res)=>{
     let text = "SELECT distinct on (m.type) m.type, m.affectation, m.date_debut as date, v.id as id_vehicule, v.type as type_vehicule, v.marque, v.modele\n" +
         "FROM Maintenance as m\n" +
@@ -337,6 +338,20 @@ router.put('/', async(req,res)=>{
         })
         .catch(e => {
             console.error(e.message)
+            res.send(e.message)
+        })
+})
+
+//This will get all the maintainance references
+router.get('/info', async (req, res)=>{
+    const text = "SELECT * FROM Ref_maintenance"
+    await pool.query(text)
+        .then(references => {
+            if(references.rows.length === 0) return res.status(404).send(new Error('No reference found.'))
+            res.send(references.rows)
+        })
+        .catch(e => {
+            console.log(e.message)
             res.send(e.message)
         })
 })
