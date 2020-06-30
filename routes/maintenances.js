@@ -163,8 +163,8 @@ router.get('/planning', async(req,res)=>{
         })
 })
 
-//This will generate a new planning. The request body should include the internal matricule of the concerned vehicule,
-//the unity id, and the Carnet de Bord in the JSON Carnet De Bord format explained in the files route.
+//This will generate a new planning. The request body should include the Carnet de Bord in the JSON Carnet De Bord
+//format explained in the files route.
 router.post('/planning', async(req,res)=>{
     let text = "SELECT distinct on (m.type) m.type, m.affectation, m.date_debut as date, v.id as id_vehicule, v.type as type_vehicule, v.marque, v.modele\n" +
         "FROM Maintenance as m\n" +
@@ -172,8 +172,8 @@ router.post('/planning', async(req,res)=>{
         "WHERE v.matricule_interne=$1 and m.affectation=$2\n" +
         "ORDER BY m.type, m.date_debut DESC"
     let values = [
-        req.body.matricule_interne,
-        req.body.affectation
+        req.body.contenu.matricule_interne,
+        req.body.contenu.affectation
     ]
 
     //Retrieving all maintainances
@@ -207,7 +207,7 @@ router.post('/planning', async(req,res)=>{
                         }
                     }
 
-                    const sorties = req.body.carnet_de_bord.contenu.sortie
+                    const sorties = req.body.contenu.sortie
 
                     //Average distance per day in kilometers
                     let avgKm = 0.0
