@@ -34,7 +34,7 @@ router.post('/sign-in', async(req, res)=>{
 
 //This will display the contact information of the unity's administrators to contact them for reseting a manager's
 //password. The request body should have the username of the manager.
-router.post('/reset-password', async(req, res)=>{
+router.get('/reset-password', async(req, res)=>{
     let text = "SELECT nom, prenom, numTel, mail " +
         "FROM (SELECT affectation as userAff FROM Utilisateur WHERE username=$1) as rechAff, Utilisateur as u " +
         "WHERE u.affectation=rechAff.userAff and type=1"
