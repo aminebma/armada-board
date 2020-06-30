@@ -20,6 +20,8 @@ pool.connect()
 //      }
 //}
 router.post('/fiche-technique', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
     const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
     const values = [data]
@@ -46,6 +48,8 @@ router.post('/fiche-technique', async(req,res)=>{
 //      }
 //}
 router.post('/fiche-controle-couts', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
     const text = "INSERT INTO Fichier(type, contenu) VALUES('FCC',$1) RETURNING id"
     const values = [data]
@@ -72,6 +76,8 @@ router.post('/fiche-controle-couts', async(req,res)=>{
 //      }
 //}
 router.post('/carnet-de-bord', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
     const text = "INSERT INTO Fichier(type, contenu) VALUES('CB',$1) RETURNING id"
     const values = [data]
@@ -98,6 +104,8 @@ router.post('/carnet-de-bord', async(req,res)=>{
 //      }
 //}
 router.post('/guide-constructeur', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
     const text = "INSERT INTO Fichier(type, contenu) VALUES('GC',$1) RETURNING id"
     const values = [data]
@@ -114,6 +122,8 @@ router.post('/guide-constructeur', async(req,res)=>{
 
 //This will get all Fiches Techniques from the database
 router.get('/fiche-technique', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'FT'"
     await pool.query(text)
         .then(files=>{
@@ -129,6 +139,8 @@ router.get('/fiche-technique', async(req,res)=>{
 
 //This will get all Fiches de Controle des Couts from the database
 router.get('/fiche-controle-couts', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'FCC'"
     await pool.query(text)
         .then(files=>{
@@ -144,6 +156,8 @@ router.get('/fiche-controle-couts', async(req,res)=>{
 
 //This will get all Carnets de Bord from the database
 router.get('/carnet-de-bord', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'CB'"
     await pool.query(text)
         .then(files=>{
@@ -159,6 +173,8 @@ router.get('/carnet-de-bord', async(req,res)=>{
 
 //This will get all Guides Constructeur from the database
 router.get('/guide-constructeur', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'GC'"
     await pool.query(text)
         .then(files=>{

@@ -113,6 +113,8 @@ const references = [
 // }
 // }
 router.post('/', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
     const text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule, affectation, besoin)" +
         " VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id"
@@ -140,6 +142,8 @@ router.post('/', async(req,res)=>{
 //This will get a planning from the database that will be between a date range and for a specific unity. The request body
 //should include the start date, end date and unity's id
 router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
     const values = [
         req.params.affectation,
@@ -151,7 +155,7 @@ router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
             if(planning.rows.length === 0) return res.status(404).send(new Error('Empty planning.'))
             for(let [index, maintenance] of planning.rows.entries()){
                 if(maintenance.besoin) {
-                    planning.rows[index].besoin = await xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'})
+                    planning.rows[index].besoin = await JSON.parse(xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'}))
                 }
             }
             res.send(planning.rows)
@@ -165,6 +169,8 @@ router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
 //This will get a planning from the database. The request body
 //should include the unity's id
 router.get('/planning/all/:id', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Maintenance WHERE affectation=$1"
     const values = [
       req.params.id
@@ -177,8 +183,6 @@ router.get('/planning/all/:id', async(req,res)=>{
                     planning.rows[index].besoin = await JSON.parse(xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'}))
                 }
             }
-            res.header("Access-Control-Allow-Origin", "*")
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
             res.send(planning.rows)
         })
         .catch(e => {
@@ -190,6 +194,8 @@ router.get('/planning/all/:id', async(req,res)=>{
 //This will generate a new planning. The request body should include the Carnet de Bord in the JSON Carnet De Bord
 //format explained in the files route.
 router.post('/planning', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let text = "SELECT distinct on (m.type) m.type, m.affectation, m.date_debut as date, v.id as id_vehicule, v.type as type_vehicule, v.marque, v.modele\n" +
         "FROM Maintenance as m\n" +
         "JOIN Vehicule as v ON v.id=m.vehicule\n" +
@@ -307,6 +313,8 @@ router.post('/planning', async(req,res)=>{
 
 //This will delete a maintainance from the database. The request body should include the maintainance id
 router.delete('/', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "DELETE FROM Maintenance WHERE id=$1"
     const values = [
         req.body.id
@@ -341,6 +349,8 @@ router.delete('/', async(req,res)=>{
 // }
 // }
 router.put('/', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const besoin = await xmlConverter.json2xml( req.body.besoin, {compact: true, spaces: '\t'})
     const text = "UPDATE Maintenance SET type=$2, niveau=$3, echelon=$4, date_debut=$5, date_fin=$6, vehicule=$7, " +
         "affectation=$8, besoin=$9 WHERE id=$1"
@@ -368,6 +378,8 @@ router.put('/', async(req,res)=>{
 
 //This will get all the maintainance references
 router.get('/info', async (req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Ref_maintenance"
     await pool.query(text)
         .then(references => {
@@ -383,6 +395,8 @@ router.get('/info', async (req, res)=>{
 //This will add a maintainance reference to the database. The request body should include the type, level and echelon of
 //the new reference
 router.post('/info', async (req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let text = "SELECT * FROM Ref_maintenance WHERE type=$1"
     let values = [
         req.body.type
@@ -414,6 +428,8 @@ router.post('/info', async (req, res)=>{
 
 //This will delete a reference from the database. The request body should include the id of the reference to delete
 router.delete('/info', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "DELETE FROM Ref_maintenance WHERE id=$1"
     const values = [
         req.body.id
@@ -431,6 +447,8 @@ router.delete('/info', async(req,res)=>{
 
 //This will update a reference in the database. The request body should include the new type, level and echelon
 router.put('/info', async (req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "UPDATE Ref_maintenance SET type=$1, niveau=$2, echelon=$3"
     const values = [
         req.body.type,
