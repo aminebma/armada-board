@@ -351,7 +351,75 @@ router.get('/info', async (req, res)=>{
             res.send(references.rows)
         })
         .catch(e => {
-            console.log(e.message)
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
+//This will add a maintainance reference to the database. The request body should include the type, level and echelon of
+//the new reference
+router.post('/info', async (req, res)=>{
+    let text = "SELECT * FROM Ref_maintenance WHERE type=$1"
+    let values = [
+        req.body.type
+    ]
+    await pool.query(text, values)
+        .then(async result => {
+            if(result.rows.length!=0) return res.status(400).send(new Error('Reference already registered.'))
+            text = "INSERT INTO Ref_maintenance(type, niveau, echelon) VALUES($1,$2,$3) RETURNING id"
+            values = [
+                req.body.type,
+                req.body.niveau,
+                req.body.echelon
+            ]
+            await pool.query(text, values)
+                .then(result => {
+                    console.log(`New reference added successfully. id: ${result.rows[0].id}`)
+                    res.send(result.rows[0].id)
+                })
+                .catch(e => {
+                    console.error(e.message)
+                    res.send(e.message)
+                })
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
+//This will delete a reference from the database. The request body should include the id of the reference to delete
+router.delete('/info', async(req,res)=>{
+    const text = "DELETE FROM Ref_maintenance WHERE id=$1"
+    const values = [
+        req.body.id
+    ]
+    await pool.query(text, values)
+        .then(()=>{
+            console.log(`Reference successfully deleted. id: ${req.body.id}`)
+            res.send({ Message: 'Reference successfully deleted.'})
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
+//This will update a reference in the database. The request body should include the new type, level and echelon
+router.put('/info', async (req, res)=>{
+    const text = "UPDATE Ref_maintenance SET type=$1, niveau=$2, echelon=$3"
+    const values = [
+        req.body.type,
+        req.body.niveau,
+        req.body.echelon
+    ]
+    await pool.query(text, values)
+        .then(()=>{
+            console.log(`Reference successfully updated. id: ${req.body.id}`)
+            res.send({ Message: 'Reference successfully updated.'})
+        })
+        .catch(e => {
+            console.error(e.message)
             res.send(e.message)
         })
 })

@@ -51,32 +51,4 @@ router.post('/', async (req, res) => {
         })
 })
 
-//This will get all changing pieces from the database
-router.get('/piece-de-rechange', async (req, res) => {
-    const text = "SELECT * FROM PieceRechange"
-    await pool.query(text)
-        .then(result =>{
-            res.send(result.rows)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
-        })
-})
-
-//This will add a new changing piece in the database. The request body should include the brand, model and quantity
-router.post('/piece-de-rechange', async (req, res) => {
-    const text = "INSERT INTO PieceRechange(marque, modele, quantite) VALUES($1, $2, $3) RETURNING id"
-    const values = [req.body.marque, req.body.modele, req.body.quantite]
-    await pool.query(text, values)
-        .then(result =>{
-            console.log(`New change piece added successfully. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
-        })
-})
-
 module.exports = router

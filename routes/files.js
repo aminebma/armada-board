@@ -3,7 +3,6 @@ const router = express.Router()
 const xmlConverter = require('xml-js')
 const configIndex = require('../config/index')
 const { Pool } = require('pg')
-const excelToJson = require('convert-excel-to-json')
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
