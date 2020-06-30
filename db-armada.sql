@@ -118,7 +118,7 @@ CREATE TABLE public.maintenance (
     date_debut timestamp(4) without time zone NOT NULL,
     date_fin timestamp without time zone NOT NULL,
     vehicule bigint NOT NULL,
-    affectation bigint NOT NULL
+    affectation bigint NOT NULL,
     besoin xml
 );
 
