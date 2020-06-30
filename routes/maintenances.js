@@ -3,33 +3,96 @@ const router = express.Router()
 const xmlConverter = require('xml-js')
 const moment = require('moment')
 const configIndex = require('../config/index')
+const Maintenance = require('../modules/Maintenance')
 const { Pool } = require('pg')
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
 pool.connect()
-const refMotor = [
+
+const motorInfo = [],
+    brakesInfo = [],
+    gearInfo = [],
+    clutchInfo = [],
+    suspensionInfo = [],
+    tiresInfo = [],
+    weightInfo = [],
+    diversInfo = [],
+    refMotor = [
     'Courroie',
     'Vidange',
     'Capacité en huile',
     'Huile moteur'
-]
-const refBrakes = [
+],
+    refBrakes = [
     'Frein de service',
     'Frein à parcage',
     'Frein de secours',
     'Liquide',
     'Plaquettes'
-]
-const refGear = [
+],
+    refGear = [
     'Vidange',
     'Capacité en huile'
-]
-const refClutch = [
+],
+    refClutch = [
     'Kit'
+],
+    refSuspension = [
+    'Amortisseur'
+],
+    refTires = [
+    'Dimensions',
+    'Changement Pneu'
+],
+    refWeight = [
+        'Poids Total Autorisé en charge du tracteur (PTAC)'
+    ],
+    refDivers = [
+        'Ampoules'
+    ]
+const references = [
+    {
+        name: "Moteur",
+        ref: refMotor,
+        info: motorInfo
+    },
+    {
+        name: "Freins",
+        ref: refBrakes,
+        info: brakesInfo
+    },
+    {
+        name: "Boite à vitesses",
+        ref: refGear,
+        info: gearInfo
+    },
+    {
+        name: "Embrayage",
+        ref: refClutch,
+        info: clutchInfo
+    },
+    {
+        name: "Suspension",
+        ref: refSuspension,
+        info: suspensionInfo
+    },
+    {
+        name: "Pneumatique",
+        ref: refTires,
+        info: tiresInfo
+    },
+    {
+        name: "Poids",
+        ref: refWeight,
+        info: weightInfo
+    },
+    {
+        name: "Divers",
+        ref: refDivers,
+        info: diversInfo
+    }
 ]
-
-const Maintenance = require('../modules/Maintenance')
 
 //This will add a new maintainance to the database. the request body should include the type, level, echelon, start date,
 //end date, vehicule id, unity id and the need in this format:
@@ -131,31 +194,18 @@ router.post('/planning', async(req,res)=>{
                         jsonFiles.push(await JSON.parse(xmlConverter.xml2json(file.fichier, {compact: true, spaces: '\t'})))
                     }
 
-                    //Retrieving the needed motor info from Fiche Technique
-                    const motorInfo = [], brakesInfo = [], gearInfo = [], clutchInfo = []
+                    //Retrieving the needed vehicule info from Fiche Technique and Guide Constructeur
                     let fileData
                     for(jsonFile of jsonFiles){
-                        fileData = await jsonFile.contenu.donnee
-                            .filter(ligne =>
-                                ligne.categorie._text === 'Moteur'
-                                    && refMotor.includes(ligne.sous_categorie._text))
-                        fileData.forEach(data => motorInfo.push(data))
-                        fileData = await jsonFile.contenu.donnee
-                            .filter(ligne =>
-                                (ligne.categorie._text === 'Freinage' || ligne.categorie._text === 'Freins')
-                                    && refBrakes.includes(ligne.sous_categorie._text))
-                        fileData.forEach(data => brakesInfo.push(data))
-                        fileData = await jsonFile.contenu.donnee
-                            .filter(ligne =>
-                                ligne.categorie._text === 'Boite à vitesses'
-                                    && refGear.includes(ligne.sous_categorie._text))
-                        fileData.forEach(data => gearInfo.push(data))
-                        fileData = await jsonFile.contenu.donnee
-                            .filter(ligne =>
-                                ligne.categorie._text === 'Embrayage'
-                                    && refClutch.includes(ligne.sous_categorie._text))
-                        fileData.forEach(data => clutchInfo.push(data))
+                        for(reference of references){
+                            fileData = await jsonFile.contenu.donnee
+                                .filter(ligne =>
+                                    ligne.categorie._text === reference.name
+                                        && reference.ref.includes(ligne.sous_categorie._text))
+                            fileData.forEach(data => reference.info.push(data))
+                        }
                     }
+
                     const sorties = req.body.carnet_de_bord.contenu.sortie
 
                     //Average distance per day in kilometers
@@ -170,9 +220,22 @@ router.post('/planning', async(req,res)=>{
                     const brakesAppointments = await Maintenance.generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo)
                     const gearAppointment = await Maintenance.generateGearAppointment(sorties, avgKm, maintenances, gearInfo)
                     const clutchAppointment = await Maintenance.generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo)
+                    const suspensionAppointment = await Maintenance.generateSuspensionAppointment(sorties, avgKm, maintenances, suspensionInfo)
+                    const tiresAppointment = await Maintenance.generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo)
+                    const parallelismAppointment = await Maintenance.generateParallelismAppointment(maintenances, weightInfo)
+                    const diversAppointment = await Maintenance.generateDiversAppointment(maintenances, diversInfo)
 
                     //Inserting generated appointments to the database
-                    Promise.all([motorAppointments, brakesAppointments, gearAppointment, clutchAppointment])
+                    Promise.all([
+                        motorAppointments,
+                        brakesAppointments,
+                        gearAppointment,
+                        clutchAppointment,
+                        suspensionAppointment,
+                        tiresAppointment,
+                        parallelismAppointment,
+                        diversAppointment
+                    ])
                         .then(async result=>{
                             text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
                                 "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"

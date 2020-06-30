@@ -314,15 +314,15 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
     })
 }
 
-//Generate the next clutch kit appointment
+//Generates the next clutch kit appointment
 async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
-        //Calculating the remaining distance before the next gear checkup
-        const gearRemKm = clutchInfo[0].informations._text - (sorties[sorties.length - 1].compteur_fin % clutchInfo[0].informations._text)
-        let nextClutchAppointment = moment().add(Math.floor(gearRemKm / avgKm), 'days')
-        //If there is no gear appointment coming
+        //Calculating the remaining distance before the next clutch checkup
+        const clutchRemKm = clutchInfo[0].informations._text - (sorties[sorties.length - 1].compteur_fin % clutchInfo[0].informations._text)
+        let nextClutchAppointment = moment().add(Math.floor(clutchRemKm / avgKm), 'days')
+        //If there is no clutch appointment coming
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Kit embrayage")[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextClutchAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
@@ -378,6 +378,260 @@ async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInf
     })
 }
 
+//Generates the next suspensions appointment
+async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspensionInfo){
+    return new Promise(async (resolve, reject)=>{
+        let text, values, appointments = [], errors = [], maintenanceType
+
+        //Calculating the remaining distance before the next suspensions checkup
+        const suspensionRemKm = suspensionInfo[0].informations._text - (sorties[sorties.length - 1].compteur_fin % suspensionInfo[0].informations._text)
+        let nextSuspensionAppointment = moment().add(Math.floor(suspensionRemKm / avgKm), 'days')
+        //If there is no suspensions appointment coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Suspension")[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextSuspensionAppointment, 'day')) {
+            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "ORDER BY date_fin::date, date_fin DESC"
+            values = [
+                nextSuspensionAppointment.format('YYYY-MM-DD')
+            ]
+            await pool.query(text, values)
+                .then(async dates => {
+                    //Checking for the next free appointments date
+                    await getNextAppointment(dates, nextSuspensionAppointment)
+                        .then(async nextSuspensionAppointment => {
+                            //Getting the needed level and echelon
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Suspension'"
+                            await pool.query(text)
+                                .then(async reference => {
+                                    let besoin = {
+                                        "_declaration": {
+                                            "_attributes": {
+                                                "version": "1.0",
+                                                "encoding": "utf-8"
+                                            }
+                                        },
+                                        "contenu": {
+                                            "besoin": [
+                                                {
+                                                    "intitule": "Amortisseurs",
+                                                    "quantite": 4
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                    appointments.push({
+                                        type: "Suspension",
+                                        niveau: reference.rows[0].niveau,
+                                        echelon: reference.rows[0].echelon,
+                                        date_debut: nextSuspensionAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        date_fin: nextSuspensionAppointment.hour(nextSuspensionAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        vehicule: maintenances.rows[0].id_vehicule,
+                                        affectation: maintenances.rows[0].affectation,
+                                        besoin: besoin
+                                    })
+                                })
+                                .catch(e => reject(e.message))
+                        })
+                        .catch(e => reject(e.message))
+                })
+                .catch(e => reject(e.message))
+        } else errors.push({ Message: 'There is already a suspension appointment pending.'})
+        resolve({"appointments": appointments,"errors": errors})
+    })
+}
+
+//Generates the next tires appointment
+async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo){
+    return new Promise(async (resolve, reject)=>{
+        let text, values, appointments = [], errors = [], maintenanceType
+
+        //Calculating the remaining distance before the next tires checkup
+        const tiresRemKm = tiresInfo[1].informations._text - (sorties[sorties.length - 1].compteur_fin % tiresInfo[1].informations._text)
+        let nextTiresAppointment = moment().add(Math.floor(tiresRemKm / avgKm), 'days')
+        //If there is no tires appointment coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Pneus")[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextTiresAppointment, 'day')) {
+            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "ORDER BY date_fin::date, date_fin DESC"
+            values = [
+                nextTiresAppointment.format('YYYY-MM-DD')
+            ]
+            await pool.query(text, values)
+                .then(async dates => {
+                    //Checking for the next free appointments date
+                    await getNextAppointment(dates, nextTiresAppointment)
+                        .then(async nextTiresAppointment => {
+                            //Getting the needed level and echelon
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Pneus'"
+                            await pool.query(text)
+                                .then(async reference => {
+                                    let besoin = {
+                                        "_declaration": {
+                                            "_attributes": {
+                                                "version": "1.0",
+                                                "encoding": "utf-8"
+                                            }
+                                        },
+                                        "contenu": {
+                                            "besoin": [
+                                                {
+                                                    "intitule": "Pneus",
+                                                    "dimensions": tiresInfo[0].informations._text
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                    appointments.push({
+                                        type: "Pneus",
+                                        niveau: reference.rows[0].niveau,
+                                        echelon: reference.rows[0].echelon,
+                                        date_debut: nextTiresAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        date_fin: nextTiresAppointment.hour(nextTiresAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        vehicule: maintenances.rows[0].id_vehicule,
+                                        affectation: maintenances.rows[0].affectation,
+                                        besoin: besoin
+                                    })
+                                })
+                                .catch(e => reject(e.message))
+                        })
+                        .catch(e => reject(e.message))
+                })
+                .catch(e => reject(e.message))
+        } else errors.push({ Message: 'There is already a tires appointment pending.'})
+        resolve({"appointments": appointments,"errors": errors})
+    })
+}
+
+//Generates the next parallelism appointment
+async function generateParallelismAppointment(maintenances, weightInfo){
+    return new Promise(async (resolve, reject)=>{
+        let text, values, appointments = [], errors = [], maintenanceType
+
+        //Calculating the next parallelism appointment
+        let nextParallelismAppointment = (weightInfo[0].mesure._text > 3500) ? moment().add(6, 'months') : moment().add(1, 'year')
+        //If there is no parallelism appointment coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Parallelisme")[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextParallelismAppointment, 'day')) {
+            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "ORDER BY date_fin::date, date_fin DESC"
+            values = [
+                nextParallelismAppointment.format('YYYY-MM-DD')
+            ]
+            await pool.query(text, values)
+                .then(async dates => {
+                    //Checking for the next free appointments date
+                    await getNextAppointment(dates, nextParallelismAppointment)
+                        .then(async nextParallelismAppointment => {
+                            //Getting the needed level and echelon
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Parallelisme'"
+                            await pool.query(text)
+                                .then(async reference => {
+                                    let besoin = {
+                                        "_declaration": {
+                                            "_attributes": {
+                                                "version": "1.0",
+                                                "encoding": "utf-8"
+                                            }
+                                        },
+                                        "contenu": {
+                                            "besoin": [
+                                                {
+                                                    "intitule": "Parallelisme",
+                                                    "quantite": 1
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                    appointments.push({
+                                        type: "Parallelisme",
+                                        niveau: reference.rows[0].niveau,
+                                        echelon: reference.rows[0].echelon,
+                                        date_debut: nextParallelismAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        date_fin: nextParallelismAppointment.hour(nextParallelismAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        vehicule: maintenances.rows[0].id_vehicule,
+                                        affectation: maintenances.rows[0].affectation,
+                                        besoin: besoin
+                                    })
+                                })
+                                .catch(e => reject(e.message))
+                        })
+                        .catch(e => reject(e.message))
+                })
+                .catch(e => reject(e.message))
+        } else errors.push({ Message: 'There is already a parallelism appointment pending.'})
+        resolve({"appointments": appointments,"errors": errors})
+    })
+}
+
+//Generates the next divers appointment
+async function generateDiversAppointment(maintenances, diversInfo){
+    return new Promise(async (resolve, reject)=>{
+        let text, values, appointments = [], errors = [], maintenanceType
+
+        //Calculating the next divers appointment
+        let nextDiversAppointment = moment().add(parseInt(diversInfo[1].informations._text), 'years')
+        //If there is no divers appointment coming
+        maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Divers")[0]
+        if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextDiversAppointment, 'day')) {
+            text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
+                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "ORDER BY date_fin::date, date_fin DESC"
+            values = [
+                nextDiversAppointment.format('YYYY-MM-DD')
+            ]
+            await pool.query(text, values)
+                .then(async dates => {
+                    //Checking for the next free appointments date
+                    await getNextAppointment(dates, nextDiversAppointment)
+                        .then(async nextDiversAppointment => {
+                            //Getting the needed level and echelon
+                            text = "SELECT niveau, echelon FROM Ref_maintenance WHERE type='Divers'"
+                            await pool.query(text)
+                                .then(async reference => {
+                                    let besoin = {
+                                        "_declaration": {
+                                            "_attributes": {
+                                                "version": "1.0",
+                                                "encoding": "utf-8"
+                                            }
+                                        },
+                                        "contenu": {
+                                            "besoin": [
+                                                {
+                                                    "intitule": "Ampoules",
+                                                    "quantite": parseInt(diversInfo[0].informations._text)
+                                                }
+                                            ]
+                                        }
+                                    }
+                                    besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
+                                    appointments.push({
+                                        type: "Divers",
+                                        niveau: reference.rows[0].niveau,
+                                        echelon: reference.rows[0].echelon,
+                                        date_debut: nextDiversAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        date_fin: nextDiversAppointment.hour(nextDiversAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        vehicule: maintenances.rows[0].id_vehicule,
+                                        affectation: maintenances.rows[0].affectation,
+                                        besoin: besoin
+                                    })
+                                })
+                                .catch(e => reject(e.message))
+                        })
+                        .catch(e => reject(e.message))
+                })
+                .catch(e => reject(e.message))
+        } else errors.push({ Message: 'There is already a divers appointment pending.'})
+        resolve({"appointments": appointments,"errors": errors})
+    })
+}
+
 //Get the next free date for an appointment
 async function getNextAppointment(dates,nextAppointment){
     return new Promise(async (resolve, reject)=>{
@@ -411,10 +665,13 @@ async function getNextAppointment(dates,nextAppointment){
     })
 }
 
-
 module.exports = {
     generateMotorAppointments,
     generateBrakesAppointments,
     generateGearAppointment,
-    generateClutchAppointment
+    generateClutchAppointment,
+    generateSuspensionAppointment,
+    generateTiresAppointment,
+    generateParallelismAppointment,
+    generateDiversAppointment
 }
