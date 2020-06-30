@@ -1,4 +1,4 @@
-![Loading awesome armada board logo :D](https://bit.ly/2Vxzb9W)
+![Loading awesome armada board logo :D](https://ibb.co/c3xBDx1)
 
 # Armada Board
 ## Description
