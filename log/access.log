@@ -231,3 +231,11 @@ GET /api/maintenances/planning/all/1 - - - - ms
 GET /api/maintenances/planning/all/1 200 263 - 5265.306 ms
 GET /api/maintenances/planning/all/1 304 - - 911.327 ms
 GET /api/maintenances/planning/all/1 304 - - 2833.908 ms
+GET /api/maintenances/planning/all/1 304 - - 120.947 ms
+GET /api/maintenances/planning/all/1 304 - - 29.888 ms
+GET /api/maintenances/planning/all/1 304 - - 200.611 ms
+GET /api/maintenances/planning/all/1 304 - - 30.436 ms
+GET /api/maintenances/planning/all/1 304 - - 159.744 ms
+GET /api/maintenances/planning/all/1 304 - - 17.627 ms
+GET /api/maintenances/planning/all/1 304 - - 141.551 ms
+GET /api/maintenances/planning/all/1 304 - - 33.148 ms
