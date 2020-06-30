@@ -179,7 +179,7 @@ router.get('/planning/all/:id', async(req,res)=>{
             }
             res.header("Access-Control-Allow-Origin", "*")
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-            res.send(planning.rows[0])
+            res.send(planning.rows)
         })
         .catch(e => {
             console.error(e.message)
