@@ -163,6 +163,30 @@ router.get('/planning', async(req,res)=>{
         })
 })
 
+//This will get a planning from the database. The request body
+//should include the unity's id
+router.get('/planning/all', async(req,res)=>{
+    const text = "SELECT * FROM Maintenance WHERE affectation=$1"
+    const values = [
+        req.body.affectation
+    ]
+    await pool.query(text, values)
+        .then(async planning => {
+            if(planning.rows.length === 0) return res.status(404).send(new Error('Empty planning.'))
+            for(let [index, maintenance] of planning.rows.entries()){
+                if(maintenance.besoin) {
+                    planning.rows[index].besoin = await xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'})
+                    console.log(planning.rows[index].besoin)
+                }
+            }
+            res.send(planning.rows)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
 //This will generate a new planning. The request body should include the Carnet de Bord in the JSON Carnet De Bord
 //format explained in the files route.
 router.post('/planning', async(req,res)=>{
