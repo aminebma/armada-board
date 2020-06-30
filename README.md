@@ -110,7 +110,10 @@ Pour générer ce planning, notre algorithme exploite une combinaison de cinq so
 Si les maintenances générées par le planning ne suffisent pas, un manager a la possibilité d'ajouter manuellement une maintenance à partir du calendrier au niveau du volet maintenance. Il lui suffira alors de selectionner une date et d'entrer l'ensemble des informations de la maintenance qu'il souhaite insérer.
 
 ### Affichage, Modification & Annulation des maintenances
-Un manager peut afficher les détails, modifier ou annuler une maintenance plannifiée. Il lui suffit de se diriger vers la maintenance en question au niveau du calendrier dans le volet maintenance et de la sélectionner. Les informations de la maintenances seront alors affichées et il pourra sélectionner l'action souhaitée.
+Un manager peut afficher les détails, modifier ou annuler une maintenance planifiée. Il lui suffit de se diriger vers la maintenance en question au niveau du calendrier dans le volet maintenance et de la sélectionner. Les informations de la maintenances seront alors affichées et il pourra sélectionner l'action souhaitée.
+
+## Cartographie
+Le volet cartographie permet une visualisation des recents trajets des véhicules de l'unité du manager, représentés sur une carte dynamique.
 
 ## Tableau de bord & Reporting
 En plus de la gestion de la maintenance préventive, notre plateforme offre un tableau de bord et une interface de reporting permettant d'offrir toutes les informations, statistiques et indicateurs aux décideurs pour les aider à prendre les bonnes décision au bon moment.
