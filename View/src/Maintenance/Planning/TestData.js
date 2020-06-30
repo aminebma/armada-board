@@ -1,3 +1,45 @@
+import React, { Component } from 'react'
+import { render } from 'react-dom'
+
+class TestDeMerde extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      test: null,
+    }
+  }
+
+  componentWillMount() {
+    this.getData();
+  }
+
+  getData() {
+    // create a new XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    // get a callback when the server responds
+    xhr.addEventListener('load', () => {
+      // update the state of the component with the result here
+      this.setState({ test: xhr.response })
+      console.log(xhr.responseText)
+      console.log(xhr.response)
+    });
+    // open the request with the verb and the url
+    xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1')
+    // send the request
+    xhr.send();
+  }
+
+  render() {
+    return (
+        <div>
+        <p>Ton resultat de merde: {this.state.test}</p>
+    </div>
+  )
+  }
+}
+export { TestDeMerde };
+
 
 
 export const MaintenanceData = [

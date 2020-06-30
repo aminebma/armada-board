@@ -139,12 +139,12 @@ router.post('/', async(req,res)=>{
 
 //This will get a planning from the database that will be between a date range and for a specific unity. The request body
 //should include the start date, end date and unity's id
-router.get('/planning', async(req,res)=>{
+router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
     const text = "SELECT * FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
     const values = [
-        req.body.affectation,
-        req.body.date_debut,
-        req.body.date_fin
+        req.params.affectation,
+        req.params.date_debut,
+        req.params.date_fin
     ]
     await pool.query(text, values)
         .then(async planning => {
@@ -152,7 +152,6 @@ router.get('/planning', async(req,res)=>{
             for(let [index, maintenance] of planning.rows.entries()){
                 if(maintenance.besoin) {
                     planning.rows[index].besoin = await xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'})
-                    console.log(planning.rows[index].besoin)
                 }
             }
             res.send(planning.rows)
@@ -165,21 +164,22 @@ router.get('/planning', async(req,res)=>{
 
 //This will get a planning from the database. The request body
 //should include the unity's id
-router.get('/planning/all', async(req,res)=>{
+router.get('/planning/all/:id', async(req,res)=>{
     const text = "SELECT * FROM Maintenance WHERE affectation=$1"
     const values = [
-        req.body.affectation
+      req.params.id
     ]
-    await pool.query(text, values)
+    await pool.query(text,values)
         .then(async planning => {
             if(planning.rows.length === 0) return res.status(404).send(new Error('Empty planning.'))
             for(let [index, maintenance] of planning.rows.entries()){
                 if(maintenance.besoin) {
-                    planning.rows[index].besoin = await xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'})
-                    console.log(planning.rows[index].besoin)
+                    planning.rows[index].besoin = await JSON.parse(xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'}))
                 }
             }
-            res.send(planning.rows)
+            res.header("Access-Control-Allow-Origin", "*")
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+            res.send(planning.rows[0])
         })
         .catch(e => {
             console.error(e.message)
