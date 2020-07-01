@@ -53,6 +53,8 @@ init()
 //This will add a new report to the jasper server and the database. The report will be stored in lib/reports.
 //The request body should contain the name of the report, the .jrxml and the .jasper file of the report
 router.post('/', reportUpload.array('report', 2), async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const report = {
         jrxml: `..\\${req.files[0].path}`,
         jasper: `..\\${req.files[1].path}`
@@ -86,6 +88,8 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
 //     }
 // }
 router.get('/:name', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let report
     if(req.body.data) {
         report = {
@@ -112,6 +116,8 @@ router.get('/:name', async (req, res) => {
 
 //This will delete a report from the database and from the jasper server
 router.delete('/:name', async (req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     fs.unlink(`../lib/reports/${req.params.name}`, function (err) {
         if (err) throw err
         console.log(`File ..lib/reports/${req.params.name} deleted!`)
