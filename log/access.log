@@ -265,6 +265,7 @@ POST /api/files/carnet-de-bord 200 2 - 108.525 ms
 POST /api/files/carnet-de-bord 200 2 - 195.039 ms
 POST /api/files/carnet-de-bord 200 2 - 90.507 ms
 POST /api/files/carnet-de-bord 200 2 - 99.726 ms
+GET /api/maintenances/planning/all/1 200 2739 - 412.600 ms
 GET /api/maintenances/planning/all/1 200 5407 - 224.045 ms
 OPTIONS /api/maintenances/planning/all/1 200 8 - 2.773 ms
 OPTIONS /api/maintenances/planning/all/1 200 8 - 0.833 ms
@@ -311,6 +312,7 @@ GET /api/maintenances/planning/all/1 304 - - 227.058 ms
 GET /api/maintenances/planning/all/1 304 - - 10.677 ms
 GET /api/maintenances/planning/all/1 304 - - 115.325 ms
 GET /api/maintenances/planning/all/1 304 - - 7.772 ms
+<<<<<<< HEAD
 GET /api/maintenances/planning/all/1 304 - - 184.304 ms
 GET /api/maintenances/planning/all/1 304 - - 80.132 ms
 GET /api/maintenances/planning/all/1 304 - - 6.478 ms
@@ -368,3 +370,8 @@ GET /api/maintenances/planning/all/1 304 - - 1279.831 ms
 GET /api/maintenances/planning/all/1 304 - - 555.762 ms
 GET /api/maintenances/planning/all/1 304 - - 187.868 ms
 GET /api/maintenances/planning/all/1 304 - - 417.577 ms
+=======
+POST /api/maintenances/planning 200 3342 - 810.350 ms
+GET /api/maintenances/planning/all/1 200 2654 - 105.394 ms
+POST /api/maintenances/planning 200 3342 - 330.837 ms
+>>>>>>> 9c2b982a4b008886f1a41615eb3398c4e550c488

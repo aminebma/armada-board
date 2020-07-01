@@ -19,10 +19,11 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Vidange')[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextOilAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextOilAppointment.format('YYYY-MM-DD')
+                nextOilAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -41,13 +42,9 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Huile Moteur",
-                                                    "type": motorInfo[2].informations._text,
-                                                    "quantite": parseInt(motorInfo[0].mesure._text)
-                                                }
-                                            ]
+                                            "intitule": "Huile Moteur",
+                                            "type": motorInfo[2].informations._text,
+                                            "quantite": parseInt(motorInfo[0].mesure._text)
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -76,10 +73,11 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Courroie')[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType).isBefore(nextMotorChainAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextMotorChainAppointment.format('YYYY-MM-DD')
+                nextMotorChainAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -98,12 +96,8 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Courroie",
-                                                    "quantite": 1
-                                                }
-                                            ]
+                                            "intitule": "Courroie",
+                                            "quantite": 1
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -142,10 +136,11 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Plaquettes de Freins')[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextBrakePadsAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextBrakePadsAppointment.format('YYYY-MM-DD')
+                nextBrakePadsAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -164,12 +159,8 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Plaquettes de Freins",
-                                                    "quantite": brakesTypes.length
-                                                }
-                                            ]
+                                            "intitule": "Plaquettes de Freins",
+                                            "quantite": brakesTypes.length
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -198,10 +189,11 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Liquide de Freins')[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextBrakesLiquidAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextBrakesLiquidAppointment.format('YYYY-MM-DD')
+                nextBrakesLiquidAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -220,12 +212,8 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Liquide de Freins",
-                                                    "quantite": 1
-                                                }
-                                            ]
+                                            "intitule": "Liquide de Freins",
+                                            "quantite": 1
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -262,10 +250,11 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo, v
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === 'Vidange Boite à Vitesses')[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextGearAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextGearAppointment.format('YYYY-MM-DD')
+                nextGearAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -284,12 +273,8 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo, v
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Huile boite à vitesse",
-                                                    "quantite": parseInt(gearInfo[0].mesure._text)
-                                                }
-                                            ]
+                                            "intitule": "Huile boite à vitesse",
+                                            "quantite": parseInt(gearInfo[0].mesure._text)
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -326,10 +311,11 @@ async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInf
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Kit embrayage")[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextClutchAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextClutchAppointment.format('YYYY-MM-DD')
+                nextClutchAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -348,12 +334,8 @@ async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInf
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Kit d'embrayage",
-                                                    "quantite": 1
-                                                }
-                                            ]
+                                            "intitule": "Kit d'embrayage",
+                                            "quantite": 1
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -390,10 +372,11 @@ async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspe
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Suspension")[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextSuspensionAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextSuspensionAppointment.format('YYYY-MM-DD')
+                nextSuspensionAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -412,12 +395,8 @@ async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspe
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Amortisseurs",
-                                                    "quantite": 4
-                                                }
-                                            ]
+                                            "intitule": "Amortisseurs",
+                                            "quantite": 4
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -454,10 +433,11 @@ async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo,
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Pneus")[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextTiresAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextTiresAppointment.format('YYYY-MM-DD')
+                nextTiresAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -476,12 +456,9 @@ async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo,
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Pneus",
-                                                    "dimensions": tiresInfo[0].informations._text
-                                                }
-                                            ]
+                                            "intitule": "Pneus",
+                                            "dimensions": tiresInfo[0].informations._text,
+                                            "quantite": 4
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -517,10 +494,11 @@ async function generateParallelismAppointment(maintenances, weightInfo, vehicule
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Parallelisme")[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextParallelismAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextParallelismAppointment.format('YYYY-MM-DD')
+                nextParallelismAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -539,12 +517,8 @@ async function generateParallelismAppointment(maintenances, weightInfo, vehicule
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Parallelisme",
-                                                    "quantite": 1
-                                                }
-                                            ]
+                                            "intitule": "Parallelisme",
+                                            "quantite": 1
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -580,10 +554,11 @@ async function generateDiversAppointment(maintenances, diversInfo, vehiculeInfo)
         maintenanceType = maintenances.rows.filter(maintenance => maintenance.type === "Divers")[0]
         if (typeof maintenanceType === 'undefined' || moment(maintenanceType.date).isBefore(nextDiversAppointment, 'day')) {
             text = "SELECT DISTINCT ON (date_fin::date) date_fin as date\n" +
-                "FROM Maintenance WHERE date_debut >= $1 \n" +
+                "FROM Maintenance WHERE date_debut >= $1 and affectation =$2 \n" +
                 "ORDER BY date_fin::date, date_fin DESC"
             values = [
-                nextDiversAppointment.format('YYYY-MM-DD')
+                nextDiversAppointment.format('YYYY-MM-DD'),
+                vehiculeInfo.affectation
             ]
             await pool.query(text, values)
                 .then(async dates => {
@@ -602,12 +577,8 @@ async function generateDiversAppointment(maintenances, diversInfo, vehiculeInfo)
                                             }
                                         },
                                         "contenu": {
-                                            "besoin": [
-                                                {
-                                                    "intitule": "Ampoules",
-                                                    "quantite": parseInt(diversInfo[0].informations._text)
-                                                }
-                                            ]
+                                            "intitule": "Ampoules",
+                                            "quantite": parseInt(diversInfo[0].informations._text)
                                         }
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
@@ -650,7 +621,7 @@ async function getNextAppointment(dates,nextAppointment){
                         } else i++
                     } else {
                         nextAppointment.set({
-                            'hour': moment(dates.rows[i].date).hour() + 1,
+                            'hour': moment(dates.rows[i].date).hour(),
                             'minutes': 0,
                             'seconds': 0
                         })
