@@ -119,11 +119,11 @@ router.post('/', async(req,res)=>{
     const text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule, affectation, besoin)" +
         " VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id"
     const values = [
-        req.body.type,
+        req.body.title,
         req.body.niveau,
         req.body.echelon,
-        req.body.date_debut,
-        req.body.date_fin,
+        req.body.startDate,
+        req.body.endDate,
         req.body.vehicule,
         req.body.affectation,
         besoin
@@ -144,7 +144,8 @@ router.post('/', async(req,res)=>{
 router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    const text = "SELECT * FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
+    const text = "SELECT id, type as title, niveau, echelon, date_debut as startDate, date_fin as endDate, vehicule, affectation," +
+        "besoin FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
     const values = [
         req.params.affectation,
         req.params.date_debut,
@@ -171,7 +172,8 @@ router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
 router.get('/planning/all/:id', async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    const text = "SELECT * FROM Maintenance WHERE affectation=$1"
+    const text = "SELECT id, type as title, niveau, echelon, date_debut as startDate, date_fin as endDate, vehicule, affectation," +
+        "besoin FROM Maintenance WHERE affectation=$1"
     const values = [
       req.params.id
     ]
@@ -397,11 +399,11 @@ router.put('/', async(req,res)=>{
         "affectation=$8, besoin=$9 WHERE id=$1"
     const values = [
         req.body.id,
-        req.body.type,
+        req.body.title,
         req.body.niveau,
         req.body.echelon,
-        req.body.date_debut,
-        req.body.date_fin,
+        req.body.startDate,
+        req.body.endDate,
         req.body.vehicule,
         req.body.affectation,
         besoin

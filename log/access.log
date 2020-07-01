@@ -315,3 +315,11 @@ GET /api/maintenances/planning/all/1 304 - - 7.772 ms
 POST /api/maintenances/planning 200 3342 - 810.350 ms
 GET /api/maintenances/planning/all/1 200 2654 - 105.394 ms
 POST /api/maintenances/planning 200 3342 - 330.837 ms
+POST /api/maintenances/planning 200 3344 - 518.200 ms
+POST /api/maintenances/planning 200 3353 - 435.109 ms
+POST /api/maintenances/planning 200 38 - 118.039 ms
+POST /api/files/carnet-de-bord 200 2 - 104.132 ms
+POST /api/maintenances/planning 200 879 - 61.915 ms
+POST /api/files/carnet-de-bord 200 2 - 237.463 ms
+POST /api/maintenances/planning 200 3353 - 311.283 ms
+POST /api/files/carnet-de-bord 200 2 - 45.167 ms
