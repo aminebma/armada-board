@@ -8,32 +8,47 @@ class TestDeMerde extends Component {
     this.state = {
       test: null,
     }
+    this.getData = this.getData.bind(this)
   }
+
+
 
   componentWillMount() {
     this.getData();
   }
 
-  getData() {
+  async getData() {
+    // http request first method
+
     // create a new XMLHttpRequest
+
     const xhr = new XMLHttpRequest();
+
     // get a callback when the server responds
+
     xhr.addEventListener('load', () => {
       // update the state of the component with the result here
-      this.setState({ test: xhr.response })
+
+      this.setState({ test: JSON.parse(xhr.responseText) })
+
     });
+
     // open the request with the verb and the url
-    xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1')
+
+    xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1', false)
+
     // send the request
+
     xhr.send();
+
   }
 
   render() {
     return (
-        <div>
-        <p>Ton resultat de merde: {this.state.test}</p>
-    </div>
-  )
+      <div>
+        <p>Ton resultat de merde: {this.state.test[3].type}</p>
+      </div>
+    )
   }
 }
 export { TestDeMerde };
