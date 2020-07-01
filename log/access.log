@@ -265,3 +265,4 @@ POST /api/files/carnet-de-bord 200 2 - 108.525 ms
 POST /api/files/carnet-de-bord 200 2 - 195.039 ms
 POST /api/files/carnet-de-bord 200 2 - 90.507 ms
 POST /api/files/carnet-de-bord 200 2 - 99.726 ms
+GET /api/maintenances/planning/all/1 200 2739 - 412.600 ms
