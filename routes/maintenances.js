@@ -270,11 +270,9 @@ router.post('/planning', async(req,res)=>{
                     const parallelismAppointment = await Maintenance.generateParallelismAppointment(maintenances, weightInfo, vehiculeInfo)
                     const diversAppointment = await Maintenance.generateDiversAppointment(maintenances, diversInfo, vehiculeInfo)
 
-                    text = `SELECT unnest(xpath('//date/text()', contenu))::text as date
+                    text = `SELECT unnest(xpath('//sortie[position()=1]/date/text()', contenu))::text as date
                     FROM Fichier
-                    WHERE type='CB' and xpath_exists('/contenu[matricule_interne=${req.body.contenu.matricule_interne}]', contenu)
-                    ORDER BY date ASC
-                    LIMIT(1)`
+                    WHERE type='CB' and xpath_exists('/contenu[matricule_interne=${req.body.contenu.matricule_interne}]', contenu)`
 
                     //Getting the latest Carnet de Bord to avoid adding it again if it exists
                     await pool.query(text)
