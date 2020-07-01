@@ -20,11 +20,7 @@ class TestDeMerde extends Component {
     // get a callback when the server responds
     xhr.addEventListener('load', () => {
       // update the state of the component with the result here
-<<<<<<< HEAD
       this.setState({ test: xhr.response })
-=======
-      this.setState({ test: xhr.responseText })
->>>>>>> 625b8f43f682edca88f6d2e8848f77db74968095
     });
     // open the request with the verb and the url
     xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1')
