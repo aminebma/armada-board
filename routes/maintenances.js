@@ -335,7 +335,6 @@ router.post('/planning', async(req,res)=>{
                                     console.error(e.message)
                                     return res.send(e.message)
                                 })
-
                         })
                         .catch(e => {
                             console.error(e.message)
