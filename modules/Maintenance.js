@@ -611,7 +611,7 @@ async function getNextAppointment(dates,nextAppointment){
                         } else i++
                     } else {
                         nextAppointment.set({
-                            'hour': moment(dates.rows[i].date).hour() + 1,
+                            'hour': moment(dates.rows[i].date).hour(),
                             'minutes': 0,
                             'seconds': 0
                         })
