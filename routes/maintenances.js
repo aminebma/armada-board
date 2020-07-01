@@ -209,9 +209,10 @@ router.post('/planning', async(req,res)=>{
     //Retrieving all maintainances
     await pool.query(text, values)
         .then(async maintenances => {
-            text =`SELECT xpath('/contenu', contenu) as fichier, type FROM Fichier
-            WHERE xpath_exists('/contenu[type="${maintenances.rows[0].type_vehicule}" 
-            and marque="${maintenances.rows[0].marque}" and modele="${maintenances.rows[0].modele}"]', contenu) 
+            text =`SELECT xpath('/contenu', contenu) as fichier, type 
+            FROM Fichier
+            WHERE xpath_exists('/contenu[type="${req.body.contenu.type}" 
+            and marque="${req.body.contenu.marque}" and modele="${req.body.contenu.modele}"]', contenu) 
             AND type IN ('FT', 'GC')
             ORDER BY type ASC`
 
@@ -246,56 +247,99 @@ router.post('/planning', async(req,res)=>{
                     let nbDays = (moment(sorties[sorties.length - 1].date).diff(moment(sorties[0].date), 'days'))
                     avgKm /= ((nbDays === 0) ? 1 : nbDays)
 
-                    //Checking for the next oil appointment
-                    const motorAppointments = await Maintenance.generateMotorAppointments(sorties, avgKm, maintenances, motorInfo)
-                    const brakesAppointments = await Maintenance.generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo)
-                    const gearAppointment = await Maintenance.generateGearAppointment(sorties, avgKm, maintenances, gearInfo)
-                    const clutchAppointment = await Maintenance.generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo)
-                    const suspensionAppointment = await Maintenance.generateSuspensionAppointment(sorties, avgKm, maintenances, suspensionInfo)
-                    const tiresAppointment = await Maintenance.generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo)
-                    const parallelismAppointment = await Maintenance.generateParallelismAppointment(maintenances, weightInfo)
-                    const diversAppointment = await Maintenance.generateDiversAppointment(maintenances, diversInfo)
+                    const vehiculeInfo = {}
+                    if(maintenances.rows.length === 0 ){
+                        text = "SELECT id FROM Vehicule WHERE matricule_interne = $1"
+                        values = [req.body.contenu.matricule_interne]
+                        await pool.query(text,values)
+                            .then(async idVehicule => vehiculeInfo.id_vehicule = idVehicule.rows[0].id)
+                            .catch(e => {
+                                console.error(e.message)
+                                return res.send(e.message)
+                            })
+                    } else vehiculeInfo.id_vehicule = maintenances.rows[0].id_vehicule
+                    vehiculeInfo.affectation = req.body.contenu.affectation
 
-                    //Inserting generated appointments to the database
-                    Promise.all([
-                        motorAppointments,
-                        brakesAppointments,
-                        gearAppointment,
-                        clutchAppointment,
-                        suspensionAppointment,
-                        tiresAppointment,
-                        parallelismAppointment,
-                        diversAppointment
-                    ])
-                        .then(async result=>{
-                            text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
-                                "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
-                            for (let [resultIndex, appointments] of result.entries()) {
-                                for(let [appointmentIndex, appointment] of appointments.appointments.entries()) {
-                                    values = [
-                                        appointment.type,
-                                        appointment.niveau,
-                                        appointment.echelon,
-                                        appointment.date_debut,
-                                        appointment.date_fin,
-                                        appointment.vehicule,
-                                        appointment.affectation,
-                                        appointment.besoin
-                                    ]
-                                    await pool.query(text, values)
-                                        .then(newAppointment => {
-                                            console.log(`New appointment added successfully. id: ${newAppointment.rows[0].id}`)
-                                            result[resultIndex].appointments[appointmentIndex].id = newAppointment.rows[0].id
-                                        })
-                                        .catch(e => {
-                                            console.error(e.message)
-                                            return res.send(e.message)
-                                        })
-                                }
+                    //Checking for the next oil appointment
+                    const motorAppointments = await Maintenance.generateMotorAppointments(sorties, avgKm, maintenances, motorInfo, vehiculeInfo)
+                    const brakesAppointments = await Maintenance.generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo, vehiculeInfo)
+                    const gearAppointment = await Maintenance.generateGearAppointment(sorties, avgKm, maintenances, gearInfo, vehiculeInfo)
+                    const clutchAppointment = await Maintenance.generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo, vehiculeInfo)
+                    const suspensionAppointment = await Maintenance.generateSuspensionAppointment(sorties, avgKm, maintenances, suspensionInfo, vehiculeInfo)
+                    const tiresAppointment = await Maintenance.generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo, vehiculeInfo)
+                    const parallelismAppointment = await Maintenance.generateParallelismAppointment(maintenances, weightInfo, vehiculeInfo)
+                    const diversAppointment = await Maintenance.generateDiversAppointment(maintenances, diversInfo, vehiculeInfo)
+
+                    text = `SELECT unnest(xpath('//date/text()', contenu))::text as date
+                    FROM Fichier
+                    WHERE type='CB' and xpath_exists('/contenu[matricule_interne=${req.body.contenu.matricule_interne}]', contenu)
+                    ORDER BY date ASC
+                    LIMIT(1)`
+
+                    //Getting the latest Carnet de Bord to avoid adding it again if it exists
+                    await pool.query(text)
+                        .then(async latestCB => {
+                            if(latestCB.rows.length!=0 && moment(latestCB.rows[0].date).isSame(req.body.contenu.sortie[0].date))
+                                console.error('Carnet de bord already registered.')
+                            else {
+                                let xmlFile = await xmlConverter.json2xml(req.body, {compact: true, spaces: '\t'})
+                                text = "INSERT INTO Fichier(type, contenu) VALUES('CB',$1) RETURNING id"
+                                values = [xmlFile]
+                                await pool.query(text, values)
+                                    .then(async result => {
+                                        console.log(`Carnet de bord successfully added. id: ${result.rows[0].id}`)
+                                    })
+                                    .catch(e => {
+                                        console.error(e.message)
+                                        return res.send(e.message)
+                                    })
                             }
-                            res.send(result)
+                            //Inserting generated appointments to the database
+                            Promise.all([
+                                    motorAppointments,
+                                    brakesAppointments,
+                                    gearAppointment,
+                                    clutchAppointment,
+                                    suspensionAppointment,
+                                    tiresAppointment,
+                                    parallelismAppointment,
+                                    diversAppointment
+                                ])
+                                .then(async result => {
+                                    text = "INSERT INTO Maintenance(type, niveau, echelon, date_debut, date_fin, vehicule," +
+                                        "affectation,besoin) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id"
+                                    for (let [resultIndex, appointments] of result.entries()) {
+                                        for (let [appointmentIndex, appointment] of appointments.appointments.entries()) {
+                                            values = [
+                                                appointment.type,
+                                                appointment.niveau,
+                                                appointment.echelon,
+                                                appointment.date_debut,
+                                                appointment.date_fin,
+                                                appointment.vehicule,
+                                                appointment.affectation,
+                                                appointment.besoin
+                                            ]
+                                            await pool.query(text, values)
+                                                .then(newAppointment => {
+                                                    console.log(`New appointment added successfully. id: ${newAppointment.rows[0].id}`)
+                                                    result[resultIndex].appointments[appointmentIndex].id = newAppointment.rows[0].id
+                                                })
+                                                .catch(e => {
+                                                    console.error(e.message)
+                                                    return res.send(e.message)
+                                                })
+                                        }
+                                    }
+                                    res.send(result)
+                                })
+                                .catch(e => {
+                                    console.error(e.message)
+                                    return res.send(e.message)
+                                })
+
                         })
-                        .catch(e=> {
+                        .catch(e => {
                             console.error(e.message)
                             return res.send(e.message)
                         })

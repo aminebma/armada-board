@@ -8,7 +8,7 @@ const pool = new Pool({
 pool.connect()
 
 //Generates the next motor appointments
-async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo){
+async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -57,8 +57,8 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextOilAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextOilAppointment.hour(nextOilAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -113,8 +113,8 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextMotorChainAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextMotorChainAppointment.hour(nextMotorChainAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -130,7 +130,7 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
 }
 
 //Generates the next brakes appointments
-async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo){
+async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
         let brakesTypes = brakesInfo.filter(info => info.informations._text === 'Oui')
@@ -179,8 +179,8 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextBrakePadsAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextBrakePadsAppointment.hour(nextBrakePadsAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -235,8 +235,8 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextBrakesLiquidAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextBrakesLiquidAppointment.hour(nextBrakesLiquidAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -251,7 +251,7 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
 }
 
 //Generates the next gear appointment
-async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
+async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -299,8 +299,8 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextGearAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextGearAppointment.hour(nextGearAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -315,7 +315,7 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo){
 }
 
 //Generates the next clutch kit appointment
-async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo){
+async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -363,8 +363,8 @@ async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInf
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextClutchAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextClutchAppointment.hour(nextClutchAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -379,7 +379,7 @@ async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInf
 }
 
 //Generates the next suspensions appointment
-async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspensionInfo){
+async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspensionInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -427,8 +427,8 @@ async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspe
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextSuspensionAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextSuspensionAppointment.hour(nextSuspensionAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -443,7 +443,7 @@ async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspe
 }
 
 //Generates the next tires appointment
-async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo){
+async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -491,8 +491,8 @@ async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo)
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextTiresAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextTiresAppointment.hour(nextTiresAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -507,7 +507,7 @@ async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo)
 }
 
 //Generates the next parallelism appointment
-async function generateParallelismAppointment(maintenances, weightInfo){
+async function generateParallelismAppointment(maintenances, weightInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -554,8 +554,8 @@ async function generateParallelismAppointment(maintenances, weightInfo){
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextParallelismAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextParallelismAppointment.hour(nextParallelismAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
@@ -570,7 +570,7 @@ async function generateParallelismAppointment(maintenances, weightInfo){
 }
 
 //Generates the next divers appointment
-async function generateDiversAppointment(maintenances, diversInfo){
+async function generateDiversAppointment(maintenances, diversInfo, vehiculeInfo){
     return new Promise(async (resolve, reject)=>{
         let text, values, appointments = [], errors = [], maintenanceType
 
@@ -617,8 +617,8 @@ async function generateDiversAppointment(maintenances, diversInfo){
                                         echelon: reference.rows[0].echelon,
                                         date_debut: nextDiversAppointment.format('YYYY-MM-DD HH:mm:ss'),
                                         date_fin: nextDiversAppointment.hour(nextDiversAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
-                                        vehicule: maintenances.rows[0].id_vehicule,
-                                        affectation: maintenances.rows[0].affectation,
+                                        vehicule: vehiculeInfo.id_vehicule,
+                                        affectation: vehiculeInfo.affectation,
                                         besoin: besoin
                                     })
                                 })
