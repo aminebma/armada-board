@@ -204,8 +204,8 @@ router.post('/planning', async(req,res)=>{
         "WHERE v.matricule_interne=$1 and m.affectation=$2\n" +
         "ORDER BY m.type, m.date_debut DESC"
     let values = [
-        req.body.contenu.matricule_interne,
-        req.body.contenu.affectation
+        req.body.contenu.sortie[0].matricule_interne,
+        req.body.contenu.sortie[0].affectation
     ]
 
     //Retrieving all maintainances
@@ -213,8 +213,8 @@ router.post('/planning', async(req,res)=>{
         .then(async maintenances => {
             text =`SELECT xpath('/contenu', contenu) as fichier, type 
             FROM Fichier
-            WHERE xpath_exists('/contenu[type="${req.body.contenu.type}" 
-            and marque="${req.body.contenu.marque}" and modele="${req.body.contenu.modele}"]', contenu) 
+            WHERE xpath_exists('/contenu[type="${req.body.contenu.sortie[0].type}" 
+            and marque="${req.body.contenu.sortie[0].marque}" and modele="${req.body.contenu.sortie[0].modele}"]', contenu) 
             AND type IN ('FT', 'GC')
             ORDER BY type ASC`
 
@@ -252,7 +252,7 @@ router.post('/planning', async(req,res)=>{
                     const vehiculeInfo = {}
                     if(maintenances.rows.length === 0 ){
                         text = "SELECT id FROM Vehicule WHERE matricule_interne = $1"
-                        values = [req.body.contenu.matricule_interne]
+                        values = [req.body.contenu.sortie[0].matricule_interne]
                         await pool.query(text,values)
                             .then(async idVehicule => vehiculeInfo.id_vehicule = idVehicule.rows[0].id)
                             .catch(e => {
@@ -260,7 +260,7 @@ router.post('/planning', async(req,res)=>{
                                 return res.send(e.message)
                             })
                     } else vehiculeInfo.id_vehicule = maintenances.rows[0].id_vehicule
-                    vehiculeInfo.affectation = req.body.contenu.affectation
+                    vehiculeInfo.affectation = req.body.contenu.sortie[0].affectation
 
                     //Checking for the next oil appointment
                     const motorAppointments = await Maintenance.generateMotorAppointments(sorties, avgKm, maintenances, motorInfo, vehiculeInfo)
@@ -274,7 +274,7 @@ router.post('/planning', async(req,res)=>{
 
                     text = `SELECT unnest(xpath('//sortie[position()=1]/date/text()', contenu))::text as date
                     FROM Fichier
-                    WHERE type='CB' and xpath_exists('/contenu[matricule_interne=${req.body.contenu.matricule_interne}]', contenu)`
+                    WHERE type='CB' and xpath_exists('/contenu[matricule_interne=${req.body.contenu.sortie[0].matricule_interne}]', contenu)`
 
                     //Getting the latest Carnet de Bord to avoid adding it again if it exists
                     await pool.query(text)
