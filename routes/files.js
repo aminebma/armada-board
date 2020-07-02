@@ -3,6 +3,23 @@ const router = express.Router()
 const xmlConverter = require('xml-js')
 const configIndex = require('../config/index')
 const { Pool } = require('pg')
+const multer = require('multer')
+const fs = require('fs')
+
+//Configuring multer for file upload
+const storageManager = multer.diskStorage({
+    destination: function(req, file, callback){
+        callback(null, './lib/files')
+    },
+    filename: function(req, file, callback){
+        callback(null,new Date() + file.originalname)
+    }
+})
+
+const fileUpload = multer({
+    storage: storageManager
+})
+
 const pool = new Pool({
     connectionString: configIndex.getDbConnectionString()
 })
@@ -75,20 +92,23 @@ router.post('/fiche-controle-couts', async(req,res)=>{
 //          //your data here
 //      }
 //}
-router.post('/carnet-de-bord', async(req,res)=>{
+router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
-    const text = "INSERT INTO Fichier(type, contenu) VALUES('CB',$1) RETURNING id"
-    const values = [data]
-    await pool.query(text, values)
-        .then(result=>{
-            console.log(`Carnet de bord successfully added. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
+    await readCarnetDeBord(req.file.path)
+        .then(async carnetDeBord => {
+            let data = await xmlConverter.json2xml(carnetDeBord,{compact: true, spaces: '\t'})
+            const text = "INSERT INTO Fichier(type, contenu) VALUES('CB',$1) RETURNING id"
+            const values = [data]
+            await pool.query(text, values)
+                .then(result=>{
+                    console.log(`Carnet de bord successfully added. id: ${result.rows[0].id}`)
+                    res.send(result.rows[0].id)
+                })
+                .catch(e => {
+                    console.error(e.message)
+                    res.send(e.message)
+                })
         })
 })
 
@@ -187,5 +207,44 @@ router.get('/guide-constructeur', async(req,res)=>{
             res.send(e.message)
         })
 })
+
+const excelToJson = require('convert-excel-to-json')
+
+async function readCarnetDeBord(url) {
+    return new Promise(async (resolve, reject)=>{
+        let result = {
+            "_declaration": {
+                "_attributes": {
+                    "version": "1.0",
+                    "encoding": "utf-8"
+                }
+            }
+        }
+        let data = excelToJson({
+            sourceFile: url,
+            header: {
+                rows: 1
+            },
+            columnToKey: {
+                A: 'date',
+                B: 'affectation',
+                C: 'matricule_interne',
+                D: 'type',
+                E: 'marque',
+                F: 'modele',
+                G: 'description',
+                H: 'chauffeur',
+                I: 'autorisation',
+                J: 'compteur_debut',
+                K: 'compteur_fin'
+            }
+        })
+        result.contenu = {}
+        result.contenu.sortie = data['Carnet de bord']
+        console.log(result)
+        console.log(result.contenu)
+        resolve(result)
+    })
+}
 
 module.exports = router
