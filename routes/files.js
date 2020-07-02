@@ -5,7 +5,7 @@ const configIndex = require('../config/index')
 const { Pool } = require('pg')
 const multer = require('multer')
 const fs = require('fs')
-
+const excelToJson = require('convert-excel-to-json')
 //Configuring multer for file upload
 const storageManager = multer.diskStorage({
     destination: function(req, file, callback){
@@ -25,73 +25,60 @@ const pool = new Pool({
 })
 pool.connect()
 
-//This will add a new Fiche Technique to the database in the xml format. The req body should be in this format:
-//{
-//     "_declaration":{
-//         "_attributes":{
-//             "version": "1.0",
-//             "encoding": "utf-8"
-//         }
-//      "contenu":{
-//          //your data here
-//      }
-//}
-router.post('/fiche-technique', async(req,res)=>{
+//This will add a new Fiche Technique to the database in the xml format. The req body should include the Excel file of
+//a Fiche technique in a file attribute
+router.post('/fiche-technique', fileUpload('file'),async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
-    const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
-    const values = [data]
-    await pool.query(text, values)
-        .then(result=>{
-            console.log(`Fiche technique successfully added. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
+    await readFicheTechnique(req.file.path)
+        .then(async ficheTechnique => {
+            let data = await xmlConverter.json2xml(ficheTechnique,{compact: true, spaces: '\t'})
+            const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
+            const values = [data]
+            await pool.query(text, values)
+                .then(result=>{
+                    console.log(`Fiche technique added successfully added. id: ${result.rows[0].id}`)
+                    fs.unlink(`${req.file.path}`, function (err) {
+                        if (err) throw err
+                        console.log(`File ${req.file.path} deleted!`)
+                    })
+                    res.send(result.rows[0].id)
+                })
+                .catch(e => {
+                    console.error(e.message)
+                    res.send(e.message)
+                })
         })
 })
 
-//This will add a new Fiche de Controle des Couts to the database in the xml format. The req body should be in this format:
-//{
-//     "_declaration":{
-//         "_attributes":{
-//             "version": "1.0",
-//             "encoding": "utf-8"
-//         }
-//      "contenu":{
-//          //your data here
-//      }
-//}
-router.post('/fiche-controle-couts', async(req,res)=>{
+//This will add a new Fiche de Controle des Couts to the database in the xml format. The req body should include the
+//Excel file of a Fiche de Controle des couts in a file attribute
+router.post('/fiche-controle-couts', fileUpload.single('file') ,async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
-    const text = "INSERT INTO Fichier(type, contenu) VALUES('FCC',$1) RETURNING id"
-    const values = [data]
-    await pool.query(text, values)
-        .then(result=>{
-            console.log(`Fiche de controle des couts successfully added. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
+    await readFicheControleCouts(req.file.path)
+        .then(async ficheControleCouts => {
+            let data = await xmlConverter.json2xml(ficheControleCouts,{compact: true, spaces: '\t'})
+            const text = "INSERT INTO Fichier(type, contenu) VALUES('FCC',$1) RETURNING id"
+            const values = [data]
+            await pool.query(text, values)
+                .then(result=>{
+                    console.log(`Fiche de controle des couts added successfully added. id: ${result.rows[0].id}`)
+                    fs.unlink(`${req.file.path}`, function (err) {
+                        if (err) throw err
+                        console.log(`File ${req.file.path} deleted!`)
+                    })
+                    res.send(result.rows[0].id)
+                })
+                .catch(e => {
+                    console.error(e.message)
+                    res.send(e.message)
+                })
         })
 })
 
-//This will add a new Carnet de Bord to the database in the xml format. The req body should be in this format:
-//{
-//     "_declaration":{
-//         "_attributes":{
-//             "version": "1.0",
-//             "encoding": "utf-8"
-//         }
-//      "contenu":{
-//          //your data here
-//      }
-//}
+//This will add a new Carnet de Bord to the database in the xml format. The req body should include the
+//Excel file of a Carnet de bord in a file attribute
 router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
@@ -103,6 +90,10 @@ router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
             await pool.query(text, values)
                 .then(result=>{
                     console.log(`Carnet de bord successfully added. id: ${result.rows[0].id}`)
+                    fs.unlink(`${req.file.path}`, function (err) {
+                        if (err) throw err
+                        console.log(`File ${req.file.path} deleted!`)
+                    })
                     res.send(result.rows[0].id)
                 })
                 .catch(e => {
@@ -112,31 +103,29 @@ router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
         })
 })
 
-//This will add a new Guide Constructeur to the database in the xml format. The req body should be in this format:
-//{
-//     "_declaration":{
-//         "_attributes":{
-//             "version": "1.0",
-//             "encoding": "utf-8"
-//         }
-//      "contenu":{
-//          //your data here
-//      }
-//}
-router.post('/guide-constructeur', async(req,res)=>{
+//This will add a new Guide Constructeur to the database in the xml format. The req body should include the
+//Excel file of a Guide constructeur in a file attribute
+router.post('/guide-constructeur', fileUpload.single('file') ,async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    let data = await xmlConverter.json2xml(req.body,{compact: true, spaces: '\t'})
-    const text = "INSERT INTO Fichier(type, contenu) VALUES('GC',$1) RETURNING id"
-    const values = [data]
-    await pool.query(text, values)
-        .then(result=>{
-            console.log(`Guide constructeur successfully added. id: ${result.rows[0].id}`)
-            res.send(result.rows[0].id)
-        })
-        .catch(e => {
-            console.error(e.message)
-            res.send(e.message)
+    await readGuideConstructeur(req.file.path)
+        .then(async guideConstructeur => {
+            let data = await xmlConverter.json2xml(guideConstructeur,{compact: true, spaces: '\t'})
+            const text = "INSERT INTO Fichier(type, contenu) VALUES('GC',$1) RETURNING id"
+            const values = [data]
+            await pool.query(text, values)
+                .then(result=>{
+                    console.log(`Guide constructeur added successfully added. id: ${result.rows[0].id}`)
+                    fs.unlink(`${req.file.path}`, function (err) {
+                        if (err) throw err
+                        console.log(`File ${req.file.path} deleted!`)
+                    })
+                    res.send(result.rows[0].id)
+                })
+                .catch(e => {
+                    console.error(e.message)
+                    res.send(e.message)
+                })
         })
 })
 
@@ -208,42 +197,152 @@ router.get('/guide-constructeur', async(req,res)=>{
         })
 })
 
-const excelToJson = require('convert-excel-to-json')
-
 async function readCarnetDeBord(url) {
     return new Promise(async (resolve, reject)=>{
-        let result = {
-            "_declaration": {
-                "_attributes": {
-                    "version": "1.0",
-                    "encoding": "utf-8"
+        try {
+            let result = {
+                "_declaration": {
+                    "_attributes": {
+                        "version": "1.0",
+                        "encoding": "utf-8"
+                    }
                 }
             }
+            let data = excelToJson({
+                sourceFile: url,
+                header: {
+                    rows: 1
+                },
+                columnToKey: {
+                    A: 'date',
+                    B: 'affectation',
+                    C: 'matricule_interne',
+                    D: 'type',
+                    E: 'marque',
+                    F: 'modele',
+                    G: 'description',
+                    H: 'chauffeur',
+                    I: 'autorisation',
+                    J: 'compteur_debut',
+                    K: 'compteur_fin'
+                }
+            })
+            result.contenu = {}
+            result.contenu.sortie = data['Carnet de bord']
+            console.log(result)
+            console.log(result.contenu)
+            resolve(result)
+        } catch (e) {
+            reject(e)
         }
-        let data = excelToJson({
-            sourceFile: url,
-            header: {
-                rows: 1
-            },
-            columnToKey: {
-                A: 'date',
-                B: 'affectation',
-                C: 'matricule_interne',
-                D: 'type',
-                E: 'marque',
-                F: 'modele',
-                G: 'description',
-                H: 'chauffeur',
-                I: 'autorisation',
-                J: 'compteur_debut',
-                K: 'compteur_fin'
+    })
+}
+
+async function readFicheControleCouts(url) {
+    return new Promise(async (resolve, reject)=>{
+        try {
+            let result = {
+                "_declaration": {
+                    "_attributes": {
+                        "version": "1.0",
+                        "encoding": "utf-8"
+                    }
+                }
             }
-        })
-        result.contenu = {}
-        result.contenu.sortie = data['Carnet de bord']
-        console.log(result)
-        console.log(result.contenu)
-        resolve(result)
+            let data = excelToJson({
+                sourceFile: url,
+                header: {
+                    rows: 1
+                },
+                columnToKey: {
+                    A: 'date',
+                    B: 'numero_note',
+                    C: 'compteur_debut',
+                    D: 'compteur_fin',
+                    E: 'description',
+                    F: 'quantite_carburant',
+                    G: 'cout_carburant',
+                    H: 'cout_consommables',
+                    I: 'autres_couts'
+                }
+            })
+            result.contenu = {}
+            result.contenu.sortie = data['Fiche de controle des couts']
+            console.log(result)
+            console.log(result.contenu)
+            resolve(result)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+async function readFicheTechnique(url){
+    return new Promise(async (resolve, reject)=>{
+        try {
+            let result = {
+                "_declaration": {
+                    "_attributes": {
+                        "version": "1.0",
+                        "encoding": "utf-8"
+                    }
+                }
+            }
+            let data = excelToJson({
+                sourceFile: url,
+                header: {
+                    rows: 1
+                },
+                columnToKey: {
+                    A: 'categorie',
+                    B: 'sous_categorie',
+                    C: 'type',
+                    D: 'label',
+                    E: 'mesure',
+                    F: 'informations'
+                }
+            })
+            result.contenu = {}
+            result.contenu.sortie = data['Fiche technique']
+            console.log(result)
+            console.log(result.contenu)
+            resolve(result)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+async function readGuideConstructeur(url){
+    return new Promise(async (resolve, reject)=>{
+        try {
+            let result = {
+                "_declaration": {
+                    "_attributes": {
+                        "version": "1.0",
+                        "encoding": "utf-8"
+                    }
+                }
+            }
+            let data = excelToJson({
+                sourceFile: url,
+                header: {
+                    rows: 1
+                },
+                columnToKey: {
+                    A: 'categorie',
+                    B: 'piece',
+                    C: 'consignes',
+                }
+            })
+            result.contenu = {}
+            result.contenu.sortie = data['Guide constructeur']
+            console.log(result)
+            console.log(result.contenu)
+            resolve(result)
+        } catch (e) {
+            reject(e)
+        }
     })
 }
 
