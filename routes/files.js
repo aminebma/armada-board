@@ -5,7 +5,7 @@ const configIndex = require('../config/index')
 const { Pool } = require('pg')
 const multer = require('multer')
 const fs = require('fs')
-
+const excelToJson = require('convert-excel-to-json')
 //Configuring multer for file upload
 const storageManager = multer.diskStorage({
     destination: function(req, file, callback){
@@ -103,6 +103,10 @@ router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
             await pool.query(text, values)
                 .then(result=>{
                     console.log(`Carnet de bord successfully added. id: ${result.rows[0].id}`)
+                    fs.unlink(`${req.file.path}`, function (err) {
+                        if (err) throw err
+                        console.log(`File ${req.file.path} deleted!`)
+                    })
                     res.send(result.rows[0].id)
                 })
                 .catch(e => {
@@ -207,8 +211,6 @@ router.get('/guide-constructeur', async(req,res)=>{
             res.send(e.message)
         })
 })
-
-const excelToJson = require('convert-excel-to-json')
 
 async function readCarnetDeBord(url) {
     return new Promise(async (resolve, reject)=>{
