@@ -294,7 +294,7 @@ router.post('/planning', fileUpload.single('file'),async(req,res)=>{
 
                             text = `SELECT unnest(xpath('//sortie[position()=1]/date/text()', contenu))::text as date
                             FROM Fichier
-                            WHERE type='CB' and xpath_exists('/contenu[matricule_interne=${carnetDeBord.contenu.sortie[0].matricule_interne}]', contenu)`
+                            WHERE type='CB' and xpath_exists('//sortie[matricule_interne=${carnetDeBord.contenu.sortie[0].matricule_interne}]', contenu)`
 
                             //Getting the latest Carnet de Bord to avoid adding it again if it exists
                             await pool.query(text)
@@ -570,6 +570,10 @@ async function readCarnetDeBord(url) {
             result.contenu.sortie = data['Carnet de bord']
             console.log(result)
             console.log(result.contenu)
+            fs.unlink(`${url}`, function (err) {
+                if (err) throw err
+                console.log(`File ${url} deleted!`)
+            })
             resolve(result)
         }
         catch (e) {
