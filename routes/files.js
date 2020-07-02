@@ -12,7 +12,7 @@ const storageManager = multer.diskStorage({
         callback(null, './lib/files')
     },
     filename: function(req, file, callback){
-        callback(null,new Date() + file.originalname)
+        callback(null,file.originalname)
     }
 })
 
