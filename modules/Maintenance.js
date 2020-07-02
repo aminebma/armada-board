@@ -49,11 +49,11 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Vidange",
+                                        title: "Vidange",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextOilAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextOilAppointment.hour(nextOilAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextOilAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextOilAppointment.hour(nextOilAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -102,11 +102,11 @@ async function generateMotorAppointments(sorties, avgKm, maintenances, motorInfo
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Courroie",
+                                        title: "Courroie",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextMotorChainAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextMotorChainAppointment.hour(nextMotorChainAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextMotorChainAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextMotorChainAppointment.hour(nextMotorChainAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -165,11 +165,11 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Plaquettes de Freins",
+                                        title: "Plaquettes de Freins",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextBrakePadsAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextBrakePadsAppointment.hour(nextBrakePadsAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextBrakePadsAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextBrakePadsAppointment.hour(nextBrakePadsAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -218,11 +218,11 @@ async function generateBrakesAppointments(sorties, avgKm, maintenances, brakesIn
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Liquide de Freins",
+                                        title: "Liquide de Freins",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextBrakesLiquidAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextBrakesLiquidAppointment.hour(nextBrakesLiquidAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextBrakesLiquidAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextBrakesLiquidAppointment.hour(nextBrakesLiquidAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -279,11 +279,11 @@ async function generateGearAppointment(sorties, avgKm, maintenances, gearInfo, v
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Vidange Boite à Vitesses",
+                                        title: "Vidange Boite à Vitesses",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextGearAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextGearAppointment.hour(nextGearAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextGearAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextGearAppointment.hour(nextGearAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -340,11 +340,11 @@ async function generateClutchAppointment(sorties, avgKm, maintenances, clutchInf
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Kit embrayage",
+                                        title: "Kit embrayage",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextClutchAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextClutchAppointment.hour(nextClutchAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextClutchAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextClutchAppointment.hour(nextClutchAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -401,11 +401,11 @@ async function generateSuspensionAppointment(sorties, avgKm, maintenances, suspe
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Suspension",
+                                        title: "Suspension",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextSuspensionAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextSuspensionAppointment.hour(nextSuspensionAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextSuspensionAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextSuspensionAppointment.hour(nextSuspensionAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -463,11 +463,11 @@ async function generateTiresAppointment(sorties, avgKm, maintenances, tiresInfo,
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Pneus",
+                                        title: "Pneus",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextTiresAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextTiresAppointment.hour(nextTiresAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextTiresAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextTiresAppointment.hour(nextTiresAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -523,11 +523,11 @@ async function generateParallelismAppointment(maintenances, weightInfo, vehicule
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Parallelisme",
+                                        title: "Parallelisme",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextParallelismAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextParallelismAppointment.hour(nextParallelismAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextParallelismAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextParallelismAppointment.hour(nextParallelismAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
@@ -583,11 +583,11 @@ async function generateDiversAppointment(maintenances, diversInfo, vehiculeInfo)
                                     }
                                     besoin = await xmlConverter.json2xml(besoin, {compact: true, spaces: '\t'})
                                     appointments.push({
-                                        type: "Divers",
+                                        title: "Divers",
                                         niveau: reference.rows[0].niveau,
                                         echelon: reference.rows[0].echelon,
-                                        date_debut: nextDiversAppointment.format('YYYY-MM-DD HH:mm:ss'),
-                                        date_fin: nextDiversAppointment.hour(nextDiversAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
+                                        startDate: nextDiversAppointment.format('YYYY-MM-DD HH:mm:ss'),
+                                        endDate: nextDiversAppointment.hour(nextDiversAppointment.hour() + 1).format('YYYY-MM-DD HH:mm:ss'),
                                         vehicule: vehiculeInfo.id_vehicule,
                                         affectation: vehiculeInfo.affectation,
                                         besoin: besoin
