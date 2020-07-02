@@ -311,11 +311,11 @@ router.post('/planning', async(req,res)=>{
                                     for (let [resultIndex, appointments] of result.entries()) {
                                         for (let [appointmentIndex, appointment] of appointments.appointments.entries()) {
                                             values = [
-                                                appointment.type,
+                                                appointment.title,
                                                 appointment.niveau,
                                                 appointment.echelon,
-                                                appointment.date_debut,
-                                                appointment.date_fin,
+                                                appointment.startDate,
+                                                appointment.endDate,
                                                 appointment.vehicule,
                                                 appointment.affectation,
                                                 appointment.besoin
