@@ -24,37 +24,21 @@ export default class Planning extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.data,
+            data: this.props.data, //transmetre la variable data du parent dans le state du child
             currentViewName: 'Month',
         };
         this.commitChanges = this.commitChanges.bind(this);
-        this.getMaintenanceData = this.getMaintenanceData.bind(this)
+        //this.getMaintenanceData = this.getMaintenanceData.bind(this)
+        //this.UpdateParentState = this.UpdateParentState.bind(this)
     };
 
+    UpdateParentState(){
+        this.props.onChangeData(this.state.data) // MAJ de la variable data du state du parent en passons le contenu de la variable data du state du chil
+    }
     currentViewNameChange = (currentViewName) => {
         this.setState({ currentViewName });
     }
-
-    // fonction par défaut qui s'éxécute lors de l'affichage de la page
-    // elle exécutera la fonction getMaintenanceData qui ramènera les maintenances de la BDD
-    componentWillMount() {
-        this.getMaintenanceData();
-    }
-
-    //Fonction pour charger les maintenances de la BDD et les mettre dans la variable data du state
-    getMaintenanceData() {
-        // create a new XMLHttpRequest
-        const xhr = new XMLHttpRequest();
-        // get a callback when the server responds
-        xhr.addEventListener('load', () => {
-            // update the state of the component with the result here
-            this.setState({ data: JSON.parse(xhr.responseText) })
-        });
-        // open the request with the verb and the url
-        xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1', false)
-        // send the request
-        xhr.send();
-    }
+    
 
     //Fonction du changement dans le planning ( ajout , supression, modification d'une maintenance)
     //fonction par défaut du package, je n'y ai pas touché, je ne l'ai pas comprise aussi
@@ -77,7 +61,7 @@ export default class Planning extends Component {
     }
 
     render() {
-        //rendement du planning
+        // rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
         // par exemple le composant EditingState doit avoir bligatoirement la propriété onCommitChanges
         // par exemple le composant appointment peut être utilisé sans propriétés, il affichera des rendez vous avec la structure par défaut

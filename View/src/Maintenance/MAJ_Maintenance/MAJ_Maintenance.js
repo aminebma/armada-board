@@ -16,7 +16,7 @@ class MAJMaintenance extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.data;
+            data: this.props.data,
             openDialog: true,
             CarnetDebordName: '',
             CarnetDebord: '',
@@ -52,18 +52,14 @@ class MAJMaintenance extends Component {
         // get a callback when the server responds
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
+            alert(xhr.responseText)
         });
         // open the request with the verb and the url
         xhr.open('POST', 'http://localhost:3001/api/files/carnet-de-bord', true)
         // send the request
         xhr.send(formData);
         this.props.var();
-        this.setState((state) => {
-            let { data } = state;
-            const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-            data = [...data, { id: startingAddedId, ...added }];
-            return { data };
-        })
+
     };
 
     render() {
@@ -72,8 +68,6 @@ class MAJMaintenance extends Component {
         file = CarnetDebordName
             ? (<span>{CarnetDebordName}</span>)
             : (<span>Aucun fichier</span>);
-
-
         return (
             <div >
                 <Dialog open={this.state.openDialog} onClose={this.handleClose}  >
