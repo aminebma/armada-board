@@ -39,62 +39,24 @@ class MAJMaintenance extends Component {
         }
     };
 
-    readCarnetDeBord(link) {
-        let result = {
-            "_declaration": {
-                "_attributes": {
-                    "version": "1.0",
-                    "encoding": "utf-8"
-                }
-            }
-        }
-        let data = excelToJson({
-            sourceFile: link,
-            header: {
-                rows: 1
-            },
-            columnToKey: {
-                A: 'date',
-                B: 'affectation',
-                C: 'matricule_interne',
-                D: 'type',
-                E: 'marque',
-                F: 'modele',
-                G: 'description',
-                H: 'chauffeur',
-                I: 'autorisation',
-                J: 'compteur_debut',
-                K: 'compteur_fin'
-            }
-        })
-        result.contenu = {}
-        result.contenu.sortie = data['Carnet de bord']
-        alert(result)
-        alert(result.contenu)
-        return result
-    }
-
     handleClickOpen = () => {
         this.setState({ openDialog: true });
     }
 
     handleCloseMAJ = () => {
         this.setState({ openDialog: false });
+        let formData = new FormData();
+        formData.append("file", this.state.CarnetDebord);
         const xhr = new XMLHttpRequest();
 
         // get a callback when the server responds
-
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
         });
-
         // open the request with the verb and the url
-
         xhr.open('POST', 'http://localhost:3001/api/files/carnet-de-bord', true)
-
         // send the request
-
-        xhr.send({ file: this.state.CarnetDebord });
+        xhr.send(formData);
         this.props.var();
     };
 

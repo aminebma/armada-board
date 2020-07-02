@@ -19,13 +19,13 @@ import {
 
 import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, RessourceFormulaire } from './Planning.tsx';
 
-export default class TestPlanning extends Component {
+export default class Planning extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             data: null,
-            currentViewName: 'Week',
+            currentViewName: 'Month',
         };
         this.commitChanges = this.commitChanges.bind(this);
         this.getMaintenanceData = this.getMaintenanceData.bind(this)
@@ -43,28 +43,17 @@ export default class TestPlanning extends Component {
 
     //Fonction pour charger les maintenances de la BDD et les mettre dans la variable data du state
     getMaintenanceData() {
-        // http request first method
-
         // create a new XMLHttpRequest
-
         const xhr = new XMLHttpRequest();
-
         // get a callback when the server responds
-
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
-
             this.setState({ data: JSON.parse(xhr.responseText) })
         });
-
         // open the request with the verb and the url
-
         xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1', false)
-
         // send the request
-
         xhr.send();
-
     }
 
     //Fonction du changement dans le planning ( ajout , supression, modification d'une maintenance)
@@ -88,29 +77,12 @@ export default class TestPlanning extends Component {
     }
 
     render() {
-       /* const mesMaintenances = this.state.data.map(function (Unemaintenance) {
-            return (
-                <div>
-                    <p>le Id de la maintenance : {Unemaintenance.id}</p>
-                    <p>le type de la maintenance : {Unemaintenance.title}</p>
-                    <p>le niveau de la maintenance : {Unemaintenance.niveau[0]}</p>
-                    <p>l'echelon de la maintenance : {Unemaintenance.echelon[0]}</p>
-                    <p>la date du début de la maintenance : {Unemaintenance.startDate}</p>
-                    <p>le date de fin de la maintenance : {Unemaintenance.endDate}</p>
-                    <p>le véhicule de la maintenance : {Unemaintenance.vehicule}</p>
-                    <p>le besoin de la maintenance : {Unemaintenance.besoin.contenu.quantite._text}</p>
-                    <p>--------------------------------------------------------------------</p>
-                </div>
-            )
-        })*/
-
         //rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
         // par exemple le composant EditingState doit avoir bligatoirement la propriété onCommitChanges
         // par exemple le composant appointment peut être utilisé sans propriétés, il affichera des rendez vous avec la structure par défaut
         // mais vu qu'on a écrasé les propriétés appointmentComponent et appointmentContentComponent par les composants crées dans planning.tsx, l'affichage est personnalisé et non par défaut
         // plus d'information sur les propriétés de chaque composant sur https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/getting-started/
-    
         return (
             <div>
                 <Paper className="Calendar">
