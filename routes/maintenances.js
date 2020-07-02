@@ -211,8 +211,8 @@ router.get('/planning/all/:id', async(req,res)=>{
         })
 })
 
-//This will generate a new planning. The request body should include the Carnet de Bord in the JSON Carnet De Bord
-//format explained in the files route.
+//This will generate a new planning. The request body should include the Carnet de Bord Excel file in a file attribute
+//of a FormData body
 router.post('/planning', fileUpload.single('file'),async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
