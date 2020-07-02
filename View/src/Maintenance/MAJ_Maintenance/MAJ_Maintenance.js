@@ -16,6 +16,7 @@ class MAJMaintenance extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: props.data;
             openDialog: true,
             CarnetDebordName: '',
             CarnetDebord: '',
@@ -31,7 +32,7 @@ class MAJMaintenance extends Component {
                     // Accessed .name from file 
                     this.setState({ CarnetDebordName: e.target.files[0].name });
                     this.setState({ CarnetDebord: e.target.files[0] });
-                    alert(this.state.CarnetDebord);
+                    //alert(this.state.CarnetDebord);
                     //alert(window.document.getElementById("FichierInput").value);
                     //this.readCarnetDeBord("C:\\Users\\darso\\Documents\\Projet\\armada-board\\lib\\files\\Carnet_de_bord.xlsx");
                 }
@@ -43,12 +44,11 @@ class MAJMaintenance extends Component {
         this.setState({ openDialog: true });
     }
 
-    handleCloseMAJ = () => {
+    handleMAJ = () => {
         this.setState({ openDialog: false });
         let formData = new FormData();
         formData.append("file", this.state.CarnetDebord);
         const xhr = new XMLHttpRequest();
-
         // get a callback when the server responds
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
@@ -58,6 +58,12 @@ class MAJMaintenance extends Component {
         // send the request
         xhr.send(formData);
         this.props.var();
+        this.setState((state) => {
+            let { data } = state;
+            const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
+            data = [...data, { id: startingAddedId, ...added }];
+            return { data };
+        })
     };
 
     render() {
@@ -87,7 +93,7 @@ class MAJMaintenance extends Component {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleCloseMAJ} color="primary">
+                        <Button onClick={this.handleMAJ} color="primary">
                             Mettre à jour
                         </Button>
                     </DialogActions>

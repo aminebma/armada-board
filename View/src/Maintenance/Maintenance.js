@@ -9,10 +9,17 @@ import Planning from './Planning/Planning';
 
 class Maintenance extends Component {
 
-    state = {
-        AfficherMAJ: false,
-        AfficherExport: false,
+    constructor(props){
+        super(props)
+        this.state = {
+            data: null,
+            AfficherMAJ: false,
+            AfficherExport: false,
+        }
+        this.Show_Export_Planning = this.Show_Export_Planning.bind(this);
+        this.Show_MAJ_Maintenance = this.Show_MAJ_Maintenance.bind(this);
     }
+    
 
     Show_MAJ_Maintenance = () => {
         this.setState(prevState => {
@@ -31,14 +38,14 @@ class Maintenance extends Component {
         return (
             <div className="div-global">
                 {this.state.AfficherMAJ ? <div>
-                    <MAJMaintenance var={this.Show_MAJ_Maintenance} />
+                    <MAJMaintenance data={this.state.data} var={this.Show_MAJ_Maintenance} />
                 </div> : null}
                 {this.state.AfficherExport ? <div>
                     <ExportPlanning var={this.Show_Export_Planning} />
                 </div> : null}
                 <div className="Working-Page">
                         <div className="button-under-maintenance">
-                            <Planning/>
+                            <Planning data={this.state.data}/>
                             <Button variant="contained" color="primary" onClick={() => this.Show_MAJ_Maintenance()}>Mise à jour du calendrier</Button>
                             <Button variant="contained" color="primary" onClick={() => this.Show_Export_Planning()}>exporter le planning</Button>
                         </div>

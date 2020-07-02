@@ -24,7 +24,7 @@ export default class Planning extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
+            data: props.data,
             currentViewName: 'Month',
         };
         this.commitChanges = this.commitChanges.bind(this);
