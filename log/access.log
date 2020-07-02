@@ -1,0 +1,5 @@
+GET /api/maintenances/planning/all/1 200 5387 - 235.432 ms
+GET /api/maintenances/planning/all/1 304 - - 1153.147 ms
+GET /api/maintenances/planning/all/1 404 2 - 754.563 ms
+GET /api/maintenances/planning/all/1 404 2 - 236.786 ms
+GET /api/maintenances/planning/all/1 404 2 - 5.237 ms

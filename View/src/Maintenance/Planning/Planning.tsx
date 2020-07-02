@@ -30,11 +30,11 @@ import { ListeBesoin } from './ListeBesoin';
 // les instances et les codes couleurs sont obligatoire, du moins je n'ai pas pu faire sans
 // plus d'information sur  https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/resources/
 const Ressources = [{
-    fieldName: 'véhicule',
+    fieldName: 'vehicule',
     title: 'vehicule',
     instances: ListeVoiture,
 }, {
-    fieldName: 'modèle',
+    fieldName: 'modele',
     title: 'modèle',
     instances: ListeModèle
 }, {
@@ -174,7 +174,7 @@ const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
                     <LocalOfferIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>modèle : {appointmentData?.type}</span>
+                    <span>affiliation : {appointmentData?.affiliation}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <BuildIcon className={classes.icon} />

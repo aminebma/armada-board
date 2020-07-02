@@ -88,8 +88,7 @@ export default class TestPlanning extends Component {
     }
 
     render() {
-        const donnee = this.state.data;
-        /*const mesMaintenances = this.state.data.map(function (Unemaintenance) {
+        const mesMaintenances = this.state.data.map(function (Unemaintenance) {
             return (
                 <div>
                     <p>le Id de la maintenance : {Unemaintenance.id}</p>
@@ -100,10 +99,9 @@ export default class TestPlanning extends Component {
                     <p>le date de fin de la maintenance : {Unemaintenance.date_fin}</p>
                     <p>le véhicule de la maintenance : {Unemaintenance.vehicule}</p>
                     <p>--------------------------------------------------------------------</p>
-
                 </div>
             )
-        })*/
+        })
 
         //rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
@@ -114,8 +112,12 @@ export default class TestPlanning extends Component {
     
         return (
             <div>
+                {mesMaintenances}
+            
+            {/*
+            <div>
                 <Paper className="Calendar">
-                    <Scheduler data={donnee} >
+                    <Scheduler data={this.state.data} >
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
                         <IntegratedEditing />
@@ -134,6 +136,8 @@ export default class TestPlanning extends Component {
                         <AppointmentForm />
                     </Scheduler>
                 </Paper>
+            </div>
+            */}
             </div>
         );
     }
