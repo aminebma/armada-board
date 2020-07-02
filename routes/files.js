@@ -188,4 +188,41 @@ router.get('/guide-constructeur', async(req,res)=>{
         })
 })
 
+const excelToJson = require('convert-excel-to-json')
+
+readCarnetDeBord()
+function readCarnetDeBord() {
+    let result = {
+        "_declaration": {
+            "_attributes": {
+                "version": "1.0",
+                "encoding": "utf-8"
+            }
+        }
+    }
+    let data = excelToJson({
+        sourceFile: 'lib/files/Carnet_de_bord.xlsx',
+        header: {
+            rows: 1
+        },
+        columnToKey: {
+            A: 'date',
+            B: 'affectation',
+            C: 'matricule_interne',
+            D: 'type',
+            E: 'marque',
+            F: 'modele',
+            G: 'description',
+            H: 'chauffeur',
+            I: 'autorisation',
+            J: 'compteur_debut',
+            K: 'compteur_fin'
+        }
+    })
+    result.contenu = {}
+    result.contenu.sortie = data['Carnet de bord']
+    console.log(result)
+    console.log(result.contenu)
+}
+
 module.exports = router
