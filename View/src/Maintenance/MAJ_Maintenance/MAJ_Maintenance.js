@@ -9,121 +9,123 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import PublishIcon from '@material-ui/icons/Publish';
 import { IconButton } from '@material-ui/core';
 import './MAJ_Maintenance.css';
+import excelToJson from 'convert-excel-to-json/lib/convert-excel-to-json';
 
 class MAJMaintenance extends Component {
 
-    state = {
-        openDialog: true,
-        FicheTechniqueName: '',
-        CarnetDebordName: '',
-        FicheSuivisName: '',
-        GuideConstructeurName: '',
+    constructor(props) {
+        super(props);
+        this.state = {
+            openDialog: true,
+            CarnetDebordName: '',
+            CarnetDebord: '',
+        }
+        this.onChangeInput = this.onChangeInput.bind(this);
     }
 
     onChangeInput = e => {
         switch (e.target.name) {
             // Updated this
-            case 'selectedFile1':
-                if (e.target.files.length > 0) {
-                    // Accessed .name from file 
-                    this.setState({ FicheTechniqueName: e.target.files[0].name });
-                }
-                break;
-            case 'selectedFile2':
+            case 'selectedFile':
                 if (e.target.files.length > 0) {
                     // Accessed .name from file 
                     this.setState({ CarnetDebordName: e.target.files[0].name });
+                    this.setState({ CarnetDebord: e.target.files[0] });
+                    alert(this.state.CarnetDebord);
+                    //alert(window.document.getElementById("FichierInput").value);
+                    //this.readCarnetDeBord("C:\\Users\\darso\\Documents\\Projet\\armada-board\\lib\\files\\Carnet_de_bord.xlsx");
                 }
                 break;
-            case 'selectedFile3':
-                if (e.target.files.length > 0) {
-                    // Accessed .name from file 
-                    this.setState({ FicheSuivisName: e.target.files[0].name });
-                }
-                break;
-            case 'selectedFile4':
-                if (e.target.files.length > 0) {
-                    // Accessed .name from file 
-                    this.setState({ GuideConstructeurName: e.target.files[0].name });
-                }
-                break;
-            default:
-                this.setState({ [e.target.name]: e.target.value });
         }
     };
+
+    readCarnetDeBord(link) {
+        let result = {
+            "_declaration": {
+                "_attributes": {
+                    "version": "1.0",
+                    "encoding": "utf-8"
+                }
+            }
+        }
+        let data = excelToJson({
+            sourceFile: link,
+            header: {
+                rows: 1
+            },
+            columnToKey: {
+                A: 'date',
+                B: 'affectation',
+                C: 'matricule_interne',
+                D: 'type',
+                E: 'marque',
+                F: 'modele',
+                G: 'description',
+                H: 'chauffeur',
+                I: 'autorisation',
+                J: 'compteur_debut',
+                K: 'compteur_fin'
+            }
+        })
+        result.contenu = {}
+        result.contenu.sortie = data['Carnet de bord']
+        alert(result)
+        alert(result.contenu)
+        return result
+    }
 
     handleClickOpen = () => {
         this.setState({ openDialog: true });
     }
 
-    handleClose = () => {
+    handleCloseMAJ = () => {
         this.setState({ openDialog: false });
+        const xhr = new XMLHttpRequest();
+
+        // get a callback when the server responds
+
+        xhr.addEventListener('load', () => {
+            // update the state of the component with the result here
+        });
+
+        // open the request with the verb and the url
+
+        xhr.open('POST', 'http://localhost:3001/api/files/carnet-de-bord', true)
+
+        // send the request
+
+        xhr.send({ file: this.state.CarnetDebord });
         this.props.var();
     };
 
     render() {
-        const FicheTechniqueName = this.state.FicheTechniqueName;
         const CarnetDebordName = this.state.CarnetDebordName;
-        const FicheSuivisName = this.state.FicheSuivisName;
-        const GuideConstructeurName = this.state.GuideConstructeurName;
-        let file1 = null;
-        let file2 = null;
-        let file3 = null;
-        let file4 = null;
-        file1 = FicheTechniqueName
-            ? (<span>{FicheTechniqueName}</span>)
-            : (<span>Aucun fichier</span>);
-        file2 = CarnetDebordName
+        let file = null;
+        file = CarnetDebordName
             ? (<span>{CarnetDebordName}</span>)
             : (<span>Aucun fichier</span>);
-        file3 = FicheSuivisName
-            ? (<span>{FicheSuivisName}</span>)
-            : (<span>Aucun fichier</span>);
-        file4 = GuideConstructeurName
-            ? (<span>{GuideConstructeurName}</span>)
-            : (<span>Aucun fichier</span>);
+
 
         return (
             <div >
                 <Dialog open={this.state.openDialog} onClose={this.handleClose}  >
                     <DialogTitle className="Dialog-Text">Mise à jour du calendrier de maintenance</DialogTitle>
                     <DialogContent>
-                    <DialogContentText margin="normal">
-                            Selectionner les fichiers
+                        <DialogContentText margin="normal">
+                            Selectionnez le carnet de bord
                         </DialogContentText>
                         <div className="Grid-Dialog">
                             <div >
                                 <Button startIcon={<PublishIcon />} className="button-Upload" variant="contained" component="label" >
-                                    Fiche technique
-                                    <input name="selectedFile1" onChange={(event) => this.onChangeInput(event)} type="file" style={{ display: "none" }} />
-                                </Button>
-                                <label className="label" htmlFor="file">{file1}</label>
-                            </div>
-                            <div>
-                                <Button startIcon={<PublishIcon />} className="button-Upload" variant="contained" component="label" >
                                     Carnet de bord
-                                    <input name="selectedFile2" onChange={(event) => this.onChangeInput(event)} type="file" style={{ display: "none" }} />
+                                    <input id="FichierInput" name="selectedFile" onChange={(event) => this.onChangeInput(event)} type="file" style={{ display: "none" }} />
                                 </Button>
-                                <label className="label" htmlFor="file">{file2}</label>
                             </div>
-                            <div>
-                                <Button startIcon={<PublishIcon />} className="button-Upload" variant="contained" component="label" >
-                                    Fiche de suivis
-                                    <input name="selectedFile3" onChange={(event) => this.onChangeInput(event)} type="file" style={{ display: "none" }} />
-                                </Button>
-                                <label className="label" htmlFor="file3">{file3}</label>
-                            </div>
-                            <div>
-                                <Button startIcon={<PublishIcon />} className="button-Upload" variant="contained" component="label" >
-                                    Guide constructeur
-                                    <input name="selectedFile4" onChange={(event) => this.onChangeInput(event)} type="file" style={{ display: "none" }} />
-                                </Button>
-                                <label className="label" htmlFor="file">{file4}</label>
-                            </div>
+                            <label className="label" htmlFor="file">{file}</label>
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={this.handleCloseMAJ} color="primary">
                             Mettre à jour
                         </Button>
                     </DialogActions>

@@ -22,45 +22,20 @@ import BuildIcon from '@material-ui/icons/Build';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import GradeIcon from '@material-ui/icons/Grade';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
-import { ListeVoiture } from './ListeVoiture';
-import { ListeModèle } from './ListeModèle';
-import { ListeBesoin } from './ListeBesoin';
 
 // Ressources pour l'édition d'un planning, elle sont présente dans la fêntre latéral lors de l'ajout/édition d'une maintenance
 // les instances et les codes couleurs sont obligatoire, du moins je n'ai pas pu faire sans
 // plus d'information sur  https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/resources/
-const Ressources = [{
-    fieldName: 'vehicule',
-    title: 'vehicule',
-    instances: ListeVoiture,
-}, {
-    fieldName: 'modele',
-    title: 'modèle',
-    instances: ListeModèle
-}, {
-    fieldName: 'Niveau_maintenance',
-    title: 'Niveau Maintenance',
+const RessourceFormulaire = [{
+    fieldName: 'niveau',
+    title: 'niveau',
     instances: [
-        { id: '1', text: 'Niveau 1', color: '#e8eaf6' },
-        { id: '2', text: 'Niveau 2', color: '#e8eaf6' },
-        { id: '3', text: 'Niveau 3', color: '#e8eaf6' },
-        { id: '4', text: 'Niveau 4', color: '#e8eaf6' },
-        { id: '5', text: 'Niveau 5', color: '#e8eaf6' },
+        { id: '1', text: '1', color: '#e8eaf6' },
+        { id: '2', text: '2', color: '#852010' },
+        { id: '3', text: '3', color: '#961258' },
+        { id: '4', text: '4', color: '#961274' },
+        { id: '5', text: '5', color: '#964578' },
     ],
-}, {
-    fieldName: 'echelon_maintenance',
-    title: 'échelon',
-    instances: [
-        { id: '1', text: 'échelon 1', color: '#e8eaf6' },
-        { id: '2', text: 'échelon 2', color: '#e8eaf6' },
-        { id: '3', text: 'échelon 3', color: '#e8eaf6' },
-        { id: '4', text: 'échelon 4', color: '#e8eaf6' },
-        { id: '5', text: 'échelon 5', color: '#e8eaf6' },
-    ],
-}, {
-    fieldName: 'Besoin',
-    title: 'Besoin',
-    instances: ListeBesoin,
 }];
 
 //Style des maintenances dans le calendrier, et des popups
@@ -168,13 +143,13 @@ const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
                     <DriveEtaIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>{appointmentData?.vehicule}</span>
+                    <span>Matrice du véhicule : {appointmentData?.vehicule}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <LocalOfferIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>affiliation : {appointmentData?.affiliation}</span>
+                    <span>affiliation : {appointmentData?.affectation}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <BuildIcon className={classes.icon} />
@@ -192,7 +167,7 @@ const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
                     <BusinessCenterIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>{}</span>
+                    <span>Besoin : {appointmentData?.besoin.contenu.intitule._text+', quantité : '+appointmentData?.besoin.contenu.quantite._text}</span>
                 </Grid>
 
             </Grid >
@@ -209,7 +184,7 @@ const UneMaintenance = withStyles(styles)(({
             {...restProps}
             style={{
                 ...styles,
-                backgroundColor: '#174a84',
+                //backgroundColor: '#174a84',
                 borderRadius: '8px',
             }}
             data={data}
@@ -241,4 +216,4 @@ export { UneMaintenance };
 export { MaintenanceContent };
 export { PopContent };
 export { PopHeader };
-export { Ressources};
+export { RessourceFormulaire};

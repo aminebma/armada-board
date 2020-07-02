@@ -17,7 +17,7 @@ import {
     Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, Ressources } from './Planning.tsx';
+import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, RessourceFormulaire } from './Planning.tsx';
 
 export default class TestPlanning extends Component {
 
@@ -88,16 +88,17 @@ export default class TestPlanning extends Component {
     }
 
     render() {
-        /*const mesMaintenances = this.state.data.map(function (Unemaintenance) {
+       /* const mesMaintenances = this.state.data.map(function (Unemaintenance) {
             return (
                 <div>
                     <p>le Id de la maintenance : {Unemaintenance.id}</p>
                     <p>le type de la maintenance : {Unemaintenance.title}</p>
                     <p>le niveau de la maintenance : {Unemaintenance.niveau[0]}</p>
                     <p>l'echelon de la maintenance : {Unemaintenance.echelon[0]}</p>
-                    <p>la date du début de la maintenance : {Unemaintenance.startdate}</p>
-                    <p>le date de fin de la maintenance : {Unemaintenance.enddate}</p>
+                    <p>la date du début de la maintenance : {Unemaintenance.startDate}</p>
+                    <p>le date de fin de la maintenance : {Unemaintenance.endDate}</p>
                     <p>le véhicule de la maintenance : {Unemaintenance.vehicule}</p>
+                    <p>le besoin de la maintenance : {Unemaintenance.besoin.contenu.quantite._text}</p>
                     <p>--------------------------------------------------------------------</p>
                 </div>
             )
@@ -116,20 +117,18 @@ export default class TestPlanning extends Component {
                     <Scheduler data={this.state.data} >
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
-                        <IntegratedEditing />
-                        <WeekView startDayHour={9} endDayHour={19} />
+                        <WeekView startDayHour={7} endDayHour={17} />
                         <WeekView name="work-week" displayName="Work Week" excludedDays={[6, 7]} startDayHour={7} endDayHour={19} />
                         <MonthView />
-                        <DayView startDayHour={9} endDayHour={19} />
+                        <DayView startDayHour={7} endDayHour={17} />
                         <Toolbar />
                         <DateNavigator />
                         <TodayButton />
                         <ViewSwitcher />
                         <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?" />
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
-                        <Resources />
-                        <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showOpenButton showDeleteButton showCloseButton />
-                        <AppointmentForm />
+                        <Resources data={RessourceFormulaire} mainResourceName={'niveau'} />
+                        <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent}  showDeleteButton showCloseButton />
                     </Scheduler>
                 </Paper>
             </div>

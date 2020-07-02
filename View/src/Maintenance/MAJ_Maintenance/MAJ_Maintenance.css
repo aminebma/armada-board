@@ -1,8 +1,9 @@
 .Grid-Dialog{
     display: grid;
     width: 500px;
-    height: 170px;
-    grid-template-columns: 1fr 1fr;
+    height: 80px;
+    grid-template-columns: 1fr ;
+    grid-template-rows: 1fr 1fr;
     margin: 2%;
 
 }
