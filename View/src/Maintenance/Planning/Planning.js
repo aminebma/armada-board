@@ -88,20 +88,20 @@ export default class TestPlanning extends Component {
     }
 
     render() {
-        const mesMaintenances = this.state.data.map(function (Unemaintenance) {
+        /*const mesMaintenances = this.state.data.map(function (Unemaintenance) {
             return (
                 <div>
                     <p>le Id de la maintenance : {Unemaintenance.id}</p>
-                    <p>le type de la maintenance : {Unemaintenance.type}</p>
+                    <p>le type de la maintenance : {Unemaintenance.title}</p>
                     <p>le niveau de la maintenance : {Unemaintenance.niveau[0]}</p>
                     <p>l'echelon de la maintenance : {Unemaintenance.echelon[0]}</p>
-                    <p>la date du début de la maintenance : {Unemaintenance.date_debut}</p>
-                    <p>le date de fin de la maintenance : {Unemaintenance.date_fin}</p>
+                    <p>la date du début de la maintenance : {Unemaintenance.startdate}</p>
+                    <p>le date de fin de la maintenance : {Unemaintenance.enddate}</p>
                     <p>le véhicule de la maintenance : {Unemaintenance.vehicule}</p>
                     <p>--------------------------------------------------------------------</p>
                 </div>
             )
-        })
+        })*/
 
         //rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
@@ -111,10 +111,6 @@ export default class TestPlanning extends Component {
         // plus d'information sur les propriétés de chaque composant sur https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/getting-started/
     
         return (
-            <div>
-                {mesMaintenances}
-            
-            {/*
             <div>
                 <Paper className="Calendar">
                     <Scheduler data={this.state.data} >
@@ -136,8 +132,6 @@ export default class TestPlanning extends Component {
                         <AppointmentForm />
                     </Scheduler>
                 </Paper>
-            </div>
-            */}
             </div>
         );
     }
