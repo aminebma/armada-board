@@ -27,7 +27,7 @@ pool.connect()
 
 //This will add a new Fiche Technique to the database in the xml format. The req body should include the Excel file of
 //a Fiche technique in a file attribute
-router.post('/fiche-technique', fileUpload('file'),async(req,res)=>{
+router.post('/fiche-technique', fileUpload.single('file'),async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     await readFicheTechnique(req.file.path)
