@@ -47,15 +47,24 @@ class MAJMaintenance extends Component {
     handleMAJ = () => {
         this.setState({ openDialog: false });
         let formData = new FormData();
+        let result = null;
+        let newData = this.props.data; 
         formData.append("file", this.state.CarnetDebord);
         const xhr = new XMLHttpRequest();
         // get a callback when the server responds
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
-            alert(xhr.responseText)
+            //alert(JSON.parse(xhr.responseText))
+            result = JSON.parse(xhr.responseText);
+            for (let appointments of result) {
+                for (let appointment of appointments.appointments){
+                    newData.push(appointment)
+                }
+            }
+            this.props.onChangeData(newData)
         });
         // open the request with the verb and the url
-        xhr.open('POST', 'http://localhost:3001/api/files/carnet-de-bord', true)
+        xhr.open('POST', 'http://localhost:3001/api/maintenances/planning', true)
         // send the request
         xhr.send(formData);
         this.props.var();

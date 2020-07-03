@@ -24,7 +24,7 @@ export default class Planning extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.data, //transmetre la variable data du parent dans le state du child
+            data: null, //transmetre la variable data du parent dans le state du child
             currentViewName: 'Month',
         };
         this.commitChanges = this.commitChanges.bind(this);
@@ -39,7 +39,6 @@ export default class Planning extends Component {
         this.setState({ currentViewName });
     }
     
-
     //Fonction du changement dans le planning ( ajout , supression, modification d'une maintenance)
     //fonction par défaut du package, je n'y ai pas touché, je ne l'ai pas comprise aussi
     commitChanges({ added, changed, deleted }) {
@@ -61,6 +60,8 @@ export default class Planning extends Component {
     }
 
     render() {
+        const donnee = this.props.data
+        //if(donnee[5]!= null) alert(donnee[5].title+' coucou')
         // rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
         // par exemple le composant EditingState doit avoir bligatoirement la propriété onCommitChanges
@@ -70,7 +71,7 @@ export default class Planning extends Component {
         return (
             <div>
                 <Paper className="Calendar">
-                    <Scheduler data={this.state.data} >
+                    <Scheduler data={donnee}>
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
                         <WeekView startDayHour={7} endDayHour={17} />
