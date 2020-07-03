@@ -16,6 +16,7 @@ class MAJMaintenance extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: this.props.data,
             openDialog: true,
             CarnetDebordName: '',
             CarnetDebord: '',
@@ -31,7 +32,7 @@ class MAJMaintenance extends Component {
                     // Accessed .name from file 
                     this.setState({ CarnetDebordName: e.target.files[0].name });
                     this.setState({ CarnetDebord: e.target.files[0] });
-                    alert(this.state.CarnetDebord);
+                    //alert(this.state.CarnetDebord);
                     //alert(window.document.getElementById("FichierInput").value);
                     //this.readCarnetDeBord("C:\\Users\\darso\\Documents\\Projet\\armada-board\\lib\\files\\Carnet_de_bord.xlsx");
                 }
@@ -39,63 +40,26 @@ class MAJMaintenance extends Component {
         }
     };
 
-    readCarnetDeBord(link) {
-        let result = {
-            "_declaration": {
-                "_attributes": {
-                    "version": "1.0",
-                    "encoding": "utf-8"
-                }
-            }
-        }
-        let data = excelToJson({
-            sourceFile: link,
-            header: {
-                rows: 1
-            },
-            columnToKey: {
-                A: 'date',
-                B: 'affectation',
-                C: 'matricule_interne',
-                D: 'type',
-                E: 'marque',
-                F: 'modele',
-                G: 'description',
-                H: 'chauffeur',
-                I: 'autorisation',
-                J: 'compteur_debut',
-                K: 'compteur_fin'
-            }
-        })
-        result.contenu = {}
-        result.contenu.sortie = data['Carnet de bord']
-        alert(result)
-        alert(result.contenu)
-        return result
-    }
-
     handleClickOpen = () => {
         this.setState({ openDialog: true });
     }
 
-    handleCloseMAJ = () => {
+    handleMAJ = () => {
         this.setState({ openDialog: false });
+        let formData = new FormData();
+        formData.append("file", this.state.CarnetDebord);
         const xhr = new XMLHttpRequest();
-
         // get a callback when the server responds
-
         xhr.addEventListener('load', () => {
             // update the state of the component with the result here
+            alert(xhr.responseText)
         });
-
         // open the request with the verb and the url
-
         xhr.open('POST', 'http://localhost:3001/api/files/carnet-de-bord', true)
-
         // send the request
-
-        xhr.send({ file: this.state.CarnetDebord });
+        xhr.send(formData);
         this.props.var();
+
     };
 
     render() {
@@ -104,8 +68,6 @@ class MAJMaintenance extends Component {
         file = CarnetDebordName
             ? (<span>{CarnetDebordName}</span>)
             : (<span>Aucun fichier</span>);
-
-
         return (
             <div >
                 <Dialog open={this.state.openDialog} onClose={this.handleClose}  >
@@ -125,7 +87,7 @@ class MAJMaintenance extends Component {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleCloseMAJ} color="primary">
+                        <Button onClick={this.handleMAJ} color="primary">
                             Mettre à jour
                         </Button>
                     </DialogActions>

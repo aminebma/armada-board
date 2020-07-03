@@ -30,11 +30,11 @@ const RessourceFormulaire = [{
     fieldName: 'niveau',
     title: 'niveau',
     instances: [
-        { id: '1', text: '1', color: '#e8eaf6' },
-        { id: '2', text: '2', color: '#852010' },
-        { id: '3', text: '3', color: '#961258' },
-        { id: '4', text: '4', color: '#961274' },
-        { id: '5', text: '5', color: '#964578' },
+        { id: 1, text: '1', color: '#e8eaf6' },
+        { id: 2, text: '2', color: '#852010' },
+        { id: 3, text: '3', color: '#961258' },
+        { id: 4, text: '4', color: '#961274' },
+        { id: 5, text: '5', color: '#964578' },
     ],
 }];
 
