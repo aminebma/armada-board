@@ -24,7 +24,8 @@ class Maintenance extends Component {
     //fonction qui sera transmise au child pour pouvoir changer la variable data du state parent ( maintenance.js)
     onChangeData(newdata) {
         this.setState({ data: newdata })
-        alert(this.state.data)
+        window.location.reload(false)
+        //alert(this.state.data[5].title)
     }
 
     // fonction par défaut qui s'éxécute lors de l'affichage de la page
@@ -61,7 +62,6 @@ class Maintenance extends Component {
     }
 
     render() {
-        
         return (
             <div className="div-global">
                 {this.state.AfficherMAJ ? <div>
