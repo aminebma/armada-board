@@ -190,8 +190,8 @@ router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
 router.get('/planning/all/:id', async(req,res)=>{
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-    const text = "SELECT id, type as title, niveau, echelon, date_debut as \"startDate\", date_fin as \"endDate\", vehicule, affectation," +
-        "besoin FROM Maintenance WHERE affectation=$1"
+    const text = "SELECT m.id, m.type as title, m.niveau, m.echelon, m.date_debut as \"startDate\", m.date_fin as \"endDate\", v.matricule_interne as vehicule, m.affectation," +
+        "m.besoin FROM Maintenance as m JOIN Vehicule as v ON m.vehicule = v.id WHERE m.affectation=$1"
     const values = [
       req.params.id
     ]
