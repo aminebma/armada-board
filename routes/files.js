@@ -257,13 +257,17 @@ async function readFicheControleCouts(url) {
                 columnToKey: {
                     A: 'date',
                     B: 'numero_note',
-                    C: 'compteur_debut',
-                    D: 'compteur_fin',
-                    E: 'description',
-                    F: 'quantite_carburant',
-                    G: 'cout_carburant',
-                    H: 'cout_consommables',
-                    I: 'autres_couts'
+                    C: 'affectation',
+                    D: 'type',
+                    E: 'marque',
+                    F: 'modele',
+                    G: 'compteur_debut',
+                    H: 'compteur_fin',
+                    I: 'description',
+                    J: 'quantite_carburant',
+                    K: 'cout_carburant',
+                    L: 'cout_consommables',
+                    M: 'autres_couts'
                 }
             })
             result.contenu = {}
