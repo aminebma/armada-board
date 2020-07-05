@@ -232,3 +232,4 @@ GET /api/maintenances/planning/all/1 304 - - 336.084 ms
 GET /api/reports/ 200 44 - 22301.380 ms
 GET /api/reports/ 200 44 - 6571.578 ms
 GET /api/reports/ 200 200 - 140253.785 ms
+GET /api/reports/ 200 200 - 4.070 ms

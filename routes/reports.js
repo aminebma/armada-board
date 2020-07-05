@@ -144,12 +144,12 @@ router.get('/', async(req,res)=>{
                     })
                     j++
                 } else{
+                    j++
                     if(result.category[i-1].name===report.categorie){
                         result.category[i-1].subCategory.push({
                             id: j,
                             name: report.nom
                         })
-                        j++
                     } else{
                         i++
                         j=1
