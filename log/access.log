@@ -223,3 +223,12 @@ POST /api/reports/ 200 25 - 122.489 ms
 GET /api/reports/suivi_couts 200 157614 - 498.975 ms
 GET /api/reports/suivi_vehicules 200 85179 - 244.522 ms
 GET /api/reports/activite_vehicules 200 129959 - 364.020 ms
+GET /api/maintenances/planning/all/1 200 292 - 478.288 ms
+POST /api/maintenances/planning 200 3362 - 2619.438 ms
+GET /api/maintenances/planning/all/1 200 3045 - 11.735 ms
+GET /api/maintenances/planning/all/1 304 - - 101.680 ms
+GET /api/maintenances/planning/all/1 304 - - 98.409 ms
+GET /api/maintenances/planning/all/1 304 - - 336.084 ms
+GET /api/reports/ 200 44 - 22301.380 ms
+GET /api/reports/ 200 44 - 6571.578 ms
+GET /api/reports/ 200 200 - 140253.785 ms

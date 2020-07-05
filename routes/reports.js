@@ -122,7 +122,49 @@ router.get('/', async(req,res)=>{
     const text = "SELECT DISTINCT ON(nom) nom, categorie FROM Fichier WHERE type='KPI'"
     await pool.query(text)
         .then(async reports => {
-            res.send(reports.rows)
+            reports.rows.sort(function(a, b){
+                const x = a.categorie.toLowerCase()
+                const y = b.categorie.toLowerCase()
+                if(x < y) return -1
+                if(x > y) return 1
+                return 0
+            })
+            let result = {}
+            result.category = []
+            let i =1, j=1
+            for(let [index, report] of reports.rows.entries()){
+                if(index === 0){
+                    result.category.push({
+                        id: 1,
+                        name: report.categorie,
+                        subCategory: [{
+                            id: 1,
+                            name: report.nom
+                        }]
+                    })
+                    j++
+                } else{
+                    if(result.category[i-1].name===report.categorie){
+                        result.category[i-1].subCategory.push({
+                            id: j,
+                            name: report.nom
+                        })
+                        j++
+                    } else{
+                        i++
+                        j=1
+                        result.category.push({
+                            id: i,
+                            name: report.categorie,
+                            subCategory: [{
+                                id: j,
+                                name: report.nom
+                            }]
+                        })
+                    }
+                }
+            }
+            res.send(result)
         })
         .catch(e => {
             console.error(e.message)
