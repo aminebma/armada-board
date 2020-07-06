@@ -137,3 +137,6 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
+!/package-lock.json
+!/lib/jasperreports-5.6.0/dist/docs/
+!/log/access.log

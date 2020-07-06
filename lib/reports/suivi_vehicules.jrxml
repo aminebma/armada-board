@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="activite_vehicules" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b5e8d62-86aa-4c9d-917e-68dbeb83347a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Distance par type" uuid="49d78be6-eab3-4fc7-a2b8-29efc53fac39">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT SUM(foo.distance) as total_distance, foo.type as type_vehicule
+FROM (SELECT (MAX(xmltable.compteur_fin)-MIN(xmltable.compteur_debut)) as distance, xmltable.type
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS type text,
+			 		compteur_debut int,
+			 		compteur_fin int,
+			 		matricule_interne text,
+					date text)
+WHERE date>=$P{date_debut} and date<=$P{date_fin}
+GROUP BY xmltable.type) as foo
+group by foo.type]]>
+		</queryString>
+		<field name="total_distance" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="total_distance"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+	</subDataset>
+	<subDataset name="Distance par type par jour" uuid="d700a312-d646-410f-940c-873fceddd2b7">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT (MAX(xmltable.compteur_fin)-MIN(xmltable.compteur_debut)) as distance, xmltable.type as type_vehicule, xmltable.date
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS type text,
+			 		compteur_debut int,
+			 		compteur_fin int,
+			 		matricule_interne text,
+					date text)
+WHERE date>=$P{date_debut} and date<=$P{date_fin}
+GROUP BY xmltable.date, xmltable.type]]>
+		</queryString>
+		<field name="distance" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="distance"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="date" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		</field>
+	</subDataset>
+	<subDataset name="Classement par type" uuid="49067533-40cd-451c-b095-3efc255f2f5e">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT SUM(foo.distance) as total_distance, foo.type as type_vehicule, foo.marque, foo.modele
+FROM (SELECT (xmltable.compteur_fin-xmltable.compteur_debut) as distance, xmltable.type, xmltable.marque, xmltable.modele, xmltable.date
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS type text,
+			 		marque text,
+			 		modele text,
+			 		compteur_debut int,
+			 		compteur_fin int,
+			 		matricule_interne text,
+					date text)
+WHERE date>=$P{date_debut} and date<=$P{date_fin}) as foo
+group by foo.type, foo.marque, foo.modele
+ORDER BY total_distance DESC
+LIMIT(5)]]>
+		</queryString>
+		<field name="total_distance" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="total_distance"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+	</subDataset>
+	<subDataset name="Distance par modele par jour" uuid="cbbd4340-5952-4dbd-86d8-1cf95464719d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT (MAX(xmltable.compteur_fin)-MIN(xmltable.compteur_debut)) as distance, xmltable.type as type_vehicule, xmltable.marque, xmltable.modele, xmltable.date
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS type text,
+			 		marque text,
+			 		modele text,
+			 		compteur_debut int,
+			 		compteur_fin int,
+			 		matricule_interne text,
+					date text)
+	 where date>=$P{date_debut} and date<=$P{date_fin}
+	 group by xmltable.date, xmltable.type, marque, modele]]>
+		</queryString>
+		<field name="distance" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="distance"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+		<field name="date" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		</field>
+	</subDataset>
+	<parameter name="date_debut" class="java.lang.String"/>
+	<parameter name="date_fin" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT xmltable.*, u.nom, u.classe, u.affiliation, u.region
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS type text,
+					marque text,
+					modele text,
+					affectation int,
+			 		matricule_interne text,
+					date text) 
+					JOIN Unite as u ON u.id=xmltable.affectation]]>
+	</queryString>
+	<field name="type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="type"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fichier"/>
+	</field>
+	<field name="marque" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="marque"/>
+	</field>
+	<field name="modele" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="modele"/>
+	</field>
+	<field name="affectation" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="affectation"/>
+	</field>
+	<field name="matricule_interne" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="matricule_interne"/>
+	</field>
+	<field name="date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+	</field>
+	<field name="nom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<field name="classe" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="classe"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<field name="affiliation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="affiliation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<field name="region" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="region"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<title>
+		<band height="754" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="1" y="49" width="549" height="20" uuid="72c965a2-3396-4485-98e8-eb30784fea37"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Id: "+$F{affectation}+"   Nom unité: "+$F{nom}+"   Classe: "+$F{classe}+"   Affiliation: "+$F{affiliation}+"   Région: "+$F{region}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement mode="Opaque" x="1" y="0" width="549" height="49" forecolor="#FFFFFF" backcolor="#46B7BD" uuid="7d27478f-d18e-4ea9-bada-4aa19bc43f6d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="19" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Evaluation de l'activité de la flotte lors des sorties durant la période du "+$P{date_debut}+" au "+$P{date_fin}]]></textFieldExpression>
+			</textField>
+			<pie3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="1" y="82" width="550" height="278" uuid="c6f1812e-41a7-4c80-ba1a-cd1dedb1f832"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Distance parcourue par type de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Distance par type" uuid="bec7fd18-fa35-49c8-a815-98f607f0962a">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{type_vehicule}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total_distance}]]></valueExpression>
+					<labelExpression><![CDATA[$F{type_vehicule}+" "+$F{total_distance}+" Km"]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<bar3DChart>
+				<chart evaluationTime="Report">
+					<reportElement style="Table_TD" x="1" y="408" width="550" height="265" uuid="0892f17f-29fe-4e63-8a67-6c056390d3e1"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Distance journalière parcourue par type de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Distance par type par jour" uuid="5346ff96-7c33-414a-a1b8-45ecefd2c904">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{type_vehicule}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{distance}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</title>
+	<summary>
+		<band height="802" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<componentElement>
+				<reportElement x="0" y="88" width="550" height="252" uuid="fe5a602a-e7c3-40cc-94d8-f3528ba69cc8">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Classement par type" uuid="b4950e52-e132-417e-b998-2d66c8c09de3">
+						<datasetParameter name="date_debut">
+							<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="date_fin">
+							<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="138" uuid="e973805d-ef34-410f-b97a-2f78cfb085cc">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="138" height="30" uuid="60e0e207-e7a0-41d1-ac81-f3e309dec905"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="138" height="30" uuid="d0ee00fe-83cc-4583-a21a-1fc78b3878b0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{type_vehicule}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="138" uuid="03118142-8fe6-45fb-8c57-eced1237a8c6">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="138" height="30" uuid="bc47d6a8-f7e3-4c1c-80af-fb3b4baf0e99"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Marque]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="138" height="30" uuid="bb431097-3d19-498c-a56b-50a301af710e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{marque}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="137" uuid="6c41e6ba-516b-4081-86f6-90edddacd9a6">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="137" height="30" uuid="271aae61-ab26-46f5-a16a-5df848c9c170"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Modele]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="137" height="30" uuid="b79c413a-2d68-4bb4-a9de-d3586dac6bb2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{modele}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="137" uuid="dd897b16-36c2-472e-b6ff-3b9d1a6be5a3">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="137" height="30" uuid="25803ee9-6a07-4c75-9d32-b28c07794e7d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="16" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Distance (Km)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="137" height="30" uuid="b7567a7e-bd77-4ad6-8949-919f67f21dcb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{total_distance}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="1" y="47" width="548" height="30" uuid="33bb81b3-6da1-4c9b-82a6-0eb93b6c735b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Classement des véhicule par distance parcourue]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="280" y="770" width="272" height="30" uuid="04c23378-7d9e-469c-a199-e1e84b61bd0b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="19" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date du jour: "+new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report">
+					<reportElement x="1" y="344" width="548" height="320" uuid="68b1948e-2882-4fa0-9d2a-988bf416d704"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Evolution journalière des distances parcourues par modèle de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Distance par modele par jour" uuid="bdfc2a1a-cd6a-467e-9d72-0a023fec0ca2">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{marque}+" "+$F{modele}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{distance}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

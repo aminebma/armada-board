@@ -13,6 +13,8 @@ pool.connect()
 
 //This will be used from a manager to sign in. the request body should have both the username and password.
 router.post('/sign-in', async(req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Utilisateur WHERE username=$1"
     const values = [req.body.username]
 
@@ -35,6 +37,8 @@ router.post('/sign-in', async(req, res)=>{
 //This will display the contact information of the unity's administrators to contact them for reseting a manager's
 //password. The request body should have the username of the manager.
 router.get('/reset-password', async(req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let text = "SELECT nom, prenom, numTel, mail " +
         "FROM (SELECT affectation as userAff FROM Utilisateur WHERE username=$1) as rechAff, Utilisateur as u " +
         "WHERE u.affectation=rechAff.userAff and type=1"

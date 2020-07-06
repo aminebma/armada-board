@@ -53,17 +53,20 @@ init()
 //This will add a new report to the jasper server and the database. The report will be stored in lib/reports.
 //The request body should contain the name of the report, the .jrxml and the .jasper file of the report
 router.post('/', reportUpload.array('report', 2), async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const report = {
         jrxml: `..\\${req.files[0].path}`,
         jasper: `..\\${req.files[1].path}`
     }
     jasper.add(req.body.name,report)
-    const text = "INSERT INTO Fichier(type,url,nom) VALUES('KPI',$1,$2) RETURNING id"
+    const text = "INSERT INTO Fichier(type,url,nom,categorie) VALUES('KPI',$1,$2,$3) RETURNING id"
     let values = []
     for(let file of req.files) {
         values = [
             `..\\${file.path}`,
-            req.body.name
+            req.body.nom,
+            req.body.categorie
         ]
         await pool.query(text, values).then(result => {
             console.log(`File added successfully. id: ${result.rows[0].id}`)
@@ -86,6 +89,8 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
 //     }
 // }
 router.get('/:name', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let report
     if(req.body.data) {
         report = {
@@ -97,6 +102,7 @@ router.get('/:name', async (req, res) => {
     }
     try{
         const pdf = await jasper.pdf(report)
+        console.log('Report generated successfully.')
         res.set({
             'Content-type': 'application/pdf',
             'Content-Length': pdf.length
@@ -110,23 +116,95 @@ router.get('/:name', async (req, res) => {
 
 })
 
-//This will delete a report from the database and from the jasper server
-router.delete('/:name', async (req, res)=>{
-    fs.unlink(`../lib/reports/${req.params.name}`, function (err) {
-        if (err) throw err
-        console.log(`File ..lib/reports/${req.params.name} deleted!`)
-    })
-    const text = "DELETE FROM Fichier WHERE name=$1"
-    const values = [req.params.name]
-    await poo.query(text,values)
-        .then(()=>{
-            res.send({ Message: 'Report deleted successfully'})
+router.get('/', async(req,res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    const text = "SELECT DISTINCT ON(nom) nom, categorie FROM Fichier WHERE type='KPI'"
+    await pool.query(text)
+        .then(async reports => {
+            reports.rows.sort(function(a, b){
+                const x = a.categorie.toLowerCase()
+                const y = b.categorie.toLowerCase()
+                if(x < y) return -1
+                if(x > y) return 1
+                return 0
+            })
+            let result = {}
+            result.category = []
+            let i =1, j=1
+            for(let [index, report] of reports.rows.entries()){
+                if(index === 0){
+                    result.category.push({
+                        id: 1,
+                        name: report.categorie,
+                        subCategory: [{
+                            id: 1,
+                            name: report.nom
+                        }]
+                    })
+                    j++
+                } else{
+                    j++
+                    if(result.category[i-1].name===report.categorie){
+                        result.category[i-1].subCategory.push({
+                            id: j,
+                            name: report.nom
+                        })
+                    } else{
+                        i++
+                        j=1
+                        result.category.push({
+                            id: i,
+                            name: report.categorie,
+                            subCategory: [{
+                                id: j,
+                                name: report.nom
+                            }]
+                        })
+                    }
+                }
+            }
+            res.send(result)
         })
-        .catch(err => {
-            console.log(err.message)
-            res.send(err.message)
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
         })
 })
+
+//This will delete a report from the database and from the jasper server
+router.delete('/:name', async (req, res)=>{
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    let text = "SELECT url FROM Fichier where nom=$1 order by url desc"
+    let values = [req.params.name]
+    await pool.query(text, values)
+        .then(async report =>{
+            fs.unlink(report.rows[0].url.substring(3), function (err) {
+                if (err) return res.send(err)
+                console.log(`File ${report.rows[0].url.substring(3)} deleted!`)
+            })
+            fs.unlink(report.rows[1].url.substring(3), function (err) {
+                if (err) return res.send(err)
+                console.log(`File ${report.rows[1].url.substring(3)} deleted!`)
+            })
+            text = "DELETE FROM Fichier WHERE nom=$1"
+            values = [req.params.name]
+            await pool.query(text,values)
+                .then(()=>{
+                    res.send({ Message: 'Report deleted successfully'})
+                })
+                .catch(err => {
+                    console.log(err.message)
+                    res.send(err.message)
+                })
+        })
+        .catch(e=>{
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
 module.exports = router
 
 //This function gets all the urls of the reports in the server when launching it

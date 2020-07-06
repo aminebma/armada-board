@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import PublishIcon from '@material-ui/icons/Publish';
 import { IconButton } from '@material-ui/core';
 import './MAJ_Maintenance.css';
+import excelToJson from 'convert-excel-to-json/lib/convert-excel-to-json';
 
 class MAJMaintenance extends Component {
 
