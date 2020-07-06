@@ -88,13 +88,13 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
 //         "date_fin":"2020-07-04"
 //     }
 // }
-router.get('/:name', async (req, res) => {
+router.post('/report', async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let report
     if(req.body.data) {
         report = {
-            report: req.params.name,
+            report: req.body.name,
             data: req.body.data
         }
     }else{
