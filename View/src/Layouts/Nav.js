@@ -62,9 +62,9 @@ export default function Nav (){
                     classes={{paper : classes.drawerPaper}}
                 >
                     <Toolbar />
+                    <img src="https://i.ibb.co/nfMwgg2/AB.png" alt="Logo" height="149" width="166" style={{ marginLeft :30, marginBottom : 20 }} />
                     <List component="nav">
-                        <ListItem alignItems="flex-start">
-                            <img src="https://i.ibb.co/nfMwgg2/AB.png" alt="Logo" height="175" width="175" />
+                        <ListItem alignItems="flex-start" >
                         </ListItem>
                         <Link to="/Maintenance" className={classes.link}>
                             <ListItem 

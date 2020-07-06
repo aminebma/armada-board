@@ -43,52 +43,11 @@ const styles = theme => ({
     },
 });
 function getItems() {
-    var json = {
-        category: [
-            {
-                id: 1,
-                name : "Maintenance",
-                subCategory :[
-                    {
-                        id : 1,
-                        name : 'nombre de jours par années'
-                    },
-                    {
-                        id : 2,
-                        name :'nombre d\'années par jours'
-                    }
-                ]
-            },
-            {
-                id: 2,
-                name : "Flotte",
-                subCategory :[
-                    {
-                        id : 1,
-                        name : 'nombre de véhicules par région'
-                    },
-                    {
-                        id : 2,
-                        name :'nombre de véhicule fonctionnels'
-                    }
-                ]
-            },
-            {
-                id: 3,
-                name : "Chauffeurs",
-                subCategory :[
-                    {
-                        id : 1,
-                        name : 'nombre de chauffeurs par région'
-                    },
-                    {
-                        id : 2,
-                        name :'nombre de chauffeurs disponibles'
-                    }
-                ]
-            },
-        ]
-    };
+    axios.get(`http://localhost:3001/api/reports/`)
+          .then(res => {
+            var json = res.data;
+            this.setState({ json });
+        })
     return json;
 }
 class KpiList extends React.Component {
@@ -291,7 +250,7 @@ class KpiList extends React.Component {
                         <br/> <br/>
                         <Grid item>
                             {this.state.fichier != false ?(
-                                <PDFReader  url="http://localhost:3000/Reporting/pdf/ELWASSIL_LightDev.pdf" renderType="canvas"/>
+                                <PDFReader  url="https://pdfhost.io/v/ac1oAk8aE_Microsoft_Word_Ide_ELWASSSILdocx.pdf" renderType="canvas"/>
                             ) : (
                                 <div>Aucun rapport à afficher.</div>
                             )}
