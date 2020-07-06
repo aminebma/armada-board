@@ -13,6 +13,8 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Divider from "@material-ui/core/Divider";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography, Button } from "@material-ui/core";
+import axios from 'axios';
+
 
 import {
   MuiPickersUtilsProvider,
@@ -41,22 +43,24 @@ const styles = theme => ({
         flexDirection: 'column',
     },
 });
-function getItems() {
-    axios.get(`http://localhost:3001/api/reports/`)
-          .then(res => {
-            var json = res.data;
-            this.setState({ json });
-        })
-    return json;
-}
+
 class KpiList extends React.Component {
     state = {
         titre : 'Catégorie',
         soustitre : 'Indicateur',
         datedebut : '20/05/2019',
         datefin : '',
-        fichier : false
+        fichier : false,
+        kpis : ''
     };
+    componentDidMount(){
+        var json
+        axios.get(`http://localhost:3001/api/reports/`)
+              .then(res => {
+                json = res.data;
+                this.setState({ category : {json} });
+            })
+    }
     handleClick = e => {
         this.setState({ [e]: !this.state[e] });
     };
@@ -83,7 +87,7 @@ class KpiList extends React.Component {
         }));
     }
     render() {
-        const items = getItems();
+        const items = this.state.category;
         const { classes } = this.props;
         return (
             <Grid container spacing={2}>
