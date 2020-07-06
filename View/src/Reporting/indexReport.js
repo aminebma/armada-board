@@ -45,22 +45,31 @@ const styles = theme => ({
 });
 
 class KpiList extends React.Component {
-    state = {
-        titre : 'Catégorie',
-        soustitre : 'Indicateur',
-        datedebut : '20/05/2019',
-        datefin : '',
-        fichier : false,
-        kpis : ''
-    };
-    componentDidMount(){
-        var json
-        axios.get(`http://localhost:3001/api/reports/`)
-              .then(res => {
-                json = res.data;
-                this.setState({ category : {json} });
-            })
+    constructor(props){
+        super(props)
+        this.state = {
+            titre: 'Catégorie',
+            soustitre: 'Indicateur',
+            datedebut: '20/05/2019',
+            datefin: '',
+            fichier: false,
+            kpis: {
+                category: []
+            }
+        };
     }
+
+    componentWillMount(){
+        this.getItems()
+    };
+
+    getItems(){
+        axios.get(`http://localhost:3001/api/reports/`)
+            .then(res => {
+                this.setState({ kpis: res.data });
+            });
+    }
+
     handleClick = e => {
         this.setState({ [e]: !this.state[e] });
     };
@@ -87,13 +96,12 @@ class KpiList extends React.Component {
         }));
     }
     render() {
-        const items = this.state.category;
         const { classes } = this.props;
         return (
             <Grid container spacing={2}>
                 <Grid item xs={3}>
                     <div>
-                        {items.category.map(category => {
+                        {this.state.kpis.category.map(category => {
                             return (
                                 <List
                                     className={classes.root}
@@ -183,7 +191,7 @@ class KpiList extends React.Component {
                     <Paper className={classes.paper}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
-                                <Typography 
+                                <Typography
                                     variant="body1"
                                     className={classes.typoPadding}
                                 >
@@ -191,7 +199,7 @@ class KpiList extends React.Component {
                                 </Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <Typography 
+                                <Typography
                                     variant="body1"
                                     className={classes.typoPadding}
                                 >
@@ -215,7 +223,7 @@ class KpiList extends React.Component {
                                             'aria-label': 'change date',
                                             }}
                                         />
-                                    </Grid> 
+                                    </Grid>
                                 </MuiPickersUtilsProvider>
                             </Grid>
                             <Grid item xs={6}>
@@ -235,7 +243,7 @@ class KpiList extends React.Component {
                                             'aria-label': 'change date',
                                             }}
                                         />
-                                    </Grid> 
+                                    </Grid>
                                 </MuiPickersUtilsProvider>
                             </Grid>
                             <Grid item xs={3}>
