@@ -5,22 +5,22 @@ import {
 
 const data = [
   {
-    name: 'Région 1', Maintenances: 4000,
+    name: 'Région 1', Maintenances: 40,
   },
   {
-    name: 'Région 2', Maintenances: 3000,
+    name: 'Région 2', Maintenances: 30,
   },
   {
-    name: 'Région 3', Maintenances: 2000,
+    name: 'Région 3', Maintenances: 20,
   },
   {
-    name: 'Région 4', Maintenances: 2780,
+    name: 'Région 4', Maintenances: 28,
   },
   {
-    name: 'Région 5', Maintenances: 1890,
+    name: 'Région 5', Maintenances: 19,
   },
   {
-    name: 'Région 6', Maintenances: 2390,
+    name: 'Région 6', Maintenances: 24,
   },
 ];
 

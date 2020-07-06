@@ -1,3 +1,11 @@
+/*
+ce fichier sert à modifier certains composants du calendrier <scheduler> présent dans le fichier Planning.js 
+pour les adapter au maintenances
+
+Lien de la documentation :
+https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/getting-started/
+
+*/
 import React, { Component } from 'react';
 import {
     AppointmentTooltip,
@@ -14,45 +22,23 @@ import BuildIcon from '@material-ui/icons/Build';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import GradeIcon from '@material-ui/icons/Grade';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
-import { ListeVoiture } from './ListeVoiture';
-import { ListeModèle } from './ListeModèle';
-import { ListeBesoin } from './ListeBesoin';
 
-
-const Ressources = [{
-    fieldName: 'véhicule',
-    title: 'vehicule',
-    instances: ListeVoiture,
-}, {
-    fieldName: 'modèle',
-    title: 'modèle',
-    instances: ListeModèle
-}, {
-    fieldName: 'Niveau_maintenance',
-    title: 'Niveau Maintenance',
+// Ressources pour l'édition d'un planning, elle sont présente dans la fêntre latéral lors de l'ajout/édition d'une maintenance
+// les instances et les codes couleurs sont obligatoire, du moins je n'ai pas pu faire sans
+// plus d'information sur  https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/resources/
+const RessourceFormulaire = [{
+    fieldName: 'niveau',
+    title: 'niveau',
     instances: [
-        { id: '1', text: 'Niveau 1', color: '#e8eaf6' },
-        { id: '2', text: 'Niveau 2', color: '#e8eaf6' },
-        { id: '3', text: 'Niveau 3', color: '#e8eaf6' },
-        { id: '4', text: 'Niveau 4', color: '#e8eaf6' },
-        { id: '5', text: 'Niveau 5', color: '#e8eaf6' },
+        { id: 1, text: '1', color: '#e8eaf6' },
+        { id: 2, text: '2', color: '#852010' },
+        { id: 3, text: '3', color: '#961258' },
+        { id: 4, text: '4', color: '#961274' },
+        { id: 5, text: '5', color: '#964578' },
     ],
-}, {
-    fieldName: 'echelon_maintenance',
-    title: 'échelon',
-    instances: [
-        { id: '1', text: 'échelon 1', color: '#e8eaf6' },
-        { id: '2', text: 'échelon 2', color: '#e8eaf6' },
-        { id: '3', text: 'échelon 3', color: '#e8eaf6' },
-        { id: '4', text: 'échelon 4', color: '#e8eaf6' },
-        { id: '5', text: 'échelon 5', color: '#e8eaf6' },
-    ],
-}, {
-    fieldName: 'Besoin',
-    title: 'Besoin',
-    instances: ListeBesoin,
 }];
 
+//Style des maintenances dans le calendrier, et des popups
 
 const styles = ({ palette }: Theme) => createStyles({
     appointment: {
@@ -123,14 +109,18 @@ const styleToolTip = ({ palette }) => createStyles({
     },
 });
 
-
+// création des types et rattachement avec un type par défaut et un modèle de style
+// les types par défaut sont ceux du calendrier du package
+// Les propriétés des composants seront enrichis pour s'adapter au modèle de maintenance
 
 type AppointmentProps = Appointments.AppointmentProps & WithStyles<typeof styles>;
 type AppointmentContentProps = Appointments.AppointmentContentProps & WithStyles<typeof styles>;
 type AppointmentTooltipHeaderProps = AppointmentTooltip.HeaderProps & WithStyles<typeof styleToolTip>;
 type AppointmentTooltipContentProps = AppointmentTooltip.ContentProps & WithStyles<typeof styleToolTip>;
 
-
+//Header du PopUp lorsqu'on clique sur une maintenance dans le planning
+// il n'a pas été modifié car il contient les informations par défaut d'un "appointment" qui sont title,starDate, endDate
+// tout en utilisant les styles définis plus haut
 const PopHeader = withStyles(styleToolTip, { name: 'Header' })(({
     children, appointmentData, ...restProps
 }: AppointmentTooltipHeaderProps) => (
@@ -141,6 +131,9 @@ const PopHeader = withStyles(styleToolTip, { name: 'Header' })(({
         </AppointmentTooltip.Header>
     ));
 
+// Contenu du PopUp lorsqu'on clique sur une maintenance dans le planning
+// il affiche le contenu de la maintenance en question avec des balises jsx standart ( icones+ texte)
+// tout en utilisant les styles définis plus haut
 const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
     children, appointmentData, classes, ...restProps
 }: AppointmentTooltipContentProps) => (
@@ -150,37 +143,40 @@ const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
                     <DriveEtaIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>{appointmentData?.véhicule}</span>
+                    <span>Matrice du véhicule : {appointmentData?.vehicule}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <LocalOfferIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>modèle : {appointmentData?.modèle}</span>
+                    <span>affiliation : {appointmentData?.affectation}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <BuildIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>Niveau : {appointmentData?.Niveau_maintenance}</span>
+                    <span>Niveau : {appointmentData?.niveau[0]}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <GradeIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>échelon : {appointmentData?.echelon_maintenance}</span>
+                    <span>échelon : {appointmentData?.echelon[0]}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <BusinessCenterIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>{appointmentData?.Besoin}</span>
+                    <span>Besoin : {appointmentData?.besoin.contenu.intitule._text+', quantité : '+appointmentData?.besoin.contenu.quantite._text}</span>
                 </Grid>
 
             </Grid >
         </AppointmentTooltip.Content >
     ));
 
+// Le composant qui affiche une maintenance
+// il y'a le background et les bordure
+// c'est l'ossature d'une maintenance dans le calendrier
 const UneMaintenance = withStyles(styles)(({
     data, ...restProps
 }: AppointmentProps) => (
@@ -188,7 +184,7 @@ const UneMaintenance = withStyles(styles)(({
             {...restProps}
             style={{
                 ...styles,
-                backgroundColor: '#174a84',
+                //backgroundColor: '#174a84',
                 borderRadius: '8px',
             }}
             data={data}
@@ -197,6 +193,8 @@ const UneMaintenance = withStyles(styles)(({
 
     ));
 
+// le contenu d'une maintenance dans le calendrier
+// par soucis d'affichage, on affiche seulement le title de la maintenance en question
 const MaintenanceContent = withStyles(styles, { name: 'AppointmentContent' })(({
     classes, data, ...restProps
 }: AppointmentContentProps) => {
@@ -211,8 +209,11 @@ const MaintenanceContent = withStyles(styles, { name: 'AppointmentContent' })(({
     );
 });
 
+
+//exportation des composants qui pourront être utilisé dans Planning.js
+
 export { UneMaintenance };
 export { MaintenanceContent };
 export { PopContent };
 export { PopHeader };
-export { Ressources};
+export { RessourceFormulaire};

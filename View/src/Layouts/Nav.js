@@ -8,6 +8,8 @@ import LineStyleIcon from '@material-ui/icons/LineStyle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Maintenance from '../Maintenance/Maintenance'
 import MaintenanceNav from '../TableauDeBord/TBindex'
+import KpiList from '../Reporting/indexReport'
+      
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: { 
@@ -62,7 +64,7 @@ export default function Nav (){
                     <Toolbar />
                     <List component="nav">
                         <ListItem alignItems="flex-start">
-                            <img src="/Layouts/images/CSE.jpg" alt="Logo" height="100" width="100" />
+                            <img src="https://i.ibb.co/nfMwgg2/AB.png" alt="Logo" height="175" width="175" />
                         </ListItem>
                         <Link to="/Maintenance" className={classes.link}>
                             <ListItem 
@@ -124,7 +126,7 @@ export default function Nav (){
                     </Route>
                     <Route exact path="/Reporting">
                         <Container style={{paddingTop : '50px'}}>
-                            <Typography variant="h1">Repporting</Typography>
+                            <KpiList/>
                         </Container>
                     </Route>
                     <Route exact path="/Cartographie">

@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Maintenance from './Maintenance/TBMaintenance'
+import Flotte from './Flotte/TBFlotte'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -97,7 +98,7 @@ export default function MaintenanceNav() {
         <Maintenance/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Flotte
+        <Flotte/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Chauffeurs
