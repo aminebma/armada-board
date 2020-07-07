@@ -157,13 +157,14 @@ router.post('/', async(req,res)=>{
 
 //This will get a planning from the database that will be between a date range and for a specific unity. The request body
 //should include the start date, end date and unity's id
-router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
+router.post('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
     const text = "SELECT id, type as title, niveau, echelon, date_debut as \"startDate\", date_fin as \"endDate\", vehicule, affectation," +
-        "besoin FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
+        "besoin FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3 and niveau = ANY($4)"
     const values = [
         req.params.affectation,
         req.params.date_debut,
-        req.params.date_fin
+        req.params.date_fin,
+        req.body.niveau
     ]
     await pool.query(text, values)
         .then(async planning => {
