@@ -113,8 +113,8 @@ ALTER SEQUENCE public.fichier_id_seq OWNED BY public.fichier.id;
 CREATE TABLE public.maintenance (
     id bigint NOT NULL,
     type character varying(150) NOT NULL,
-    niveau integer[] NOT NULL,
-    echelon integer[] NOT NULL,
+    niveau integer NOT NULL,
+    echelon integer NOT NULL,
     date_debut timestamp(4) without time zone NOT NULL,
     date_fin timestamp without time zone NOT NULL,
     vehicule bigint NOT NULL,
@@ -157,8 +157,8 @@ ALTER SEQUENCE public.maintenance_id_seq OWNED BY public.maintenance.id;
 CREATE TABLE public.ref_maintenance (
     id integer NOT NULL,
     type character varying(150) NOT NULL,
-    niveau integer[] NOT NULL,
-    echelon integer[] NOT NULL
+    niveau integer NOT NULL,
+    echelon integer NOT NULL
 );
 
 
