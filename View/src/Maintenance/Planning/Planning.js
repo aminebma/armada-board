@@ -32,13 +32,13 @@ export default class Planning extends Component {
         //this.UpdateParentState = this.UpdateParentState.bind(this)
     };
 
-    UpdateParentState(){
+    UpdateParentState() {
         this.props.onChangeData(this.state.data) // MAJ de la variable data du state du parent en passons le contenu de la variable data du state du chil
     }
     currentViewNameChange = (currentViewName) => {
         this.setState({ currentViewName });
     }
-    
+
     //Fonction du changement dans le planning ( ajout , supression, modification d'une maintenance)
     //fonction par défaut du package, je n'y ai pas touché, je ne l'ai pas comprise aussi
     commitChanges({ added, changed, deleted }) {
@@ -71,7 +71,7 @@ export default class Planning extends Component {
         return (
             <div>
                 <Paper className="Calendar">
-                    <Scheduler data={donnee}>
+                    <Scheduler data={donnee} local="fr-FR">
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
                         <WeekView startDayHour={7} endDayHour={17} />
@@ -85,7 +85,8 @@ export default class Planning extends Component {
                         <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?" />
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
                         <Resources data={RessourceFormulaire} mainResourceName={'niveau'} />
-                        <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent}  showDeleteButton showCloseButton />
+                        <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton />
+                        <CurrentTimeIndicator shadePreviousCells="true"  shadePreviousAppointments="true"  updateInterval="20000"/>
                     </Scheduler>
                 </Paper>
             </div>
