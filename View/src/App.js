@@ -5,7 +5,7 @@ import Login from './Layouts/Login'
 function App() {
   return (
     <div> 
-      <Nav />
+      <Login />
     </div>
   );
 }

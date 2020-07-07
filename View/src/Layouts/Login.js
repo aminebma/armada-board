@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -54,6 +55,21 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+const handleLogin = () => {
+  console.log('hey1')
+  const body = {
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value
+  }
+  console.log('hey2')
+  console.log(body)
+  axios.post('http://localhost:3001/api/accounts/sign-in', body)
+      .then(res => {
+            console.log('hey3')
+            alert(res.data)
+      })
+};
 
 export default function Login() {
   const classes = useStyles();
@@ -104,6 +120,7 @@ export default function Login() {
             color="primary"
             className={classes.submit}
             style={{background : '#2196f3'}}
+            onClick={handleLogin}
           >
             Se connecter
           </Button>
