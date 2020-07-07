@@ -28,7 +28,7 @@ pool.connect()
 //This will add a new Fiche Technique to the database in the xml format. The req body should include the Excel file of
 //a Fiche technique in a file attribute
 router.post('/fiche-technique', fileUpload.single('file'),async(req,res)=>{
-    await readFicheTechnique(req.file.path)
+    await readFicheTechnique(req.file.path, req.body)
         .then(async ficheTechnique => {
             let data = await xmlConverter.json2xml(ficheTechnique,{compact: true, spaces: '\t'})
             const text = "INSERT INTO Fichier(type, contenu) VALUES('FT',$1) RETURNING id"
@@ -100,7 +100,7 @@ router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
 //This will add a new Guide Constructeur to the database in the xml format. The req body should include the
 //Excel file of a Guide constructeur in a file attribute
 router.post('/guide-constructeur', fileUpload.single('file') ,async(req,res)=>{
-    await readGuideConstructeur(req.file.path)
+    await readGuideConstructeur(req.file.path, req.body)
         .then(async guideConstructeur => {
             let data = await xmlConverter.json2xml(guideConstructeur,{compact: true, spaces: '\t'})
             const text = "INSERT INTO Fichier(type, contenu) VALUES('GC',$1) RETURNING id"
@@ -265,7 +265,7 @@ async function readFicheControleCouts(url) {
     })
 }
 
-async function readFicheTechnique(url){
+async function readFicheTechnique(url, body){
     return new Promise(async (resolve, reject)=>{
         try {
             let result = {
@@ -290,8 +290,12 @@ async function readFicheTechnique(url){
                     F: 'informations'
                 }
             })
-            result.contenu = {}
-            result.contenu.sortie = data['Fiche technique']
+            result.contenu = {
+                type: body.type,
+                marque: body.marque,
+                modele: body.modele
+            }
+            result.contenu.donnee = data['Fiche technique']
             console.log(result)
             console.log(result.contenu)
             resolve(result)
@@ -301,7 +305,7 @@ async function readFicheTechnique(url){
     })
 }
 
-async function readGuideConstructeur(url){
+async function readGuideConstructeur(url, body){
     return new Promise(async (resolve, reject)=>{
         try {
             let result = {
@@ -319,12 +323,16 @@ async function readGuideConstructeur(url){
                 },
                 columnToKey: {
                     A: 'categorie',
-                    B: 'piece',
-                    C: 'consignes',
+                    B: 'sous_categorie',
+                    C: 'informations',
                 }
             })
-            result.contenu = {}
-            result.contenu.sortie = data['Guide constructeur']
+            result.contenu = {
+                type: body.type,
+                marque: body.marque,
+                modele: body.modele
+            }
+            result.contenu.donnee = data['Guide constructeur']
             console.log(result)
             console.log(result.contenu)
             resolve(result)
