@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const xmlConverter = require('xml-js')
+const xlsx = require('xlsx')
 const moment = require('moment')
 const configIndex = require('../config/index')
 const Maintenance = require('../modules/Maintenance')
@@ -157,13 +158,14 @@ router.post('/', async(req,res)=>{
 
 //This will get a planning from the database that will be between a date range and for a specific unity. The request body
 //should include the start date, end date and unity's id
-router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
+router.post('/planning/export', async(req,res)=>{
     const text = "SELECT id, type as title, niveau, echelon, date_debut as \"startDate\", date_fin as \"endDate\", vehicule, affectation," +
-        "besoin FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3"
+        "besoin FROM Maintenance WHERE affectation=$1 and date_debut>=$2 and date_fin<=$3 and niveau=ANY($4::int[])"
     const values = [
-        req.params.affectation,
-        req.params.date_debut,
-        req.params.date_fin
+        req.body.affectation,
+        req.body.date_debut,
+        req.body.date_fin,
+        req.body.niveau
     ]
     await pool.query(text, values)
         .then(async planning => {
@@ -173,7 +175,20 @@ router.get('/planning/:id/:date_debut/:date_fin', async(req,res)=>{
                     planning.rows[index].besoin = await JSON.parse(xmlConverter.xml2json(maintenance.besoin, {compact: true, spaces: '\t'}))
                 }
             }
-            res.send(planning.rows)
+            const columns = []
+            for(row in planning.rows){
+                columns.push(planning.rows[row])
+            }
+
+            const newWB = xlsx.utils.book_new()
+            const newWS = xlsx.utils.json_to_sheet(columns)
+
+            xlsx.utils.book_append_sheet(newWB,newWS,"Planning de maintenances")
+            xlsx.writeFile(newWB,"Planning.xlsx")
+
+            const buf = xlsx.write(newWB, {type:'buffer', bookType: "xlsx"})
+            res.setHeader('Content-type','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            res.send(buf)
         })
         .catch(e => {
             console.error(e.message)
