@@ -21,6 +21,7 @@
     "devextreme": "20.1.4",
     "devextreme-react": "20.1.4",
     "downloadjs": "^1.4.7",
+    "google-maps-react": "^2.0.6",
     "i": "^0.3.6",
     "mdbreact": "^4.27.0",
     "moment": "^2.27.0",

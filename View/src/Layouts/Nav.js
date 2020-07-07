@@ -9,7 +9,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Maintenance from '../Maintenance/Maintenance'
 import MaintenanceNav from '../TableauDeBord/TBindex'
 import KpiList from '../Reporting/indexReport'
-      
+import Cartographie from '../Cartographie/CartographieIndex'
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: { 
@@ -133,7 +133,7 @@ export default function Nav (){
                     </Route>
                     <Route exact path="/Cartographie">
                         <Container style={{paddingTop : '50px'}}>
-                            <Typography variant="h1">Cartographie</Typography>
+                            <Cartographie />
                         </Container>
                     </Route>
                     <Route exact path="/Maintenance">

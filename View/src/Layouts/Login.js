@@ -18,7 +18,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://cse.club/">
+      <Link color="inherit" href="https://www.github.com/aminebma/armada-board">
         Armada-Board
       </Link>{' '}
       {new Date().getFullYear()}
@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-
   return (
     <MuiThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
@@ -75,10 +74,10 @@ export default function Login() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Adresse mail"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
             color="secondary"
           />
