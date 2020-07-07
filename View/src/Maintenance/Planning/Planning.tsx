@@ -145,13 +145,13 @@ const PopContent = withStyles(styleToolTip, { name: 'Content' })(({
                     <BuildIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>Niveau : {appointmentData?.niveau[0]}</span>
+                    <span>Niveau : {appointmentData?.niveau}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <GradeIcon className={classes.icon} />
                 </Grid>
                 <Grid item xs={10}>
-                    <span>échelon : {appointmentData?.echelon[0]}</span>
+                    <span>échelon : {appointmentData?.echelon}</span>
                 </Grid>
                 <Grid item xs={2} className={classes.textCenter}>
                     <BusinessCenterIcon className={classes.icon} />
