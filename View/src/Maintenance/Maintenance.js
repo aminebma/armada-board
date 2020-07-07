@@ -18,7 +18,7 @@ class Maintenance extends Component {
         }
         this.Show_Export_Planning = this.Show_Export_Planning.bind(this);
         this.Show_MAJ_Maintenance = this.Show_MAJ_Maintenance.bind(this);
-        this.onChangeData= this.onChangeData.bind(this);
+        this.onChangeData = this.onChangeData.bind(this);
     }
 
     //fonction qui sera transmise au child pour pouvoir changer la variable data du state parent ( maintenance.js)
@@ -59,7 +59,7 @@ class Maintenance extends Component {
         this.setState(prevState => {
             return ({ AfficherExport: !prevState.AfficherExport })
         })
-    }
+    };
 
     render() {
         return (
@@ -70,9 +70,9 @@ class Maintenance extends Component {
                 {this.state.AfficherExport ? <div>
                     <ExportPlanning var={this.Show_Export_Planning} />
                 </div> : null}
-                <div className="Working-Page">
+                <div>
+                <Planning data={this.state.data} />
                     <div className="button-under-maintenance">
-                        <Planning data={this.state.data}  />
                         <Button variant="contained" color="primary" onClick={() => this.Show_MAJ_Maintenance()}>Mise à jour du calendrier</Button>
                         <Button variant="contained" color="primary" onClick={() => this.Show_Export_Planning()}>exporter le planning</Button>
                     </div>
