@@ -1,0 +1,1326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suivi_couts" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1779f53d-13fe-4761-a6aa-85212f3a475c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_CH" mode="Opaque" backcolor="#E89C2A">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_CH" mode="Opaque" backcolor="#F09C00">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 4_CH" mode="Opaque" backcolor="#F59D22">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 5_CH" mode="Opaque" backcolor="#F59D22">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 6_CH" mode="Opaque" backcolor="#F59D22">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 7_CH" mode="Opaque" backcolor="#F59D22">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 8_CH" mode="Opaque" backcolor="#F59D22">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Details couts type" uuid="06d82aa5-6969-4cea-89e5-fdebedadc757">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.type as type_vehicule, SUM(xmltable.cout_carburant) as carburant ,SUM(xmltable.cout_consommables) as consommables, SUM(xmltable.autres_couts) as autres
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY type_vehicule
+ORDER BY carburant, consommables, autres DESC]]>
+		</queryString>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="carburant" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="carburant"/>
+		</field>
+		<field name="consommables" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="consommables"/>
+		</field>
+		<field name="autres" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="autres"/>
+		</field>
+	</subDataset>
+	<subDataset name="Details couts modele" uuid="c826e392-180e-42de-a2f1-2c0397f39c56">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.type as type_vehicule, xmltable.marque, xmltable.modele, SUM(xmltable.cout_carburant) as carburant ,SUM(xmltable.cout_consommables) as consommables, SUM(xmltable.autres_couts) as autres
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY type_vehicule, marque, modele
+ORDER BY carburant, consommables, autres DESC
+LIMIT(10)]]>
+		</queryString>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+		<field name="carburant" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="carburant"/>
+		</field>
+		<field name="consommables" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="consommables"/>
+		</field>
+		<field name="autres" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="autres"/>
+		</field>
+	</subDataset>
+	<subDataset name="Evolution par type" uuid="fd719e19-cd78-47ef-b992-139a50a83c95">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.date, xmltable.type as type_vehicule, SUM(xmltable.cout_carburant+xmltable.cout_consommables+xmltable.autres_couts) as cout
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY date, type_vehicule
+ORDER BY date, cout DESC]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="cout" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="cout"/>
+		</field>
+	</subDataset>
+	<subDataset name="Evolution par modele" uuid="5d50af21-e921-429b-90b2-ecd4dbfa0d9d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.date, xmltable.type as type_vehicule, xmltable.marque as marque, xmltable.modele as modele, SUM(xmltable.cout_carburant+xmltable.cout_consommables+xmltable.autres_couts) as cout
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY date, type_vehicule, marque, modele
+ORDER BY date, cout DESC]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+		<field name="cout" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="cout"/>
+		</field>
+	</subDataset>
+	<subDataset name="Classement conso type" uuid="20e4ad79-3fab-4700-9447-ef8fefc60c3a">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.type as type_vehicule, SUM(xmltable.cout_carburant+xmltable.cout_consommables+xmltable.autres_couts) as cout
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY type_vehicule
+ORDER BY cout DESC
+LIMIT(5)]]>
+		</queryString>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="cout" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="cout"/>
+		</field>
+	</subDataset>
+	<subDataset name="Evolution cout carburant par type" uuid="d60c328d-db31-4941-a701-d1640d94d10c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.date, xmltable.type as type_vehicule, SUM(xmltable.cout_carburant) as cout
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY date, type_vehicule
+ORDER BY date, cout DESC]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="cout" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="cout"/>
+		</field>
+	</subDataset>
+	<subDataset name="Evolution cout carburant par modele" uuid="58c6ac04-e95b-4806-ada3-504ef6e07575">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.date, xmltable.type as type_vehicule, xmltable.marque, xmltable.modele, SUM(xmltable.cout_carburant) as cout
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY date, type_vehicule, marque, modele
+ORDER BY date, cout DESC]]>
+		</queryString>
+		<field name="date" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="date"/>
+		</field>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+		<field name="cout" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="cout"/>
+		</field>
+	</subDataset>
+	<subDataset name="Classement conso par modele" uuid="8120a2ff-395d-4a26-ab05-2a0ac898c737">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.type as type_vehicule, xmltable.marque as marque, xmltable.modele as modele, SUM(xmltable.cout_carburant+xmltable.cout_consommables+xmltable.autres_couts) as cout
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY type_vehicule, marque, modele
+ORDER BY cout DESC
+LIMIT(5)]]>
+		</queryString>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+		<field name="cout" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="cout"/>
+		</field>
+	</subDataset>
+	<subDataset name="Conso par type" uuid="55018fa7-6d64-4579-8d8f-43fa8b855d63">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.type as type_vehicule, SUM(xmltable.quantite_carburant) as qte
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY type_vehicule]]>
+		</queryString>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="qte" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="qte"/>
+		</field>
+	</subDataset>
+	<subDataset name="Conso par modele" uuid="69b15200-680c-487f-a385-3fbcd50b6c07">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="db-armada.xml"/>
+		<parameter name="date_debut" class="java.lang.String"/>
+		<parameter name="date_fin" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT xmltable.type as type_vehicule, xmltable.marque as marque, xmltable.modele as modele, SUM(xmltable.quantite_carburant) as qte
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS "date" text,
+				"type" text,
+			 	"marque" text,
+			 	"modele" text,
+			 	"description" text,
+			 	"quantite_carburant" real,
+			 	"cout_carburant" real,
+			 	"cout_consommables" real,
+			 	"autres_couts" real)
+WHERE fichier.type='FCC' and xmltable.date>=$P{date_debut} and xmltable.date<=$P{date_fin}
+GROUP BY type_vehicule, marque, modele]]>
+		</queryString>
+		<field name="type_vehicule" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="type_vehicule"/>
+		</field>
+		<field name="marque" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="marque"/>
+		</field>
+		<field name="modele" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="modele"/>
+		</field>
+		<field name="qte" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.label" value="qte"/>
+		</field>
+	</subDataset>
+	<parameter name="date_debut" class="java.lang.String"/>
+	<parameter name="date_fin" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT xmltable.*, u.nom, u.classe, u.affiliation, u.region
+FROM fichier,
+	XMLTABLE('//contenu/sortie'
+			PASSING contenu
+			COLUMNS type text,
+					marque text,
+					modele text,
+					affectation int,
+			 		matricule_interne text,
+					date text) 
+					JOIN Unite as u ON u.id=xmltable.affectation]]>
+	</queryString>
+	<field name="type" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="type"/>
+	</field>
+	<field name="marque" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="marque"/>
+	</field>
+	<field name="modele" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="modele"/>
+	</field>
+	<field name="affectation" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="affectation"/>
+	</field>
+	<field name="matricule_interne" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="matricule_interne"/>
+	</field>
+	<field name="date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+	</field>
+	<field name="nom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<field name="classe" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="classe"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<field name="affiliation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="affiliation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<field name="region" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="region"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="unite"/>
+	</field>
+	<title>
+		<band height="802" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="1" y="49" width="549" height="20" uuid="5a417ce7-f68e-474f-80b9-53c32d1bffcc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Id: "+$F{affectation}+"   Nom unité: "+$F{nom}+"   Classe: "+$F{classe}+"   Affiliation: "+$F{affiliation}+"   Région: "+$F{region}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement mode="Opaque" x="1" y="0" width="549" height="49" forecolor="#000000" backcolor="#FFB412" uuid="07d29cc0-9116-4f11-9e8a-ee8094535832"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="19" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Evaluation des couts des sorties durant la période du \n"+$P{date_debut}+" au "+$P{date_fin}]]></textFieldExpression>
+			</textField>
+			<lineChart>
+				<chart evaluationTime="Report">
+					<reportElement x="2" y="79" width="270" height="220" uuid="7d3ad2bb-aec2-4008-ac34-d98b39755f4c"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Evolution des couts par type de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Evolution par type" uuid="df1e3117-e8ea-4992-ba67-dc333b246dc6">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{type_vehicule}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cout}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-45.0"/>
+					<categoryAxisFormat labelRotation="-45.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<lineChart>
+				<chart evaluationTime="Report">
+					<reportElement x="282" y="79" width="270" height="220" uuid="700806c1-a0ed-4c75-80fb-2679a632a8a8"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Evolution des couts par modèle de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Evolution par modele" uuid="68752753-02ba-426c-8261-9ae2aef11c28">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{marque}+" "+$F{modele}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cout}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-45.0"/>
+					<categoryAxisFormat labelRotation="-45.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<lineChart>
+				<chart evaluationTime="Report">
+					<reportElement x="2" y="320" width="270" height="220" uuid="93688eb5-e2bc-4de8-a5f7-3275c864bf03"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Evolution du cout en carburant par type de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Evolution cout carburant par type" uuid="968d8c8c-3217-40d3-a7b6-c16c585a573b">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{type_vehicule}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cout}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-45.0"/>
+					<categoryAxisFormat labelRotation="-45.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<lineChart>
+				<chart evaluationTime="Report">
+					<reportElement x="280" y="320" width="270" height="220" uuid="223fd5b8-a83f-49ab-9429-601a43222725"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Evolution du cout en carburant par modèle de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Evolution cout carburant par modele" uuid="bc1f86d8-2e22-405a-a72f-c1b6c6933763">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{marque}+" "+$F{modele}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{date}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cout}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-45.0"/>
+					<categoryAxisFormat labelRotation="-45.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<pie3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="3" y="550" width="247" height="252" uuid="efc7ef1e-bdfb-4f04-bf73-eb31e9e88f3b"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Consommation de carburant par type de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Conso par type" uuid="81dad026-3ff0-4cdc-85ef-581db5137109">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{type_vehicule}]]></keyExpression>
+					<valueExpression><![CDATA[$F{qte}]]></valueExpression>
+					<labelExpression><![CDATA[$F{type_vehicule}+" "+$F{qte}+"L"]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<pie3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="260" y="550" width="290" height="252" uuid="ab0f3b78-e726-4614-9b2b-3c0d3a4f1339"/>
+					<chartTitle>
+						<font fontName="Times New Roman" size="18" isBold="true" isUnderline="true"/>
+						<titleExpression><![CDATA["Consommation du carburant par modèle de véhicule"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Conso par modele" uuid="65bf2572-cc2f-43bf-973e-a2402c1006f5">
+							<datasetParameter name="date_debut">
+								<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_fin">
+								<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{marque}+" "+$F{modele}]]></keyExpression>
+					<valueExpression><![CDATA[$F{qte}]]></valueExpression>
+					<labelExpression><![CDATA[$F{modele}+" "+$F{qte}+"L"]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</title>
+	<summary>
+		<band height="802" splitType="Immediate">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="282" y="771" width="272" height="30" uuid="7bb1da92-7a52-4ac1-829c-36233f0b6a6d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="19" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date du jour: "+new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="3" y="248" width="548" height="180" uuid="de0f2f36-21a4-4169-934d-96d17b758065">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 8_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 8_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 8_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Details couts type" uuid="857a8c18-8f80-485e-8dc7-3d063b0ea578">
+						<datasetParameter name="date_debut">
+							<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="date_fin">
+							<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="138" uuid="8926c4d8-28fa-4bc2-bbd5-2afde610b4a8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne1"/>
+						<jr:columnHeader style="Table 8_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="138" height="30" uuid="ef1bf958-f1b1-4cad-9d92-4a74c07b3856"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 8_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="138" height="30" uuid="6c7b7c07-56b4-4699-9cb6-5ef3ccc4b915"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{type_vehicule}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="138" uuid="f2f0c679-a0e1-450c-ac6e-5b3484922ea6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne2"/>
+						<jr:columnHeader style="Table 8_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="138" height="30" uuid="548a195c-124c-4b0c-8e28-81ca64861a67"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Carburant (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 8_TD" height="30">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="138" height="30" uuid="ef2ca8f0-d4dc-44e5-8f61-22ba0162639a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{carburant}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="136" uuid="22feccc8-0577-43c7-b9f7-fc14219c937e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
+						<jr:columnHeader style="Table 8_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="136" height="30" uuid="f4694e5e-134d-488d-9ed7-90a232be8e95"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Consommables (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 8_TD" height="30">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="136" height="30" uuid="45edb03c-88c8-4533-82d4-f72bb3e117fb"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{consommables}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="136" uuid="1ecbb61c-a2d8-4635-8a75-b41305224f30">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
+						<jr:columnHeader style="Table 8_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="136" height="30" uuid="900a515a-87a8-4a04-978f-b641c641e844"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Autres (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 8_TD" height="30">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="136" height="30" uuid="4d87966d-d4b2-4dbe-b96b-9ed57e25a726"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{autres}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="2" y="225" width="550" height="21" uuid="1c032d01-c3d0-4e5d-8080-d7784281462c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Détails des couts par type de véhicule]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="1" y="452" width="549" height="200" uuid="0bed2ba7-fe7f-4d30-9287-4e102ded0548">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 5_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 5_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 5_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Details couts modele" uuid="345f1d31-7d38-4ffa-afcf-13dd423971b4">
+						<datasetParameter name="date_debut">
+							<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="date_fin">
+							<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="94" uuid="f1e7fe10-1f37-4b2c-b37e-1710104ba75d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne1"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="94" height="30" uuid="3a87dde1-0db0-42d1-81ea-482eed32ad41"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="94" height="30" uuid="e953fd1a-2614-415d-8be2-0a93f7787196"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{type_vehicule}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="94" uuid="d656d612-75ec-4045-96fe-5a2b5519917e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne2"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="94" height="30" uuid="3ef2c933-643b-4dd1-af9c-2e1101d57e78"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Marque]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="94" height="30" uuid="af5aec03-5586-4fdb-95cc-02edf88e9328"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{marque}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="94" uuid="b48b4043-e63e-4dda-b0b7-6507ce7e4ee7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne3"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="94" height="30" uuid="1d1c4867-b6f1-4a0c-afba-f33d6b285410"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Modele]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="94" height="30" uuid="763a2371-09dc-48ca-8935-3f240d286d56"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{modele}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="91" uuid="554d8d24-c90e-412c-8df8-4a3ed09e58bc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne4"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="91" height="30" uuid="639fd071-fe63-405a-b248-d41ac0ace613"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Carburant (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="91" height="30" uuid="6823930a-ed3d-4e8e-9451-5014cb8b643d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{carburant}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="88" uuid="47220066-a976-45e8-9502-00b38b045209">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne5"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="88" height="30" uuid="04f154ce-a5a2-49da-a6d9-c6d0e49f1bb2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Consommables (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="88" height="30" uuid="baae9660-c39a-4b5a-8cd8-960a2c543c56"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{consommables}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="88" uuid="43c70722-99c2-4dc8-8a62-d43e2b45120f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonne6"/>
+						<jr:columnHeader style="Table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="88" height="30" uuid="f1107486-0f6f-4efc-9fab-497b40960495"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Autres (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 5_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="88" height="30" uuid="9d79a54c-1778-48fe-92fa-d5dd97f3d2ef"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{autres}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="2" y="429" width="550" height="21" uuid="3bd74d5e-bd74-4ca0-8fc6-47667198e187"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Détails des couts par modèle de véhicule]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="38" width="198" height="187" uuid="56a3cdaa-fb9a-49d3-99eb-0e96b52ebaf3">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 6_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 6_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 6_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Classement conso type" uuid="5f889c31-a6f5-4b34-8726-40ae90870dce">
+						<datasetParameter name="date_debut">
+							<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="date_fin">
+							<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="99" uuid="628c9dcb-2e3c-496f-a836-333e625389ac">
+						<jr:columnHeader style="Table 6_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="99" height="30" uuid="deb630ea-a5bd-4a30-9f86-5a6325eb37fb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 6_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="99" height="30" uuid="ad711ab6-a0ce-46ba-93cf-b959672b1af0"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{type_vehicule}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="99" uuid="28dcebb5-e5f1-4d17-9ab9-ef01553cfed2">
+						<jr:columnHeader style="Table 6_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="99" height="30" uuid="786a54fd-3c29-48f4-ad56-46b15f7b71b6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Coût (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 6_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="99" height="30" uuid="40c8f6bb-ee82-40ec-aca0-d91391ea5883"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{cout}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement x="208" y="38" width="340" height="187" uuid="379a35e9-ec11-4446-8425-f2e436c1692f">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 7_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 7_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 7_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Classement conso par modele" uuid="cb0ff210-7203-4e47-b598-27f3c68aa2e4">
+						<datasetParameter name="date_debut">
+							<datasetParameterExpression><![CDATA[$P{date_debut}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="date_fin">
+							<datasetParameterExpression><![CDATA[$P{date_fin}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="85" uuid="e8800376-ca5e-4f85-8f64-ec1817bac45a">
+						<jr:columnHeader style="Table 7_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="cc08c635-19ca-4bcb-95eb-be3adf32f23b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 7_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="85" height="30" uuid="c2d399c5-4115-4825-a143-c13930105ec7"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{type_vehicule}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="ebcf2673-ea8f-4fb1-8e18-59f6f04b33ee">
+						<jr:columnHeader style="Table 7_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="92461629-f194-4faf-93a9-1933344b192f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Marque]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 7_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="85" height="30" uuid="6003e12a-3ddd-4f87-9a51-ad9af7e385a3"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{marque}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="9cf8bdfb-c383-4852-92a1-936bc56066f5">
+						<jr:columnHeader style="Table 7_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="2a627c20-7f83-48ba-80e7-44c9fccf7176"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Modele]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 7_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="85" height="30" uuid="9e590dc5-a9b3-417d-af59-f5073f871c3e"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{modele}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="01bb481a-e2ff-442f-9cde-d5b3c399be7d">
+						<jr:columnHeader style="Table 7_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="612c770d-9b72-4f45-87aa-9bbfe59a8850"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Coût (DZD)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 7_TD" height="30">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="85" height="30" uuid="7ce08901-761e-4db8-8904-e65b2e046f0d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{cout}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="2" y="8" width="196" height="30" uuid="079703ba-37ae-4389-bc1a-a2fa898ee173"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Classement des types de véhicules les plus coûteux]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="208" y="8" width="340" height="30" uuid="4a048bf6-5383-45fc-990d-dfa5a8ef989d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Classement des modèles de véhicules les plus coûteux]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
