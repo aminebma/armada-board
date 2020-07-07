@@ -24,7 +24,7 @@ class Maintenance extends Component {
     //fonction qui sera transmise au child pour pouvoir changer la variable data du state parent ( maintenance.js)
     onChangeData(newdata) {
         this.setState({ data: newdata })
-        window.location.reload(false)
+        //window.location.reload(false)
         //alert(this.state.data[5].title)
     }
 
@@ -62,16 +62,17 @@ class Maintenance extends Component {
     };
 
     render() {
+        const donnee = this.state.data
         return (
             <div className="div-global">
                 {this.state.AfficherMAJ ? <div>
-                    <MAJMaintenance data={this.state.data} var={this.Show_MAJ_Maintenance} onChangeData={this.onChangeData} />
+                    <MAJMaintenance data={donnee} var={this.Show_MAJ_Maintenance} onChangeData={this.onChangeData} />
                 </div> : null}
                 {this.state.AfficherExport ? <div>
                     <ExportPlanning var={this.Show_Export_Planning} />
                 </div> : null}
                 <div>
-                <Planning data={this.state.data} />
+                <Planning data={donnee} onChangeData={this.onChangeData}/>
                     <div className="button-under-maintenance">
                         <Button variant="contained" color="primary" onClick={() => this.Show_MAJ_Maintenance()}>Mise à jour du calendrier</Button>
                         <Button variant="contained" color="primary" onClick={() => this.Show_Export_Planning()}>exporter le planning</Button>

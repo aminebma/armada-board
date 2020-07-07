@@ -60,22 +60,113 @@ const GroupOrderSwitcher = withStyles(styles, { name: 'ResourceSwitcher' })(
         ),
 );
 
+const TextEditor = (props) => {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (props.type === 'multilineTextEditor') {
+        return null;
+    } return <AppointmentForm.TextEditor {...props} />;
+};
+
+//composant du formulaire de modificatione et d'ajout d'une maintenance
+const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }) => {
+    const onMatriculeChange = (nextValue) => {
+        onFieldChange({ vehicule: nextValue });
+    };
+
+    const onAffectationChange = (nextValue) => {
+        onFieldChange({ affectation: nextValue });
+    };
+
+    const onEchelonChange = (nextValue) => {
+        onFieldChange({ echelon: nextValue });
+    };
+
+    const onBesoinChange = (nextValue) => {
+        onFieldChange({ besoin: nextValue });
+    };
+    const onQuantiteChange = (nextValue) => {
+        onFieldChange({ customField: nextValue });
+    };
+
+    return (
+        <AppointmentForm.BasicLayout
+            appointmentData={appointmentData}
+            onFieldChange={onFieldChange}
+            {...restProps}
+        >
+            <AppointmentForm.Label
+                text="Matricule"
+                type="title"
+            />
+            <AppointmentForm.TextEditor
+                value={appointmentData.vehicule}
+                onValueChange={onMatriculeChange}
+                placeholder="matricule externe du véhicule"
+            />
+            <AppointmentForm.Label
+                text="Affiliation"
+                type="title"
+            />
+            <AppointmentForm.TextEditor
+                value={appointmentData.affectation}
+                onValueChange={onAffectationChange}
+                type="numberEditor"
+                placeholder="affectation du véhicule"
+            />
+            <AppointmentForm.Label
+                text="échelon"
+                type="title"
+            />
+            <AppointmentForm.Select
+                value={appointmentData.echelon}
+                placeholder="Echelon de la maintenance"
+                availableOptions={[
+                    { id: 1, text: "1" },
+                    { id: 2, text: "2" },
+                    { id: 3, text: "3" },
+                    { id: 4, text: "4" },
+                    { id: 5, text: "5" },
+                ]}
+                onValueChange={onEchelonChange}
+            />
+            <AppointmentForm.Label
+                text="Besoin"
+                type="title"
+            />
+            <AppointmentForm.TextEditor
+                value={appointmentData.besoin.contenu.intitule._text}
+                onValueChange={onBesoinChange}
+                placeholder="Besoin requis de la maintenance"
+            />
+            <AppointmentForm.Label
+                text="Quantité"
+                type="title"
+            />
+            <AppointmentForm.TextEditor
+                value={appointmentData.besoin.contenu.quantite._text}
+                onValueChange={onQuantiteChange}
+                placeholder="quantite du besoin"
+            />
+        </AppointmentForm.BasicLayout>
+    );
+};
+
 export default class Planning extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: null, //transmetre la variable data du parent dans le state du child
+            data: this.props.data, //transmetre la variable data du parent dans le state du child
             currentViewName: 'Month',
             RessourceFormulaire: [{
                 fieldName: 'niveau',
                 title: 'niveau',
                 instances: [
-                    { id: 1, text: 'niveau 1', color: orange },
-                    { id: 2, text: 'niveau 2', color: '#58C9B9' },
-                    { id: 3, text: 'niveau 3', color: blue },
-                    { id: 4, text: 'niveau 4', color: '#174a84' },
-                    { id: 5, text: 'niveau 5', color: '#2E294E' },
+                    { id: 1, text: 'Niveau 1', color: orange },
+                    { id: 2, text: 'Niveau 2', color: '#58C9B9' },
+                    { id: 3, text: 'Niveau 3', color: blue },
+                    { id: 4, text: 'Niveau 4', color: '#174a84' },
+                    { id: 5, text: 'Niveau 5', color: '#2E294E' },
                 ],
                 allowMultiple: true,
             }],
@@ -107,19 +198,30 @@ export default class Planning extends Component {
     //Fonction du changement dans le planning ( ajout , supression, modification d'une maintenance)
     //fonction par défaut du package, je n'y ai pas touché, je ne l'ai pas comprise aussi
     commitChanges({ added, changed, deleted }) {
-        let donnee = this.props.data
+        let donnee = this.state.data
         if (changed) {
             donnee = donnee.map(appointment => (
                 changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+              this.setState({data:donnee})  
+              this.props.onChangeData(this.state.data)
         }
-        this.setState({data: donnee})
+        if (deleted) {
+            donnee = donnee.filter(appointment => appointment.id !== deleted);
+            this.setState({data:donnee})
+            this.props.onChangeData(this.state.data)
+            /*
+            const xhr = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("id",data.id)
+            xhr.addEventListener('load', () => {
+            });
+            xhr.open('DELETE', 'http://localhost:3001/api/maintenances/', false)
+            xhr.send(formData);*/
+        }
     }
 
     render() {
-        let donnee = this.props.data
-        if( this.state.data != null) donnee = this.state.data
-        //if(donnee[5]!= null) alert(donnee[5].title+' coucou')
-
+        let donnee = this.state.data
         // rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
         // par exemple le composant EditingState doit avoir bligatoirement la propriété onCommitChanges
@@ -129,16 +231,17 @@ export default class Planning extends Component {
         return (
             <div>
                 <div>
-                <GroupOrderSwitcher isGroupByNiveau={this.state.isGroupByNiveau} onChange={this.onGroupOrderChange} />
+                    <GroupOrderSwitcher isGroupByNiveau={this.state.isGroupByNiveau} onChange={this.onGroupOrderChange} />
                 </div>
                 <Paper className="Calendar">
-                    <Scheduler data={donnee} local="fr-FR">
+                    <Scheduler local="fr-FR" data={donnee} >
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
                         <EditRecurrenceMenu />
-                        <WeekView name="Week" displayName="semaine" excludedDays={[6, 7]} startDayHour={8} endDayHour={19} />
+                        <IntegratedEditing />
+                        <WeekView cellDuration="60" name="Week" displayName="semaine" excludedDays={[6, 7]} startDayHour={8} endDayHour={19} />
                         <MonthView name="Month" displayName="Mois" />
-                        <DayView name="Day" displayName="Jour" startDayHour={8} endDayHour={19} />
+                        <DayView cellDuration="60" name="Day" displayName="Jour" startDayHour={8} endDayHour={19} />
                         <GroupingState grouping={this.state.grouping} groupOrientation={groupOrientation} groupByDate={this.state.groupByDate} />
                         <Toolbar />
                         <DateNavigator />
@@ -148,8 +251,9 @@ export default class Planning extends Component {
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
                         <Resources data={this.state.RessourceFormulaire} mainResourceName="niveau" />
                         {this.state.isGroupByNiveau ? <IntegratedGrouping /> : null}
-                        {this.state.isGroupByNiveau ? <GroupingPanel />: null}
-                        <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton />
+                        {this.state.isGroupByNiveau ? <GroupingPanel /> : null}
+                        <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton showOpenButton />
+                        <AppointmentForm basicLayoutComponent={BasicLayout} textEditorComponent={TextEditor} />
                         <DragDropProvider />
                         <CurrentTimeIndicator shadePreviousCells="true" shadePreviousAppointments="true" updateInterval="20000" />
                         <DragDropProvider />

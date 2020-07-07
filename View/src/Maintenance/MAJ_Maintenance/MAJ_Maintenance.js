@@ -62,6 +62,7 @@ class MAJMaintenance extends Component {
                 }
             }
             this.props.onChangeData(newData)
+
         });
         // open the request with the verb and the url
         xhr.open('POST', 'http://localhost:3001/api/maintenances/planning', true)
