@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, IntegratedEditing, IntegratedGrouping, GroupingState } from '@devexpress/dx-react-scheduler';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withStyles } from '@material-ui/core/styles';
 import {
     Scheduler,
     WeekView,
@@ -16,12 +19,43 @@ import {
     AppointmentForm,
     Resources,
     CurrentTimeIndicator,
-    IntegratedGrouping,
     GroupingPanel,
     DragDropProvider,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, RessourceFormulaire } from './Planning.tsx';
+
+const styles = ({ spacing, palette, typography }) => ({
+    formControlLabel: {
+        padding: spacing(2),
+        paddingLeft: spacing(10),
+    },
+    text: {
+        ...typography.caption,
+        color: palette.text.secondary,
+        fontWeight: 'bold',
+        fontSize: '1rem',
+    },
+});
+
+const isWeekOrMonthView = viewName => viewName === 'Week' || viewName === 'Month';
+
+const groupOrientation = viewName => viewName.split(' ')[0];
+
+const GroupOrderSwitcher = withStyles(styles, { name: 'ResourceSwitcher' })(
+    ({
+        isGroupByDate, onChange, classes,
+    }) => (
+            <FormControlLabel
+                control={
+                    <Checkbox checked={isGroupByDate} onChange={onChange} color="primary" />
+                }
+                label="Grouper par date d'abord"
+                className={classes.formControlLabel}
+                classes={{ label: classes.text }}
+            />
+        ),
+);
 
 export default class Planning extends Component {
 
@@ -32,19 +66,27 @@ export default class Planning extends Component {
             currentViewName: 'Month',
             grouping: {
                 resourceName: 'niveau',
-              },
+            },
+            groupByDate: isWeekOrMonthView,
+            isGroupByDate: true,
         };
         this.commitChanges = this.commitChanges.bind(this);
-        
+        this.onGroupOrderChange = () => {
+            const { isGroupByDate } = this.state;
+            this.setState({
+                isGroupByDate: !isGroupByDate,
+                groupByDate: isGroupByDate ? undefined : isWeekOrMonthView,
+            });
+        };
+
         //this.getMaintenanceData = this.getMaintenanceData.bind(this)
         //this.UpdateParentState = this.UpdateParentState.bind(this)
     };
 
-    groupOrientation = viewName => viewName.split(' ')[0];
 
-    UpdateParentState() {
+    /*UpdateParentState() {
         this.props.onChangeData(this.state.data) // MAJ de la variable data du state du parent en passons le contenu de la variable data du state du chil
-    }
+    }*/
     currentViewNameChange = (currentViewName) => {
         this.setState({ currentViewName });
     }
@@ -71,8 +113,8 @@ export default class Planning extends Component {
 
     render() {
         const donnee = this.props.data
-      
         //if(donnee[5]!= null) alert(donnee[5].title+' coucou')
+
         // rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
         // par exemple le composant EditingState doit avoir bligatoirement la propriété onCommitChanges
@@ -82,6 +124,7 @@ export default class Planning extends Component {
         return (
             <div>
                 <Paper className="Calendar">
+                    <GroupOrderSwitcher isGroupByDate={this.state.isGroupByDate} onChange={this.onGroupOrderChange} />
                     <Scheduler data={donnee} local="fr-FR">
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
@@ -89,8 +132,7 @@ export default class Planning extends Component {
                         <WeekView name="work-week" displayName="Work Week" excludedDays={[6, 7]} startDayHour={7} endDayHour={19} />
                         <MonthView />
                         <DayView startDayHour={7} endDayHour={17} />
-                        <GroupingState grouping={grouping} cd groupOrientation={groupOrientation}
-                        />
+                        <GroupingState grouping={this.state.grouping} groupOrientation={this.groupOrientation}/>
                         <Toolbar />
                         <DateNavigator />
                         <TodayButton />
@@ -102,7 +144,7 @@ export default class Planning extends Component {
                         <GroupingPanel />
                         <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton />
                         <CurrentTimeIndicator shadePreviousCells="true" shadePreviousAppointments="true" updateInterval="20000" />
-                        <DragDropProvider/>
+                        <DragDropProvider />
                     </Scheduler>
                 </Paper>
             </div>
