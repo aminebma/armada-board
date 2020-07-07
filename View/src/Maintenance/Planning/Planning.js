@@ -82,10 +82,10 @@ const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }) => {
     };
 
     const onBesoinChange = (nextValue) => {
-        onFieldChange({ besoin: nextValue });
+        onFieldChange({ _text: nextValue });
     };
     const onQuantiteChange = (nextValue) => {
-        onFieldChange({ customField: nextValue });
+        onFieldChange({ besoin: nextValue });
     };
 
     return (
