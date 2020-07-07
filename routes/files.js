@@ -28,8 +28,6 @@ pool.connect()
 //This will add a new Fiche Technique to the database in the xml format. The req body should include the Excel file of
 //a Fiche technique in a file attribute
 router.post('/fiche-technique', fileUpload.single('file'),async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     await readFicheTechnique(req.file.path)
         .then(async ficheTechnique => {
             let data = await xmlConverter.json2xml(ficheTechnique,{compact: true, spaces: '\t'})
@@ -54,8 +52,6 @@ router.post('/fiche-technique', fileUpload.single('file'),async(req,res)=>{
 //This will add a new Fiche de Controle des Couts to the database in the xml format. The req body should include the
 //Excel file of a Fiche de Controle des couts in a file attribute
 router.post('/fiche-controle-couts', fileUpload.single('file') ,async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     await readFicheControleCouts(req.file.path)
         .then(async ficheControleCouts => {
             let data = await xmlConverter.json2xml(ficheControleCouts,{compact: true, spaces: '\t'})
@@ -80,8 +76,6 @@ router.post('/fiche-controle-couts', fileUpload.single('file') ,async(req,res)=>
 //This will add a new Carnet de Bord to the database in the xml format. The req body should include the
 //Excel file of a Carnet de bord in a file attribute
 router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     await readCarnetDeBord(req.file.path)
         .then(async carnetDeBord => {
             let data = await xmlConverter.json2xml(carnetDeBord,{compact: true, spaces: '\t'})
@@ -106,8 +100,6 @@ router.post('/carnet-de-bord', fileUpload.single('file') ,async(req,res)=>{
 //This will add a new Guide Constructeur to the database in the xml format. The req body should include the
 //Excel file of a Guide constructeur in a file attribute
 router.post('/guide-constructeur', fileUpload.single('file') ,async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     await readGuideConstructeur(req.file.path)
         .then(async guideConstructeur => {
             let data = await xmlConverter.json2xml(guideConstructeur,{compact: true, spaces: '\t'})
@@ -131,8 +123,6 @@ router.post('/guide-constructeur', fileUpload.single('file') ,async(req,res)=>{
 
 //This will get all Fiches Techniques from the database
 router.get('/fiche-technique', async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'FT'"
     await pool.query(text)
         .then(files=>{
@@ -148,8 +138,6 @@ router.get('/fiche-technique', async(req,res)=>{
 
 //This will get all Fiches de Controle des Couts from the database
 router.get('/fiche-controle-couts', async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'FCC'"
     await pool.query(text)
         .then(files=>{
@@ -165,8 +153,6 @@ router.get('/fiche-controle-couts', async(req,res)=>{
 
 //This will get all Carnets de Bord from the database
 router.get('/carnet-de-bord', async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'CB'"
     await pool.query(text)
         .then(files=>{
@@ -182,8 +168,6 @@ router.get('/carnet-de-bord', async(req,res)=>{
 
 //This will get all Guides Constructeur from the database
 router.get('/guide-constructeur', async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT * FROM Fichier WHERE type = 'GC'"
     await pool.query(text)
         .then(files=>{

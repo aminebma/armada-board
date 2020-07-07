@@ -14,16 +14,14 @@ import Divider from "@material-ui/core/Divider";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography, Button } from "@material-ui/core";
 import axios from 'axios';
-
+import download from 'downloadjs';
+import moment from 'moment';
 
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-
-import { PDFReader } from 'reactjs-pdf-reader';
-import { MobilePDFReader } from 'reactjs-pdf-reader';
 
 
 const styles = theme => ({
@@ -55,7 +53,8 @@ class KpiList extends React.Component {
             fichier: false,
             kpis: {
                 category: []
-            }
+            },
+            report: ""
         };
     }
 
@@ -90,10 +89,28 @@ class KpiList extends React.Component {
         datefin : date
         }));
     };
+
     handleGenrateReport = () =>{
-        this.setState((state, props) => ({
-            fichier : true
-        }));
+        const body = {
+            name: this.state.soustitre,
+            data: {
+                date_debut: this.state.datedebut,
+                date_fin: this.state.datefin
+            }
+        }
+        axios.post('http://localhost:3001/api/reports/report',body,{ responseType: "blob"})
+            .then(res => {
+                //this.setState({report: res.data});
+                const file = new Blob(
+                    [res.data],
+                    {type: 'application/pdf'});
+                const fileUrl = URL.createObjectURL(file)
+                console.log(fileUrl)
+                this.setState({report: fileUrl});
+                this.setState((state, props) => ({
+                    fichier : true
+                }));
+            })
     }
     render() {
         const { classes } = this.props;
@@ -213,7 +230,7 @@ class KpiList extends React.Component {
                                             disableToolbar
                                             variant="inline"
                                             format="YYYY-MM-DD"
-                                            defaultValue="2020/07/05"
+                                            defaultValue="2020-01-01"
                                             margin="normal"
                                             id="date-picker-inline"
                                             label="Date début"
@@ -233,7 +250,7 @@ class KpiList extends React.Component {
                                             disableToolbar
                                             variant="inline"
                                             format="YYYY-MM-DD"
-                                            defaultValue="2020/07/05"
+                                            defaultValue="2020-01-01"
                                             margin="normal"
                                             id="date-picker-inline"
                                             label="Date fin"
@@ -261,7 +278,13 @@ class KpiList extends React.Component {
                         <br/> <br/>
                         <Grid item>
                             {this.state.fichier != false ?(
-                                <PDFReader  url="https://pdfhost.io/v/ac1oAk8aE_Microsoft_Word_Ide_ELWASSSILdocx.pdf" renderType="canvas"/>
+                                <div>
+                                    <Button variant="contained" color="primary">
+                                        <a style={{color: "#FFFFFF"}} href= {`${this.state.report}`} download= {`${this.state.titre}-${this.state.soustitre}-${moment(this.state.datedebut).format('DD-MM-YYYY')}_${moment(this.state.datefin).format('DD-MM-YYYY')}.pdf`}> Exporter le rapport </a>
+                                    </Button>
+                                    <br/> <br/>
+                                    <iframe title={`${this.state.titre}-${this.state.soustitre}`} style={{width: 720, height: 1080, position: "relative", left:"10%", right:"10%"}} src={this.state.report} />
+                                </div>
                             ) : (
                                 <div>Aucun rapport à afficher.</div>
                             )}

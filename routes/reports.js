@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const config = require('config')
+const moment = require('moment')
 const configIndex = require('../config/index')
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -53,8 +54,6 @@ init()
 //This will add a new report to the jasper server and the database. The report will be stored in lib/reports.
 //The request body should contain the name of the report, the .jrxml and the .jasper file of the report
 router.post('/', reportUpload.array('report', 2), async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const report = {
         jrxml: `..\\${req.files[0].path}`,
         jasper: `..\\${req.files[1].path}`
@@ -82,17 +81,17 @@ router.post('/', reportUpload.array('report', 2), async (req, res) => {
 //This will generate a report in the pdf format and send it. The request body should include the name of the report and
 //the report parameters (if they exist) in a data attribute. It will look like something like this (when having parameters):
 //{
+//     "name":"suivi_couts",
 //     "data":{
-//         "affectation":1,
 //         "date_debut":"2020-07-01",
 //         "date_fin":"2020-07-04"
 //     }
 // }
 router.post('/report', async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let report
     if(req.body.data) {
+        req.body.data.date_debut = moment(req.body.data.date_debut).format('YYYY-MM-DD')
+        req.body.data.date_fin = moment(req.body.data.date_fin).format('YYYY-MM-DD')
         report = {
             report: req.body.name,
             data: req.body.data
@@ -117,8 +116,6 @@ router.post('/report', async (req, res) => {
 })
 
 router.get('/', async(req,res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     const text = "SELECT DISTINCT ON(nom) nom, categorie FROM Fichier WHERE type='KPI'"
     await pool.query(text)
         .then(async reports => {
@@ -174,8 +171,6 @@ router.get('/', async(req,res)=>{
 
 //This will delete a report from the database and from the jasper server
 router.delete('/:name', async (req, res)=>{
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     let text = "SELECT url FROM Fichier where nom=$1 order by url desc"
     let values = [req.params.name]
     await pool.query(text, values)
@@ -209,7 +204,7 @@ module.exports = router
 
 //This function gets all the urls of the reports in the server when launching it
 async function init(){
-    const text = "SELECT url,nom FROM Fichier WHERE type='KPI' ORDER BY nom"
+    const text = "SELECT url,nom FROM Fichier WHERE type='KPI' ORDER BY url DESC"
     await pool.query(text)
         .then(result=> {
             let newReport
