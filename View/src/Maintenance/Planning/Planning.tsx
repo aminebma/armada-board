@@ -200,6 +200,7 @@ const MaintenanceContent = withStyles(styles, { name: 'AppointmentContent' })(({
 });
 
 
+
 //exportation des composants qui pourront être utilisé dans Planning.js
 
 export { UneMaintenance };
