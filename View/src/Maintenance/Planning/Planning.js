@@ -24,41 +24,40 @@ import {
     EditRecurrenceMenu,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, RessourceFormulaire } from './Planning.tsx';
+import { UneMaintenance, MaintenanceContent, PopHeader, PopContent } from './Planning.tsx';
 
 const styles = ({ spacing, palette, typography }) => ({
     formControlLabel: {
-        padding: spacing(2),
-        paddingLeft: spacing(10),
+        padding: spacing(1),
+        paddingLeft: spacing(15),
     },
     text: {
         ...typography.caption,
         color: palette.text.secondary,
-        fontWeight: 'bold',
+        fontWeight: 'medium',
         fontSize: '1rem',
     },
 });
 
-/*
-const isWeekOrMonthView = viewName => viewName === 'Week' || viewName === 'Month';
 
-const groupOrientation = viewName => viewName.split(' ')[0];
+//const isWeekOrMonthView = viewName => viewName === 'Week' || viewName === 'Month';
+
+const groupOrientation = viewName => "Vertical"
 
 const GroupOrderSwitcher = withStyles(styles, { name: 'ResourceSwitcher' })(
     ({
-        isGroupByDate, onChange, classes,
+        isGroupByNiveau, onChange, classes,
     }) => (
             <FormControlLabel
                 control={
-                    <Checkbox checked={isGroupByDate} onChange={onChange} color="primary" />
+                    <Checkbox checked={isGroupByNiveau} onChange={onChange} color="primary" />
                 }
-                label="Grouper par date d'abord"
+                label="Grouper par niveau de maintenance"
                 className={classes.formControlLabel}
                 classes={{ label: classes.text }}
             />
         ),
 );
-*/
 
 export default class Planning extends Component {
 
@@ -67,25 +66,35 @@ export default class Planning extends Component {
         this.state = {
             data: null, //transmetre la variable data du parent dans le state du child
             currentViewName: 'Month',
-            grouping: {
-                resourceName: 'title',
-            },
+            RessourceFormulaire: [{
+                fieldName: 'niveau',
+                title: 'niveau',
+                instances: [
+                    { id: 1, text: 'niveau 1', color: '#9DC8C8' },
+                    { id: 2, text: 'niveau 2', color: '#58C9B9' },
+                    { id: 3, text: 'niveau 3', color: '#519D9E' },
+                    { id: 4, text: 'niveau 4', color: '#D1B6E1' },
+                    { id: 5, text: 'niveau 5', color: '#2E294E' },
+                ],
+                allowMultiple: true,
+            }],
+            grouping: [{
+                resourceName: 'niveau',
+            }],
             //groupByDate: isWeekOrMonthView,
-            isGroupByDate: true,
+            isGroupByNiveau: false,
         };
         this.commitChanges = this.commitChanges.bind(this);
         this.onGroupOrderChange = () => {
-            const { isGroupByDate } = this.state;
+            const { isGroupByNiveau } = this.state;
             this.setState({
-                isGroupByDate: !isGroupByDate,
-                //groupByDate: isGroupByDate ? undefined : isWeekOrMonthView,
+                isGroupByNiveau: !isGroupByNiveau,
             });
         };
 
         //this.getMaintenanceData = this.getMaintenanceData.bind(this)
         //this.UpdateParentState = this.UpdateParentState.bind(this)
     };
-
 
     /*UpdateParentState() {
         this.props.onChangeData(this.state.data) // MAJ de la variable data du state du parent en passons le contenu de la variable data du state du chil
@@ -126,26 +135,27 @@ export default class Planning extends Component {
         // plus d'information sur les propriétés de chaque composant sur https://devexpress.github.io/devextreme-reactive/react/scheduler/docs/guides/getting-started/
         return (
             <div>
+                <div>
+                <GroupOrderSwitcher isGroupByNiveau={this.state.isGroupByNiveau} onChange={this.onGroupOrderChange} />
+                </div>
                 <Paper className="Calendar">
-                    {/*<GroupOrderSwitcher isGroupByDate={this.state.isGroupByDate} onChange={this.onGroupOrderChange} />*/}
                     <Scheduler data={donnee} local="fr-FR">
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
                         <EditRecurrenceMenu />
-                        <WeekView startDayHour={7} endDayHour={19} />
-                        <WeekView name="work-week" displayName="Work Week" excludedDays={[6, 7]} startDayHour={7} endDayHour={19} />
-                        <MonthView />
-                        <DayView startDayHour={7} endDayHour={17} />
-                        {/*<GroupingState grouping="title" groupOrientation={this.groupOrientation}/>*/}
+                        <WeekView name="Week" displayName="semaine" excludedDays={[6, 7]} startDayHour={8} endDayHour={19} />
+                        <MonthView name="Month" displayName="Mois" />
+                        <DayView name="Day" displayName="Jour" startDayHour={8} endDayHour={19} />
+                        <GroupingState grouping={this.state.grouping} groupOrientation={groupOrientation} groupByDate={this.state.groupByDate} />
                         <Toolbar />
                         <DateNavigator />
                         <TodayButton />
                         <ViewSwitcher />
                         <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?" />
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
-                        <Resources data={RessourceFormulaire} mainResourceName={'niveau'} />
-                        {/*<IntegratedGrouping />*/}
-                        {/*<GroupingPanel />*/}
+                        <Resources data={this.state.RessourceFormulaire} mainResourceName="niveau" />
+                        {this.state.isGroupByNiveau ? <IntegratedGrouping /> : null}
+                        {this.state.isGroupByNiveau ? <GroupingPanel />: null}
                         <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton />
                         <DragDropProvider />
                         <CurrentTimeIndicator shadePreviousCells="true" shadePreviousAppointments="true" updateInterval="20000" />
