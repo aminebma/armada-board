@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -43,11 +43,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-class Login extends Component{
-  constructor(props){
+const Copyright = () => {
+  return (
+    <div>
+      <Typography variant="body2" color="textSecondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://www.github.com/aminebma/armada-board">
+          Armada-Board
+      </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    </div>
+  );
+}
+
+
+class Login extends Component {
+
+  constructor(props) {
     super(props)
+    this.state={
+      classes: useStyles
+    }
     this.handleLogin = this.handleLogin.bind(this)
-    this.Copyright = this.Copyright.bind(this)
   }
 
 
@@ -60,92 +79,80 @@ class Login extends Component{
     console.log('hey2')
     console.log(body)
     axios.post('http://localhost:3001/api/accounts/sign-in', body)
-        .then(res => {
-          this.props.navigation(true,res.data)
-          alert('7chinah')
-        })
+      .then(res => {
+        this.props.navigation(true, res.data)
+        alert('7chinah')
+      })
   };
 
-  Copyright() {
+  render() {
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://www.github.com/aminebma/armada-board">
-        Armada-Board
-        </Link>{' '}
-    {new Date().getFullYear()}
-    {'.'}
-  </Typography>
-  );
-  }
-
-  render(){
-    const classes = useStyles();
-    return (
+      <div>
         <MuiThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-        <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-        Connectez-vous
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={this.state.classes.paper}>
+              <Avatar className={this.state.classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Connectez-vous
         </Typography>
-        <form className={classes.form} noValidate>
-    <TextField
-    variant="outlined"
-    margin="normal"
-    required
-    fullWidth
-    id="username"
-    label="Username"
-    name="username"
-    autoComplete="username"
-    autoFocus
-    color="secondary"
-        />
-        <TextField
-    variant="outlined"
-    margin="normal"
-    required
-    fullWidth
-    name="password"
-    label="Mot de passe"
-    type="password"
-    id="password"
-    autoComplete="current-password"
-    color="secondary"
-        />
-        <FormControlLabel
-    control={<Checkbox value="remember" color="secondary" />}
-    label="Se souvenir de moi"
-        />
-        <Button
-    fullWidth
-    variant="contained"
-    color="primary"
-    style={{background : '#2196f3'}}
-    onClick={handleLogin}
-        >
-        Se connecter
-    </Button>
-    <Grid container>
-    <Grid item xs>
-    <Link href="#" variant="body2" style={{color : '#2196f3'}}>
-    Mot de passe oublié ?
-  </Link>
-    </Grid>
-    </Grid>
-    </form>
-    </div>
-    <Box mt={8}>
-        <Copyright />
-        </Box>
-        </Container>
+              <form className={this.state.classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                  color="secondary"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Mot de passe"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  color="secondary"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="secondary" />}
+                  label="Se souvenir de moi"
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  style={{ background: '#2196f3' }}
+                  onClick={this.handleLogin}
+                >
+                  Se connecter
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2" style={{ color: '#2196f3' }}>
+                      Mot de passe oublié ?
+                </Link>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+            <Box mt={8}>
+              <Copyright />
+            </Box>
+          </Container>
         </MuiThemeProvider>
-  );
+      </div>
+    );
   }
 }
 
-export default {Login}
+export default Login 
