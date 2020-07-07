@@ -30,7 +30,7 @@ import { UneMaintenance, MaintenanceContent, PopHeader, PopContent } from './Pla
 const styles = ({ spacing, palette, typography }) => ({
     formControlLabel: {
         padding: spacing(1),
-        paddingLeft: spacing(15),
+        paddingLeft: spacing(95),
     },
     text: {
         ...typography.caption,
