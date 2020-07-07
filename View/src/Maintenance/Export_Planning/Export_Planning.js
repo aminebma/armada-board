@@ -19,6 +19,7 @@ import {
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import axios from "axios";
 
 
 class ExportPlanning extends Component {
@@ -42,8 +43,36 @@ class ExportPlanning extends Component {
         this.props.var();
     };
 
-    handleDateChange = (date) => {
-        this.setState({ selectedDate: date })
+    handleExport = () => {
+        console.log('Hey')
+        const body = {
+            affectation:1,
+            date_debut: this.state.selectedDateD,
+            date_fin: this.state.selectedDateF,
+            niveau: []
+        }
+        if(this.state.checked1) body.niveau.push(1)
+        if(this.state.checked2) body.niveau.push(2)
+        if(this.state.checked3) body.niveau.push(3)
+        if(this.state.checked4) body.niveau.push(4)
+        if(this.state.checked5) body.niveau.push(5)
+        axios.post('http://localhost:3001/api/maintenances/planning/export',body,{ responseType: "blob"})
+            .then(res => {
+                const file = new Blob(
+                    [res.data],
+                    {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                const fileUrl = URL.createObjectURL(file)
+                console.log('Done')
+                window.open(fileUrl)
+            })
+    }
+
+    handleDateDChange = (date) => {
+        this.setState({ selectedDateD: date })
+    };
+
+    handleDateFChange = (date) => {
+        this.setState( { selectedDateF: date })
     };
 
     handleChangeChecked1 = (event) => {
@@ -78,23 +107,27 @@ class ExportPlanning extends Component {
                             <Grid container justify="space-around">
                                 <div className="Date">
                                     <KeyboardDatePicker
+                                        disableToolBar
                                         margin="10px"
                                         id="date-début"
                                         label="Date début"
-                                        format="dd/MM/yyyy"
-                                        value={selectedDateDebut}
-                                        onChange={this.handleDateChange}
+                                        format="YYYY-MM-DD"
+                                        defaultValue="2020-01-01"
+                                        value={this.state.selectedDateD}
+                                        onChange={this.handleDateDChange}
                                         KeyboardButtonProps={{ 'aria-label': 'change date', }}
                                     />
                                 </div >
                                 <div className="Date">
                                     <KeyboardDatePicker
+                                        disableToolBar
                                         margin="10px"
                                         id="date-début"
                                         label="Date fin"
-                                        format="dd/MM/yyyy"
-                                        value={selectedDateFin}
-                                        onChange={this.handleDateChange}
+                                        format="YYYY-MM-DD"
+                                        defaultValue="2020-01-01"
+                                        value={this.state.selectedDateF}
+                                        onChange={this.handleDateFChange}
                                         KeyboardButtonProps={{ 'aria-label': 'change date', }}
                                     />
                                 </div>
@@ -134,7 +167,7 @@ class ExportPlanning extends Component {
                         </MuiPickersUtilsProvider>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={this.handleExport} color="primary">
                             Exporter au format xlxs
                             </Button>
                     </DialogActions>
