@@ -15,6 +15,10 @@ import {
     DayView,
     AppointmentForm,
     Resources,
+    CurrentTimeIndicator,
+    IntegratedGrouping,
+    GroupingPanel,
+    DragDropProvider,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, RessourceFormulaire } from './Planning.tsx';
@@ -26,11 +30,17 @@ export default class Planning extends Component {
         this.state = {
             data: null, //transmetre la variable data du parent dans le state du child
             currentViewName: 'Month',
+            grouping: {
+                resourceName: 'niveau',
+              },
         };
         this.commitChanges = this.commitChanges.bind(this);
+        
         //this.getMaintenanceData = this.getMaintenanceData.bind(this)
         //this.UpdateParentState = this.UpdateParentState.bind(this)
     };
+
+    groupOrientation = viewName => viewName.split(' ')[0];
 
     UpdateParentState() {
         this.props.onChangeData(this.state.data) // MAJ de la variable data du state du parent en passons le contenu de la variable data du state du chil
@@ -61,6 +71,7 @@ export default class Planning extends Component {
 
     render() {
         const donnee = this.props.data
+      
         //if(donnee[5]!= null) alert(donnee[5].title+' coucou')
         // rendement du planning
         // chaque composant à des propriétés par défaut, qu'on peut ou doit spécifer
@@ -78,6 +89,8 @@ export default class Planning extends Component {
                         <WeekView name="work-week" displayName="Work Week" excludedDays={[6, 7]} startDayHour={7} endDayHour={19} />
                         <MonthView />
                         <DayView startDayHour={7} endDayHour={17} />
+                        <GroupingState grouping={grouping} cd groupOrientation={groupOrientation}
+                        />
                         <Toolbar />
                         <DateNavigator />
                         <TodayButton />
@@ -85,8 +98,11 @@ export default class Planning extends Component {
                         <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?" />
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
                         <Resources data={RessourceFormulaire} mainResourceName={'niveau'} />
+                        <IntegratedGrouping />
+                        <GroupingPanel />
                         <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton />
-                        <CurrentTimeIndicator shadePreviousCells="true"  shadePreviousAppointments="true"  updateInterval="20000"/>
+                        <CurrentTimeIndicator shadePreviousCells="true" shadePreviousAppointments="true" updateInterval="20000" />
+                        <DragDropProvider/>
                     </Scheduler>
                 </Paper>
             </div>
