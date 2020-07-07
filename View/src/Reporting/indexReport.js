@@ -286,7 +286,7 @@ class KpiList extends React.Component {
                                     <iframe title={`${this.state.titre}-${this.state.soustitre}`} style={{width: 720, height: 1080, position: "relative", left:"10%", right:"10%"}} src={this.state.report} />
                                 </div>
                             ) : (
-                                <div>Aucun rapport à afficher.</div>
+                                <div>Aucun rapport à afficher. Veuillez en sélectionner un dans la liste de gauche, puis entrez une date de début et de fin.</div>
                             )}
                         </Grid>
                     </Paper>

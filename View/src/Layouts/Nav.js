@@ -120,9 +120,11 @@ export default function Nav (){
                 </Drawer>
                 <Switch>
                     <Route exact path="/">
-                        <Container style={{paddingTop : '50px'}}>
-                            <Typography variant="h1">Home (faire plus tard une page spéciale)</Typography>
-                        </Container>
+                        <Grid container style={{paddingTop : '55px'}}>
+                            <Grid item xs={12}>
+                                <MaintenanceNav />
+                            </Grid>
+                        </Grid>
                     </Route>
                     <Route exact path="/Reporting">
                         <Container style={{paddingTop : '50px'}}>

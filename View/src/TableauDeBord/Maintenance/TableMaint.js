@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
+import { Typography } from '@material-ui/core';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -21,17 +22,32 @@ export default class TableMaint extends Component {
   constructor(props){
     super(props);
     this.state = {
-      open : false
+      open : false,
+      id : "52",
+      effectuee : "Effectuée",
+      dateAttrinution : "22/07/2020",
+      dateRealisation : "25/07/2020",
+      niveau :"2",
+      echelon : "2",
+      vehicule : "mazda",
+      pane : "Pane d'huile",
     }
   }
 
   render(){
     
-    const handleClickOpen = (id) => {
+    const handleClickOpen = (id, effectuee, date1, date2, niv, ech, vehi, pan) => {
       this.setState({
-        open : true
+        open : true,
+        id : id,
+        effectuee : effectuee,
+        dateAttrinution : date1,
+        dateRealisation : date2,
+        niveau :niv,
+        echelon : ech,
+        vehicule : vehi,
+        pane : pan,
       })
-      console.log(id)
     };
   
     const handleClose = () => {
@@ -87,8 +103,13 @@ export default class TableMaint extends Component {
           dateAttrinution : "25/07/2020",
           dateRealisation : "NONE",
           niveau :"2",
+          echelon : "2",
+          vehicule : "mazda",
+          pane : "Pane d'huile",
           afficher : 
-          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen("123")}>
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            )}>
             <AddIcon /> 
           </IconButton>,
         },
@@ -98,8 +119,13 @@ export default class TableMaint extends Component {
           dateAttrinution : "22/07/2020",
           dateRealisation : "25/07/2020",
           niveau :"2",
+          echelon : "2",
+          vehicule : "mazda",
+          pane : "Pane d'huile",
           afficher : 
-            <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen("123")}>
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "123", "Effectuée", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            )}>
               <AddIcon />
             </IconButton>,
         },
@@ -109,8 +135,13 @@ export default class TableMaint extends Component {
           dateAttrinution : "25/07/2020",
           dateRealisation : "NONE",
           niveau :"2",
+          echelon : "2",
+          vehicule : "mazda",
+          pane : "Pane d'huile",
           afficher : 
-          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen("123")}>
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            )}>
             <AddIcon />
           </IconButton>,
         },
@@ -120,8 +151,13 @@ export default class TableMaint extends Component {
           dateAttrinution : "22/07/2020",
           dateRealisation : "25/07/2020",
           niveau :"2",
+          echelon : "2",
+          vehicule : "mazda",
+          pane : "Pane d'huile",
           afficher : 
-            <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen("123")}>
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            )}>
               <AddIcon />
             </IconButton>,
         },
@@ -131,8 +167,13 @@ export default class TableMaint extends Component {
           dateAttrinution : "25/07/2020",
           dateRealisation : "NONE",
           niveau :"2",
+          echelon : "2",
+          vehicule : "mazda",
+          pane : "Pane d'huile",
           afficher : 
-          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen("123")}>
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            )}>
             <AddIcon />
           </IconButton>,
         },
@@ -142,14 +183,18 @@ export default class TableMaint extends Component {
           dateAttrinution : "22/07/2020",
           dateRealisation : "25/07/2020",
           niveau :"2",
+          echelon : "2",
+          vehicule : "mazda",
+          pane : "Pane d'huile",
           afficher : 
-            <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen("123")}>
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            )}>
               <AddIcon />
             </IconButton>,
         }
       ],
     }
-  
     return (
       <div>
         <MDBDataTableV5
@@ -160,6 +205,7 @@ export default class TableMaint extends Component {
           data={datatable}
         />
         <Dialog
+          fullWidth={true}
           open={this.state.open}
           TransitionComponent={Transition} 
           keepMounted
@@ -167,20 +213,19 @@ export default class TableMaint extends Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle id="alert-dialog-slide-title">{"Maintenance MIN524-021"}</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">{"Maintenance "}{this.state.id}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
-                le détails de chaque maintenance à insérer ici.
-                Ce sera plus simple de le faire une fois les objets récupéré du bac afin d'utiliser les states
-                et pour formater plus rapidement "datatable" (lignes) et le contenu du DIALOG.
+                <Typography variant="body1">Statut : {this.state.effectuee} </Typography>
+                <Typography variant="body1">Date d'attribution : {this.state.dateAttrinution}     Date de réalisation : {this.state.dateRealisation}</Typography>
+                <Typography variant="body1">Niveau : {this.state.niveau}     Echelon : {this.state.echelon}</Typography>
+                <Typography variant="body1">Véhicule : {this.state.vehicule} </Typography>
+                <Typography variant="body1">Pane : {this.state.pane} </Typography>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                OUCHAR
-              </Button>
-              <Button onClick={handleClose} color="primary">
-                CHIKOUR
+                Fermer
               </Button>
             </DialogActions>
           </Dialog>
