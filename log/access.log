@@ -77,3 +77,13 @@ OPTIONS /api/accounts/sign-in 204 0 - 5.354 ms
 OPTIONS /api/accounts/sign-in 204 0 - 1.045 ms
 OPTIONS /api/accounts/sign-in 204 0 - 0.858 ms
 POST /api/accounts/sign-in - - - - ms
+OPTIONS /api/accounts/sign-in 204 0 - 0.568 ms
+POST /api/accounts/sign-in 200 4 - 266.448 ms
+OPTIONS /api/accounts/sign-in 204 0 - 3.003 ms
+POST /api/accounts/sign-in 200 119 - 850.257 ms
+OPTIONS /api/accounts/sign-in 204 0 - 3.067 ms
+POST /api/accounts/sign-in 200 412 - 268.606 ms
+OPTIONS /api/accounts/sign-in 204 0 - 0.515 ms
+POST /api/accounts/sign-in 200 412 - 287.152 ms
+OPTIONS /api/accounts/sign-in 204 0 - 0.446 ms
+POST /api/accounts/sign-in 200 412 - 273.987 ms
