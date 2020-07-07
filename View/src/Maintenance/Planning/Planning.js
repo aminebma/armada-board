@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
+import { blue, orange } from '@material-ui/core/colors';
 import {
     Scheduler,
     WeekView,
@@ -70,10 +71,10 @@ export default class Planning extends Component {
                 fieldName: 'niveau',
                 title: 'niveau',
                 instances: [
-                    { id: 1, text: 'niveau 1', color: '#9DC8C8' },
+                    { id: 1, text: 'niveau 1', color: orange },
                     { id: 2, text: 'niveau 2', color: '#58C9B9' },
-                    { id: 3, text: 'niveau 3', color: '#519D9E' },
-                    { id: 4, text: 'niveau 4', color: '#D1B6E1' },
+                    { id: 3, text: 'niveau 3', color: blue },
+                    { id: 4, text: 'niveau 4', color: '#174a84' },
                     { id: 5, text: 'niveau 5', color: '#2E294E' },
                 ],
                 allowMultiple: true,
@@ -106,25 +107,17 @@ export default class Planning extends Component {
     //Fonction du changement dans le planning ( ajout , supression, modification d'une maintenance)
     //fonction par défaut du package, je n'y ai pas touché, je ne l'ai pas comprise aussi
     commitChanges({ added, changed, deleted }) {
-        this.setState((state) => {
-            let { data } = state;
-            if (added) {
-                const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-                data = [...data, { id: startingAddedId, ...added }];
-            }
-            if (changed) {
-                data = data.map(appointment => (
-                    changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-            }
-            if (deleted !== undefined) {
-                data = data.filter(appointment => appointment.id !== deleted);
-            }
-            return { data };
-        });
+        let donnee = this.props.data
+        if (changed) {
+            donnee = donnee.map(appointment => (
+                changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
+        }
+        this.setState({data: donnee})
     }
 
     render() {
-        const donnee = this.props.data
+        let donnee = this.props.data
+        if( this.state.data != null) donnee = this.state.data
         //if(donnee[5]!= null) alert(donnee[5].title+' coucou')
 
         // rendement du planning
