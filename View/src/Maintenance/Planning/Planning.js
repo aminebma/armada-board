@@ -21,6 +21,7 @@ import {
     CurrentTimeIndicator,
     GroupingPanel,
     DragDropProvider,
+    EditRecurrenceMenu,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 import { UneMaintenance, MaintenanceContent, PopHeader, PopContent, RessourceFormulaire } from './Planning.tsx';
@@ -38,6 +39,7 @@ const styles = ({ spacing, palette, typography }) => ({
     },
 });
 
+/*
 const isWeekOrMonthView = viewName => viewName === 'Week' || viewName === 'Month';
 
 const groupOrientation = viewName => viewName.split(' ')[0];
@@ -56,6 +58,7 @@ const GroupOrderSwitcher = withStyles(styles, { name: 'ResourceSwitcher' })(
             />
         ),
 );
+*/
 
 export default class Planning extends Component {
 
@@ -65,9 +68,9 @@ export default class Planning extends Component {
             data: null, //transmetre la variable data du parent dans le state du child
             currentViewName: 'Month',
             grouping: {
-                resourceName: 'niveau',
+                resourceName: 'title',
             },
-            groupByDate: isWeekOrMonthView,
+            //groupByDate: isWeekOrMonthView,
             isGroupByDate: true,
         };
         this.commitChanges = this.commitChanges.bind(this);
@@ -75,7 +78,7 @@ export default class Planning extends Component {
             const { isGroupByDate } = this.state;
             this.setState({
                 isGroupByDate: !isGroupByDate,
-                groupByDate: isGroupByDate ? undefined : isWeekOrMonthView,
+                //groupByDate: isGroupByDate ? undefined : isWeekOrMonthView,
             });
         };
 
@@ -124,15 +127,16 @@ export default class Planning extends Component {
         return (
             <div>
                 <Paper className="Calendar">
-                    <GroupOrderSwitcher isGroupByDate={this.state.isGroupByDate} onChange={this.onGroupOrderChange} />
+                    {/*<GroupOrderSwitcher isGroupByDate={this.state.isGroupByDate} onChange={this.onGroupOrderChange} />*/}
                     <Scheduler data={donnee} local="fr-FR">
                         <ViewState currentViewName={this.state.currentViewName} onCurrentViewNameChange={this.currentViewNameChange} />
                         <EditingState onCommitChanges={this.commitChanges} />
-                        <WeekView startDayHour={7} endDayHour={17} />
+                        <EditRecurrenceMenu />
+                        <WeekView startDayHour={7} endDayHour={19} />
                         <WeekView name="work-week" displayName="Work Week" excludedDays={[6, 7]} startDayHour={7} endDayHour={19} />
                         <MonthView />
                         <DayView startDayHour={7} endDayHour={17} />
-                        <GroupingState grouping={this.state.grouping} groupOrientation={this.groupOrientation}/>
+                        {/*<GroupingState grouping="title" groupOrientation={this.groupOrientation}/>*/}
                         <Toolbar />
                         <DateNavigator />
                         <TodayButton />
@@ -140,9 +144,10 @@ export default class Planning extends Component {
                         <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?" />
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
                         <Resources data={RessourceFormulaire} mainResourceName={'niveau'} />
-                        <IntegratedGrouping />
-                        <GroupingPanel />
+                        {/*<IntegratedGrouping />*/}
+                        {/*<GroupingPanel />*/}
                         <AppointmentTooltip headerComponent={PopHeader} contentComponent={PopContent} showDeleteButton showCloseButton />
+                        <DragDropProvider />
                         <CurrentTimeIndicator shadePreviousCells="true" shadePreviousAppointments="true" updateInterval="20000" />
                         <DragDropProvider />
                     </Scheduler>
