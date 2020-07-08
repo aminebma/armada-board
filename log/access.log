@@ -237,3 +237,14 @@ OPTIONS /api/admin/users/reset-password 204 0 - 3.635 ms
 PUT /api/admin/users/reset-password 200 43 - 278.627 ms
 OPTIONS /api/accounts/sign-in 204 0 - 0.408 ms
 POST /api/accounts/sign-in 200 327 - 283.001 ms
+OPTIONS /api/maintenances/info 204 0 - 0.318 ms
+POST /api/maintenances/info 200 71 - 103.665 ms
+OPTIONS /api/maintenances/info 204 0 - 0.489 ms
+POST /api/maintenances/info 200 71 - 14959.564 ms
+OPTIONS /api/maintenances/info 204 0 - 0.437 ms
+OPTIONS /api/maintenances/info 204 0 - 3.199 ms
+OPTIONS /api/maintenances/info 204 0 - 4.174 ms
+POST /api/maintenances/info 200 - - 110.957 ms
+OPTIONS /api/maintenances/info 204 0 - 3.025 ms
+OPTIONS /api/maintenances/info 204 0 - 2.866 ms
+POST /api/maintenances/info 200 21 - 98.245 ms

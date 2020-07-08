@@ -3,7 +3,7 @@ import { TextField , Button, Drawer, Paper, AppBar, makeStyles, Toolbar, Typogra
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
+import axios from 'axios';
 
 const styles = theme => ({
     paper: {
@@ -24,6 +24,40 @@ const theme = createMuiTheme({
   });
 
 class RefMaintenance extends Component{
+
+    state = {
+        niveau: '',
+        echelon: ''
+    }
+
+    handleAddRefMaintenance = () => {
+        const body = {
+            type: document.getElementById('type').value,
+            niveau: this.state.niveau,
+            echelon: this.state.echelon
+          }
+          axios.post('http://localhost:3001/api/maintenances/info', body)
+            .then(res => {
+                alert("Ref maintenance ajoutée avec succès !");
+            })
+            .catch((error) => {
+              alert("Une erreur s'est produite.");
+            })
+    }
+
+    handleNiveauChange = event => {
+        this.setState({
+            niveau: event.target.value
+        })
+    }
+
+    handleEchelonChange = event => {
+        this.setState({
+            echelon: event.target.value
+        })
+    }
+
+
     render() {
         const { classes } = this.props;
         return (
@@ -35,15 +69,16 @@ class RefMaintenance extends Component{
                         <Typography variant="h6" color="secondary">Gestion des référentiels de maintenace.</Typography> 
                     </Grid>
                     <Grid item xs={4}>
-                        <TextField id="standard-basic" label="Type" />
+                        <TextField id="type" label="Type" />
                     </Grid>
                     <Grid item xs={4}>
                         <TextField
-                            id="standard-select-currency"
+                            id="niveau"
                             select
                             label="Niveau"
                             helperText="Choisissez un niveau"
                             color="secondary"
+                            onChange={this.handleNiveauChange}
                         >
                             <MenuItem key={"1"} value={"1"}>
                                 {"1"}
@@ -64,11 +99,12 @@ class RefMaintenance extends Component{
                     </Grid>
                     <Grid item xs={4}>
                         <TextField
-                            id="standard-select-currency"
+                            id="echelon"
                             select
                             label="Echelon"
                             helperText="Choisissez un echelon"
                             color="secondary"
+                            onChange={this.handleEchelonChange}
                         >
                             <MenuItem key={"1"} value={"1"}>
                                 {"1"}
@@ -88,7 +124,7 @@ class RefMaintenance extends Component{
                         </TextField>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" color="secondary">Ajouter</Button>
+                        <Button variant="contained" color="secondary" onClick={this.handleAddRefMaintenance}>Ajouter</Button>
                     </Grid>
                 
             </Grid>
