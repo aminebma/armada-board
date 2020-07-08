@@ -31,7 +31,7 @@ export default class TableFlotte extends Component {
       marque : "Mercedes",
       modele : "Classe G-63 AMG",
       structure : "1",
-      type : "1"
+      type : "Voiture"
     }
   }
 
@@ -102,13 +102,13 @@ export default class TableFlotte extends Component {
         {
             id : "1",
             uop : "régionale",
-            region : "1",
+            region : "Region1",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
             structure : "UNI-001",
-            type : "1",
+            type : "Voiture",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1",
@@ -119,13 +119,13 @@ export default class TableFlotte extends Component {
         {
             id : "2",
             uop : "régionale",
-            region : "1",
+            region : "Region2",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
-            structure : "1",
-            type : "1",
+            structure : "UNI-00",
+            type : "Voiture",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -139,10 +139,10 @@ export default class TableFlotte extends Component {
             region : "1",
             matInt : "605",
             matExt : "1-605",
-            marque : "Mercedes",
-            modele : "Classe G-63 AMG",
+            marque : "BMW",
+            modele : "R80 RT",
             structure : "1",
-            type : "1",
+            type : "Moto",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -153,13 +153,13 @@ export default class TableFlotte extends Component {
         {
           id : "4",
           uop : "régionale",
-            region : "1",
+            region : "Region1",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
-            structure : "1",
-            type : "1",
+            structure : "UNI-02",
+            type : "Camion",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -170,13 +170,13 @@ export default class TableFlotte extends Component {
         {
           id : "5",
           uop : "régionale",
-            region : "1",
+            region : "Region3",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
-            structure : "1",
-            type : "1",
+            structure : "UNI-00",
+            type : "Camion",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -187,13 +187,13 @@ export default class TableFlotte extends Component {
         {
           id : "6",
           uop : "régionale",
-            region : "1",
+            region : "Region1",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
-            structure : "1",
-            type : "1",
+            structure : "UNI-01",
+            type : "Voiture",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -204,13 +204,13 @@ export default class TableFlotte extends Component {
         {
           id : "7",
           uop : "régionale",
-            region : "1",
+            region : "Region4",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
-            structure : "1",
-            type : "1",
+            structure : "UNI-01",
+            type : "Moto",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -221,13 +221,13 @@ export default class TableFlotte extends Component {
         {
           id : "8",
           uop : "régionale",
-          region : "1",
+          region : "Region3",
           matInt : "605",
           matExt : "1-605",
           marque : "Mercedes",
           modele : "Classe G-63 AMG",
-          structure : "1",
-          type : "1",
+          structure : "UNI-01",
+          type : "Camion",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
@@ -238,13 +238,13 @@ export default class TableFlotte extends Component {
         {
           id : "9",
           uop : "régionale",
-            region : "1",
+            region : "Region5",
             matInt : "605",
             matExt : "1-605",
             marque : "Mercedes",
             modele : "Classe G-63 AMG",
-            structure : "1",
-            type : "1",
+            structure : "UNI-03",
+            type : "Camion",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
             "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"

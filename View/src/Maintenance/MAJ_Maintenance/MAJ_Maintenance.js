@@ -32,10 +32,7 @@ class MAJMaintenance extends Component {
                     // Accessed .name from file 
                     this.setState({ CarnetDebordName: e.target.files[0].name });
                     this.setState({ CarnetDebord: e.target.files[0] });
-                    //alert(this.state.CarnetDebord);
-                    //alert(window.document.getElementById("FichierInput").value);
-                    //this.readCarnetDeBord("C:\\Users\\darso\\Documents\\Projet\\armada-board\\lib\\files\\Carnet_de_bord.xlsx");
-                }
+                    }
                 break;
         }
     };
