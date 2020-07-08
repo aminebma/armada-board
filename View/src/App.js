@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import Nav from './Layouts/Nav'
 import Login from './Layouts/Login'
+import DBAdmin from './Admin/DBAdmin'
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 function App() {
-  const [isLogin, setIsLogin]  = React.useState(false);
-  const [accountInfo, setAccountInfo] = React.useState(false);
-  const navigation = (e, isLogin, accountInfo) => {
-      setIsLogin(isLogin);
-      setAccountInfo(accountInfo);
-  };
   return (
+
     <div>
-      {
-          isLogin ? <Nav /> : <Login navigation={navigation}/>
-      }
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/admin" component={DBAdmin} />
+          <Route path="/" component={Nav} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

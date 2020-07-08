@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     PieChart, Pie, Sector, Cell,
   } from 'recharts';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
 
 
 export default class TypeVehicule extends Component {
@@ -114,45 +114,61 @@ export default class TypeVehicule extends Component {
                 
                 </Grid> 
                 <Grid item xs={2}>
-                <PieChart width={200} height={150} onMouseEnter={this.onPieEnter}>
-                    <Pie
-                    data={data6} 
-                    cx={105} 
-                    cy={80} 
-                    startAngle={180}
-                    endAngle={0}
-                    innerRadius={60}
-                    outerRadius={80} 
-                    fill="#8884d8"
-                    paddingAngle={5}
-                    >
-                        { data6.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)}
-                    </Pie>
-                </PieChart>
-                
+                    <PieChart width={200} height={150} onMouseEnter={this.onPieEnter}>
+                        <Pie
+                        data={data6} 
+                        cx={105} 
+                        cy={80} 
+                        startAngle={180}
+                        endAngle={0}
+                        innerRadius={60}
+                        outerRadius={80} 
+                        fill="#8884d8"
+                        paddingAngle={5}
+                        >
+                            { data6.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)}
+                        </Pie>
+                    </PieChart>
                 </Grid> 
                 <Grid item xs={2}>
-                    <Typography variant="body2" style={{textAlign : "center"}}> Région 01 </Typography>
+                    <Typography variant="h6" style={{textAlign : "center"}}> Région 01 </Typography>
                 </Grid> 
                 <Grid item xs={2}>
-                    <Typography variant="body2" style={{textAlign : "center"}}> Région 02 </Typography>
+                    <Typography variant="h6" style={{textAlign : "center"}}> Région 02 </Typography>
                 </Grid> 
                 <Grid item xs={2}>
-                    <Typography variant="body2" style={{textAlign : "center"}}> Région 03 </Typography>
+                    <Typography variant="h6" style={{textAlign : "center"}}> Région 03 </Typography>
                 </Grid> 
                 <Grid item xs={2}>
-                    <Typography variant="body2" style={{textAlign : "center"}}> Région 04 </Typography>
+                    <Typography variant="h6" style={{textAlign : "center"}}> Région 04 </Typography>
                 </Grid> 
                 <Grid item xs={2}>
-                    <Typography variant="body2" style={{textAlign : "center"}}> Région 05 </Typography>
+                    <Typography variant="h6" style={{textAlign : "center"}}> Région 05 </Typography>
                 </Grid> 
                 <Grid item xs={2}>
-                    <Typography variant="body2" style={{textAlign : "center"}}> Région 06 </Typography>
+                    <Typography variant="h6" style={{textAlign : "center"}}> Région 06 </Typography>
                 </Grid> 
-                <Grid item xs={12}>
-                
-                </Grid>          
-            </Grid>
+                    <Grid item xs={3}>
+                        <Button variant="contained" disabled style={{background : '#0088FE', color : 'white', textAlign : "center"}}>
+                            Véhicule 1
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button variant="contained" disabled style={{background : '#00C49F', color : 'white', textAlign : "center"}}>
+                            Véhicule 2
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button variant="contained" disabled style={{background : '#FFBB28', color : 'white', textAlign : "center"}}>
+                            Véhicule 3
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button variant="contained" disabled style={{background : '#FF8042', color : 'white', textAlign : "center"}}>
+                            Véhicule 4
+                        </Button>
+                    </Grid>
+                </Grid>   
         );
     }
 }

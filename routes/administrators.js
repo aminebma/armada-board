@@ -8,6 +8,27 @@ const pool = new Pool({
 })
 pool.connect()
 
+//This will add a new unity. The request body should include the name, class, affiliation and region of the unity
+router.post('/unites', async (req,res)=>{
+    const text = "INSERT INTO Unite(nom, classe, affiliation, region) VALUES($1,$2,$3,$4) RETURNING id"
+    const values = [
+        req.body.nom,
+        req.body.classe,
+        req.body.affiliation,
+        req.body.region
+    ]
+
+    await pool.query(text, values)
+        .then(result => {
+            console.log(`New unité added successfully. id: ${result.rows[0].id}`)
+            res.send(result.rows[0].id)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
 //This will add a new driver to the database. The request body should contain the firstname, lastname, date of birth in
 //the YYYY-MM-DD format, address, sex that is a single char, and the id of the driver's unity.
 router.post('/chauffeurs', async (req,res) => {
@@ -92,16 +113,15 @@ router.put('/users/reset-password', async(req,res)=>{
     let values = [req.body.username]
     await pool.query(text, values)
         .then(async user =>{
-            const validPass =  await bCrypt.compare(req.body.password, user.rows[0].password)
-            if(!validPass) return res.status(400).send(new Error('Invalid password.'))
 
             const salt = await bCrypt.genSalt(10)
             const pass = await bCrypt.hash(req.body.password,salt)
 
             text = "UPDATE Utilisateur SET password=$1 WHERE id=$2"
-            values = [pass, user.id]
+            values = [pass, user.rows[0].id]
             await pool.query(text,values)
                 .then(()=>{
+                    console.log(`Password changed successfully. new password: ${req.body.password}`)
                     res.send({ Message: 'Password changed successfuly.'})
                 })
                 .catch(e =>{

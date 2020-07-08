@@ -481,7 +481,7 @@ router.post('/info', async (req, res)=>{
             await pool.query(text, values)
                 .then(result => {
                     console.log(`New reference added successfully. id: ${result.rows[0].id}`)
-                    res.send(result.rows[0].id)
+                    res.send({Message: 'Success'})
                 })
                 .catch(e => {
                     console.error(e.message)

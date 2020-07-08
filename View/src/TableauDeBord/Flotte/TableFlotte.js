@@ -17,36 +17,38 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-export default class TableMaint extends Component {
+export default class TableFlotte extends Component {
 
   constructor(props){
     super(props);
     this.state = {
       open : false,
       id : "52",
-      effectuee : "Effectuée",
-      dateAttrinution : "22/07/2020",
-      dateRealisation : "25/07/2020",
-      niveau :"2",
-      echelon : "2",
-      vehicule : "mazda",
-      pane : "Pane d'huile",
+      uop : "régionale",
+      region : "1",
+      matInt : "605",
+      matExt : "1-605",
+      marque : "Mercedes",
+      modele : "Classe G-63 AMG",
+      structure : "1",
+      type : "1"
     }
   }
 
   render(){
     
-    const handleClickOpen = (id, effectuee, date1, date2, niv, ech, vehi, pan) => {
+    const handleClickOpen = (id, uop, region, matInt, matExt, marque, modele, structure, type) => {
       this.setState({
         open : true,
         id : id,
-        effectuee : effectuee,
-        dateAttrinution : date1,
-        dateRealisation : date2,
-        niveau :niv,
-        echelon : ech,
-        vehicule : vehi,
-        pane : pan,
+        uop : uop,
+        region : region,
+        matInt : matInt,
+        matExt : matExt,
+        marque : marque,
+        modele : modele,
+        structure : structure,
+        type : type
       })
     };
   
@@ -68,24 +70,24 @@ export default class TableMaint extends Component {
           },
         },
         {
-          label: 'Effectuée',
-          field: 'effectuee',
+          label: 'Unité operationelle',
+          field: 'uop',
           width: 150,
         },
         {
-          label: 'Date Attribution',
-          field: 'dateAttrinution',
+          label: 'Région',
+          field: 'region',
           width: 200,
         },
         {
-          label: 'Date Réalisation',
-          field: 'dateRealisation',
+          label: 'Structure rattachement',
+          field: 'structure',
           sort: 'asc',
           width: 200,
         },
         {
-          label: 'Niveau',
-          field: 'niveau',
+          label: 'Type véhicule',
+          field: 'type',
           sort: 'asc',
           width: 100,
         },
@@ -98,145 +100,154 @@ export default class TableMaint extends Component {
       ],
       rows : [
         {
-          id : "1",
-          effectuee : "Effectuée",
-          dateAttrinution : "30/06/2020",
-          dateRealisation : "30/06/2020",
-          niveau :"1",
-          echelon : "1",
-          vehicule : "Mercedes Classe G63 AMG",
-          pane : "Vidange",
+            id : "1",
+            uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "UNI-001",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "1", "En attente", "30/06/2020", "30/06/2020" ,"1", "1", "Mercedes Classe G63 AMG", "Vidange"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1",
             )}>
             <AddIcon /> 
           </IconButton>,
         },
         {
-          id : "2",
-          effectuee : "Effectuée",
-          dateAttrinution : "01/07/2020",
-          dateRealisation : "01/07/2020",
-          niveau :"2",
-          echelon : "3",
-          vehicule : "Mercedes Classe G63 AMG",
-          pane : "Courroie",
+            id : "2",
+            uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "2", "Effectuée", "01/07/2020", "01/07/2020" ,"2", "3", "Mercedes Classe G63 AMG", "Courroie"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
-          id : "3",
-          effectuee : "Effectuée",
-          dateAttrinution : "01/07/2020",
-          dateRealisation : "01/07/2020",
-          niveau :"1",
-          echelon : "2",
-          vehicule : "Sonacom SNVI M230",
-          pane : "Plaquettes de Freins",
+            id : "3",
+            uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "3", "Effectuée", "01/07/2020", "01/07/2020" ,"1", "2", "BMW R80 RT", "Pneus"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
             <AddIcon />
           </IconButton>,
         },
         {
           id : "4",
-          effectuee : "En attente",
-          dateAttrinution : "22/07/2020",
-          dateRealisation : "A venir",
-          niveau :"3",
-          echelon : "4",
-          vehicule : "Sonacom SNVI M120",
-          pane : "Parallelisme",
+          uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "4", "En attente", "22/07/2020", "A venir" ,"3", "4", "Sonacom SNVI M120", "Parallelisme"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
           id : "5",
-          effectuee : "En attente",
-          dateAttrinution : "25/07/2020",
-          dateRealisation : "A venir",
-          niveau :"1",
-          echelon : "1",
-          vehicule : "BMW R80 RT",
-          pane : "Liquide de Freins",
+          uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "5", "En attente", "25/07/2020", "A venir" ,"1", "1", "BMW R80 RT", "Liquide de Freins"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
             <AddIcon />
           </IconButton>,
         },
         {
           id : "6",
-          effectuee : "En attente",
-          dateAttrinution : "27/07/2020",
-          dateRealisation : "A venir",
-          niveau :"2",
-          echelon : "3",
-          vehicule : "Mercedes Classe G63 AMG",
-          pane : "Vidange Boite à vitesses",
+          uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "6", "En attente", "27/07/2020", "A venir" ,"2", "3", "Mercedes Classe G63 AMG", "Vidange boite à vitesses"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
           id : "7",
-          effectuee : "En attente",
-          dateAttrinution : "30/07/2020",
-          dateRealisation : "A venir",
-          niveau :"2",
-          echelon : "3",
-          vehicule : "Sonacom SNVI M120",
-          pane : "Vidange Boite à vitesses",
+          uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "7", "En attente", "30/07/2020", "A venir" ,"2", "3", "Sonacom SNVI M120", "Vidange boite à vitesses"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
           id : "8",
-          effectuee : "En attente",
-          dateAttrinution : "30/07/2020",
-          dateRealisation : "A venir",
-          niveau :"3",
-          echelon : "3",
-          vehicule : "Sonacom SNVI M230",
-          pane : "Suspensions",
+          uop : "régionale",
+          region : "1",
+          matInt : "605",
+          matExt : "1-605",
+          marque : "Mercedes",
+          modele : "Classe G-63 AMG",
+          structure : "1",
+          type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "8", "En attente", "30/07/2020", "A venir" ,"3", "3", "Sonacom SNVI M230", "Suspensions"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
           id : "9",
-          effectuee : "En attente",
-          dateAttrinution : "12/08/2020",
-          dateRealisation : "A venir",
-          niveau :"1",
-          echelon : "1",
-          vehicule : "BMW R80 RT",
-          pane : "Divers",
+          uop : "régionale",
+            region : "1",
+            matInt : "605",
+            matExt : "1-605",
+            marque : "Mercedes",
+            modele : "Classe G-63 AMG",
+            structure : "1",
+            type : "1",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "9", "En attente", "12/08/2020", "A venir" ,"1", "1", "BMW R80 RT", "Divers"
+            "1", "régionale", "1", "605" , "1-605", "Mercedes", "Classe G-63 AMG", "UNI-001", "1"
             )}>
               <AddIcon />
             </IconButton>,
@@ -261,30 +272,33 @@ export default class TableMaint extends Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle id="alert-dialog-slide-title">{"Maintenance "}{this.state.id}</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">{"Véhciule "}{this.state.id}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <Typography variant="body1"> Type : {this.state.pane} </Typography>
+                    <Typography variant="body1">Type : {this.state.type} </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1">Véhicule : {this.state.vehicule} </Typography>
+                    <Typography variant="body1">Structure de rattachement : {this.state.structure} </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1">Statut : {this.state.effectuee} </Typography>
+                    <Typography variant="body1">Marque : {this.state.marque}</Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1">Niveau : {this.state.niveau}</Typography>
+                    <Typography variant="body1">Modèle : {this.state.modele} </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1">Echelon : {this.state.echelon} </Typography>
+                    <Typography variant="body1">Matricule interne : {this.state.matInt}</Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1">Date d'attribution : {this.state.dateAttrinution}</Typography>
+                    <Typography variant="body1">Matricule externe : {this.state.matExt} </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography variant="body1">Date de réalisation : {this.state.dateRealisation} </Typography>
+                    <Typography variant="body1">Unité opérationnelle : {this.state.uop}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Région : {this.state.region} </Typography>
                   </Grid>
                 </Grid>    
               </DialogContentText>
