@@ -3,8 +3,10 @@ import {  BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { Drawer, AppBar, makeStyles, Toolbar, Typography, ListItem, ListItemIcon, ListItemText, List, Container, CardMedia, Grid } from '@material-ui/core';
 import BuildIcon from '@material-ui/icons/Build';
 import MapIcon from '@material-ui/icons/Map';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LineStyleIcon from '@material-ui/icons/LineStyle';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Maintenance from '../Maintenance/Maintenance'
 import MaintenanceNav from '../TableauDeBord/TBindex'
@@ -104,7 +106,7 @@ export default function Nav (){
                                 selected={choice === 3}
                                 onClick={(e) => handleListItemClick(e, 3)}
                             >
-                                <ListItemIcon style={{color : (choice ===3) ? 'white' : '#424242'}}><LineStyleIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===3) ? 'white' : '#424242'}}><BarChartIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===3) ? 'white' : '#424242'}} primary={"Reporting"}/>
                             </ListItem>
                         </Link>
@@ -118,7 +120,7 @@ export default function Nav (){
                                     handleListItemClick(e, 4)
                                 }}
                             >
-                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><ExitToAppIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
                             </ListItem>
                         </Link>

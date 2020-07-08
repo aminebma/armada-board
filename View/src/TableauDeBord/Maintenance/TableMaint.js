@@ -98,97 +98,145 @@ export default class TableMaint extends Component {
       ],
       rows : [
         {
-          id : "123",
-          effectuee : "en attente",
-          dateAttrinution : "25/07/2020",
-          dateRealisation : "NONE",
-          niveau :"2",
-          echelon : "2",
-          vehicule : "mazda",
-          pane : "Pane d'huile",
+          id : "1",
+          effectuee : "Effectuée",
+          dateAttrinution : "30/06/2020",
+          dateRealisation : "30/06/2020",
+          niveau :"1",
+          echelon : "1",
+          vehicule : "Mercedes Classe G63 AMG",
+          pane : "Vidange",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            "1", "En attente", "30/06/2020", "30/06/2020" ,"1", "1", "Mercedes Classe G63 AMG", "Vidange"
             )}>
             <AddIcon /> 
           </IconButton>,
         },
         {
-          id : "52",
+          id : "2",
           effectuee : "Effectuée",
-          dateAttrinution : "22/07/2020",
-          dateRealisation : "25/07/2020",
+          dateAttrinution : "01/07/2020",
+          dateRealisation : "01/07/2020",
           niveau :"2",
-          echelon : "2",
-          vehicule : "mazda",
-          pane : "Pane d'huile",
+          echelon : "3",
+          vehicule : "Mercedes Classe G63 AMG",
+          pane : "Courroie",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "123", "Effectuée", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            "2", "Effectuée", "01/07/2020", "01/07/2020" ,"2", "3", "Mercedes Classe G63 AMG", "Courroie"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
-          id : "123",
-          effectuee : "en attente",
-          dateAttrinution : "25/07/2020",
-          dateRealisation : "NONE",
-          niveau :"2",
+          id : "3",
+          effectuee : "Effectuée",
+          dateAttrinution : "01/07/2020",
+          dateRealisation : "01/07/2020",
+          niveau :"1",
           echelon : "2",
-          vehicule : "mazda",
-          pane : "Pane d'huile",
+          vehicule : "Sonacom SNVI M230",
+          pane : "Plaquettes de Freins",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            "3", "Effectuée", "01/07/2020", "01/07/2020" ,"1", "2", "BMW R80 RT", "Pneus"
             )}>
             <AddIcon />
           </IconButton>,
         },
         {
-          id : "52",
-          effectuee : "Effectuée",
+          id : "4",
+          effectuee : "En attente",
           dateAttrinution : "22/07/2020",
-          dateRealisation : "25/07/2020",
-          niveau :"2",
-          echelon : "2",
-          vehicule : "mazda",
-          pane : "Pane d'huile",
+          dateRealisation : "A venir",
+          niveau :"3",
+          echelon : "4",
+          vehicule : "Sonacom SNVI M120",
+          pane : "Parallelisme",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            "4", "En attente", "22/07/2020", "A venir" ,"3", "4", "Sonacom SNVI M120", "Parallelisme"
             )}>
               <AddIcon />
             </IconButton>,
         },
         {
-          id : "123",
-          effectuee : "en attente",
+          id : "5",
+          effectuee : "En attente",
           dateAttrinution : "25/07/2020",
-          dateRealisation : "NONE",
-          niveau :"2",
-          echelon : "2",
-          vehicule : "mazda",
-          pane : "Pane d'huile",
+          dateRealisation : "A venir",
+          niveau :"1",
+          echelon : "1",
+          vehicule : "BMW R80 RT",
+          pane : "Liquide de Freins",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            "5", "En attente", "25/07/2020", "A venir" ,"1", "1", "BMW R80 RT", "Liquide de Freins"
             )}>
             <AddIcon />
           </IconButton>,
         },
         {
-          id : "52",
-          effectuee : "Effectuée",
-          dateAttrinution : "22/07/2020",
-          dateRealisation : "25/07/2020",
+          id : "6",
+          effectuee : "En attente",
+          dateAttrinution : "27/07/2020",
+          dateRealisation : "A venir",
           niveau :"2",
-          echelon : "2",
-          vehicule : "mazda",
-          pane : "Pane d'huile",
+          echelon : "3",
+          vehicule : "Mercedes Classe G63 AMG",
+          pane : "Vidange Boite à vitesses",
           afficher : 
           <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
-            "123", "en attente", "25/07/2020", "NONE" ,"2", "2", "mazda", "Pane d'huile"
+            "6", "En attente", "27/07/2020", "A venir" ,"2", "3", "Mercedes Classe G63 AMG", "Vidange boite à vitesses"
+            )}>
+              <AddIcon />
+            </IconButton>,
+        },
+        {
+          id : "7",
+          effectuee : "En attente",
+          dateAttrinution : "30/07/2020",
+          dateRealisation : "A venir",
+          niveau :"2",
+          echelon : "3",
+          vehicule : "Sonacom SNVI M120",
+          pane : "Vidange Boite à vitesses",
+          afficher : 
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "7", "En attente", "30/07/2020", "A venir" ,"2", "3", "Sonacom SNVI M120", "Vidange boite à vitesses"
+            )}>
+              <AddIcon />
+            </IconButton>,
+        },
+        {
+          id : "8",
+          effectuee : "En attente",
+          dateAttrinution : "30/07/2020",
+          dateRealisation : "A venir",
+          niveau :"3",
+          echelon : "3",
+          vehicule : "Sonacom SNVI M230",
+          pane : "Suspensions",
+          afficher : 
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "8", "En attente", "30/07/2020", "A venir" ,"3", "3", "Sonacom SNVI M230", "Suspensions"
+            )}>
+              <AddIcon />
+            </IconButton>,
+        },
+        {
+          id : "9",
+          effectuee : "En attente",
+          dateAttrinution : "12/08/2020",
+          dateRealisation : "A venir",
+          niveau :"1",
+          echelon : "1",
+          vehicule : "BMW R80 RT",
+          pane : "Divers",
+          afficher : 
+          <IconButton aria-label="plus" size="small" onClick={() => handleClickOpen(
+            "9", "En attente", "12/08/2020", "A venir" ,"1", "1", "BMW R80 RT", "Divers"
             )}>
               <AddIcon />
             </IconButton>,
@@ -220,7 +268,7 @@ export default class TableMaint extends Component {
                 <Typography variant="body1">Date d'attribution : {this.state.dateAttrinution}     Date de réalisation : {this.state.dateRealisation}</Typography>
                 <Typography variant="body1">Niveau : {this.state.niveau}     Echelon : {this.state.echelon}</Typography>
                 <Typography variant="body1">Véhicule : {this.state.vehicule} </Typography>
-                <Typography variant="body1">Pane : {this.state.pane} </Typography>
+                <Typography variant="body1">Type : {this.state.pane} </Typography>
               </DialogContentText>
             </DialogContent>
             <DialogActions>

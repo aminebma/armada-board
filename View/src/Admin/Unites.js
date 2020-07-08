@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from "react";
 
 class Unites extends Component{
     render() {
-        alert('test')
+        alert('Unites')
         return (
             <div>
-                Hello
+                <h1>Unites</h1>
             </div>
     );
     }
