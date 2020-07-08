@@ -71,34 +71,34 @@ export default function Nav (){
                     <List component="nav">
                         <ListItem alignItems="flex-start" >
                         </ListItem>
-                        <Link to="/Maintenance" className={classes.link}>
+                        <Link to="/TableauDeBord" className={classes.link}>
                             <ListItem 
                             button
                             selected={choice === 0}
                             onClick={(e) => handleListItemClick(e, 0)}
                             >
-                                <ListItemIcon style={{color : (choice ===0) ? 'white' : '#424242'}}><BuildIcon/></ListItemIcon>
-                                <ListItemText style={{color : (choice ===0) ? 'white' : '#424242'}} primary={"Maintenance"}/>
+                                <ListItemIcon style={{color : (choice ===0) ? 'white' : '#424242'}}><DashboardIcon/></ListItemIcon>
+                                <ListItemText style={{color : (choice ===0) ? 'white' : '#424242'}} primary={"Tableau de bord"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/Cartographie" className={classes.link}>
+                        <Link to="/Maintenance" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 1}
                                 onClick={(e) => handleListItemClick(e, 1)}
                             >
-                                <ListItemIcon style={{color : (choice ===1) ? 'white' : '#424242'}}><MapIcon /></ListItemIcon>
-                                <ListItemText style={{color : (choice ===1) ? 'white' : '#424242'}} primary={"Cartographie"}/>
+                                <ListItemIcon style={{color : (choice ===1) ? 'white' : '#424242'}}><BuildIcon /></ListItemIcon>
+                                <ListItemText style={{color : (choice ===1) ? 'white' : '#424242'}} primary={"Maintenance"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/TableauDeBord" className={classes.link}>
+                        <Link to="/Cartographie" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 2}
                                 onClick={(e) => handleListItemClick(e, 2)}
                             >
-                                <ListItemIcon style={{color : (choice ===2) ? 'white' : '#424242'}}><DashboardIcon /></ListItemIcon>
-                                <ListItemText style={{color : (choice ===2) ? 'white' : '#424242'}} primary={"Tableau de bord"}/>
+                                <ListItemIcon style={{color : (choice ===2) ? 'white' : '#424242'}}><MapIcon /></ListItemIcon>
+                                <ListItemText style={{color : (choice ===2) ? 'white' : '#424242'}} primary={"Cartographie"}/>
                             </ListItem>
                         </Link>
                         <Link to="/Reporting" className={classes.link}>
