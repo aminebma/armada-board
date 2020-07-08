@@ -23,13 +23,13 @@ class Flotte extends Component{
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant='body2'>Nombre de véhicule par type et région</Typography>
+                        <Typography variant='h6'>Nombre de véhicule par type et région</Typography>
                         <TypeVehicule/>
                     </Paper>
                 </Grid>
                 <Grid item xs={8}>
                     <Paper className={classes.paper}>
-                        <Typography variant='body2'>Kilométrage parcourrus par chaque type de véhicule par région</Typography>
+                        <Typography variant='h6'>Kilométrage parcourrus par chaque type de véhicule par région</Typography>
                         <Kilometrage />
                     </Paper>
                 </Grid>
@@ -40,7 +40,7 @@ class Flotte extends Component{
                 </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography variant='body2'>Table de tous les véhicules</Typography>
+                        <Typography variant='h6'>Table de tous les véhicules</Typography>
                         <TableFlotte />
                     </Paper>
                 </Grid>
