@@ -69,7 +69,7 @@ export default function DBAdmin (){
                     <List component="nav">
                         <ListItem alignItems="flex-start" >
                         </ListItem>
-                        <Link to="/Unite" className={classes.link}>
+                        <Link to="/admin/unites" className={classes.link}>
                             <ListItem 
                             button
                             selected={choice === 0}
@@ -79,7 +79,7 @@ export default function DBAdmin (){
                                 <ListItemText style={{color : (choice ===0) ? 'white' : '#424242'}} primary={"Gestion des unités"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/Utilisateurs" className={classes.link}>
+                        <Link to="/admin/Utilisateurs" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 1}
@@ -89,7 +89,7 @@ export default function DBAdmin (){
                                 <ListItemText style={{color : (choice ===1) ? 'white' : '#424242'}} primary={"Gestion des utilisateurs"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/Vehicules" className={classes.link}>
+                        <Link to="/admin/Vehicules" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 2}
@@ -99,7 +99,7 @@ export default function DBAdmin (){
                                 <ListItemText style={{color : (choice ===2) ? 'white' : '#424242'}} primary={"Gestion des vehicules"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/Fichiers" className={classes.link}>
+                        <Link to="/admin/Fichiers" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 3}
@@ -109,13 +109,11 @@ export default function DBAdmin (){
                                 <ListItemText style={{color : (choice ===3) ? 'white' : '#424242'}} primary={"Gestion des fichiers"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/RefMaintenance" className={classes.link}>
+                        <Link to="/admin/RefMaintenance" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 4}
                                 onClick={(e) => {
-                                    localStorage.clear()
-                                    window.location='/login'
                                     handleListItemClick(e, 4)
                                 }}
                             >
@@ -126,15 +124,15 @@ export default function DBAdmin (){
                         <Link to="/login" className={classes.link}>
                             <ListItem 
                                 button
-                                selected={choice === 4}
+                                selected={choice === 5}
                                 onClick={(e) => {
                                     localStorage.clear()
                                     window.location='/login'
-                                    handleListItemClick(e, 4)
+                                    handleListItemClick(e, 5)
                                 }}
                             >
-                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
-                                <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
+                                <ListItemIcon style={{color : (choice ===5) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
+                                <ListItemText style={{color : (choice ===5  ) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
                             </ListItem>
                         </Link>
                     </List>
@@ -147,28 +145,32 @@ export default function DBAdmin (){
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route exact path="/Unites">
+                    <Route exact path="/admin/unites">
                         <Container style={{paddingTop : '50px'}}>
                             <Unites/>
                         </Container>
                     </Route>
-                    <Route exact path="/Utilisateurs">
+                    <Route exact path="/admin/Utilisateurs">
                         <Container style={{paddingTop : '50px'}}>
                             <Utilisateurs />
                         </Container>
                     </Route>
-                    <Route exact path="/Vehicules">
+                    <Route exact path="/admin/Vehicules">
                         <Vehicules />
                     </Route>
-                    <Route exact path="/Fichiers">
+                    <Route exact path="/admin/Fichiers">
                         <Grid container style={{paddingTop : '55px'}}>
                             <Grid item xs={12}>
                                 <Fichiers />
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route exact path="/RefMaintenance">
+                    <Route exact path="/admin/RefMaintenance">
+                    <Grid container style={{paddingTop : '55px'}}>
+                        <Grid item xs={12}>
                             <RefMaintenance />
+                        </Grid>
+                    </Grid>
                     </Route>
                     <Route exact path="/login">
                             <Login />

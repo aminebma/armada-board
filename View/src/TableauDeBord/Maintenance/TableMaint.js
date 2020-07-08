@@ -220,7 +220,7 @@ export default class TableMaint extends Component {
                 <Typography variant="body1">Date d'attribution : {this.state.dateAttrinution}     Date de réalisation : {this.state.dateRealisation}</Typography>
                 <Typography variant="body1">Niveau : {this.state.niveau}     Echelon : {this.state.echelon}</Typography>
                 <Typography variant="body1">Véhicule : {this.state.vehicule} </Typography>
-                <Typography variant="body1">Pane : {this.state.pane} </Typography>
+                <Typography variant="body1">Type : {this.state.pane} </Typography>
               </DialogContentText>
             </DialogContent>
             <DialogActions>

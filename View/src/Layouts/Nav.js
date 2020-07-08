@@ -12,6 +12,7 @@ import KpiList from '../Reporting/indexReport'
 import SimpleMap from '../Cartographie/CartographieIndex'
 import Cartographie from '../Cartographie/CartographieIndex'
 import Login from '../Layouts/Login'
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: { 
@@ -118,7 +119,7 @@ export default function Nav (){
                                     handleListItemClick(e, 4)
                                 }}
                             >
-                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><FiberManualRecordIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
                             </ListItem>
                         </Link>
