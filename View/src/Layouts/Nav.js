@@ -10,6 +10,7 @@ import Maintenance from '../Maintenance/Maintenance'
 import MaintenanceNav from '../TableauDeBord/TBindex'
 import KpiList from '../Reporting/indexReport'
 import Cartographie from '../Cartographie/CartographieIndex'
+import Login from '../Layouts/Login'
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: { 
@@ -106,14 +107,18 @@ export default function Nav (){
                                 <ListItemText style={{color : (choice ===3) ? 'white' : '#424242'}} primary={"Reporting"}/>
                             </ListItem>
                         </Link>
-                        <Link to="/Parametres" className={classes.link}>
+                        <Link to="/login" className={classes.link}>
                             <ListItem 
                                 button
                                 selected={choice === 4}
-                                onClick={(e) => handleListItemClick(e, 4)}
+                                onClick={(e) => {
+                                    localStorage.clear()
+                                    window.location='/login'
+                                    handleListItemClick(e, 4)
+                                }}
                             >
                                 <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
-                                <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Parametres"}/>
+                                <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
                             </ListItem>
                         </Link>
                     </List>
@@ -137,7 +142,7 @@ export default function Nav (){
                         </Container>
                     </Route>
                     <Route exact path="/Maintenance">
-                        <Maintenance/>
+                        <Maintenance />
                     </Route>
                     <Route exact path="/TableauDeBord">
                         <Grid container style={{paddingTop : '55px'}}>
@@ -146,10 +151,8 @@ export default function Nav (){
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route exact path="/Parametres">
-                        <Container style={{paddingTop : '50px'}}>
-                            <Typography variant="h1">Paramètres</Typography>
-                        </Container>
+                    <Route exact path="/login">
+                            <Login />
                     </Route>
                 </Switch>
             </div>
