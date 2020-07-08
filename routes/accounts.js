@@ -24,7 +24,20 @@ router.post('/sign-in', async(req, res)=>{
             if(!validPass) return res.status(400).send(new Error('Invalid username or password.'))
 
             const token = jwt.sign({_id: user.rows[0].id}, config.get('auth.jwtPK'))
-            res.send('Done')
+            const result = {
+                jwtToken: token,
+                type: user.rows[0].type,
+                affectation: user.rows[0].affectation,
+                username: user.rows[0].username,
+                nom: user.rows[0].nom,
+                prenom: user.rows[0].prenom,
+                dateNaiss: user.rows[0].datenaiss,
+                sexe: user.rows[0].sexe,
+                adresse: user.rows[0].adresse,
+                mail: user.rows[0].mail,
+                numTel: user.rows[0].numtel
+            }
+            res.send(result)
         })
         .catch(e => {
             console.error(e.message)

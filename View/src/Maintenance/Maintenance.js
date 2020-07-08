@@ -44,7 +44,7 @@ class Maintenance extends Component {
             this.setState({ data: JSON.parse(xhr.responseText) }) //MAJ de la variable data du state avec la réponse de la requette
         });
         // open the request with the verb and the url
-        xhr.open('GET', 'http://localhost:3001/api/maintenances/planning/all/1', false)
+        xhr.open('GET', `http://localhost:3001/api/maintenances/planning/all/${localStorage.getItem('affectation')}`, false)
         // send the request
         xhr.send();
     }
