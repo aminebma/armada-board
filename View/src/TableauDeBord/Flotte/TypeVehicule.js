@@ -7,18 +7,18 @@ import { Grid, Typography, Button } from '@material-ui/core';
 
 export default class TypeVehicule extends Component {
     render (){
-        const data1 = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
+        const data1 = [{name: 'Group A', value: 1450}, {name: 'Group B', value: 300},
                         {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
         const data2 = [{name: 'Group A', value: 1872}, {name: 'Group B', value: 360},
                         {name: 'Group C', value: 750}, {name: 'Group D', value: 200}];
-        const data3 = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                        {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
-        const data4 = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                        {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
-        const data5 = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                        {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
-        const data6 = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                        {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
+        const data3 = [{name: 'Group A', value: 1300}, {name: 'Group B', value: 300},
+                        {name: 'Group C', value: 650}, {name: 'Group D', value: 280}];
+        const data4 = [{name: 'Group A', value: 1100}, {name: 'Group B', value: 430},
+                        {name: 'Group C', value: 210}, {name: 'Group D', value: 250}];
+        const data5 = [{name: 'Group A', value: 1500}, {name: 'Group B', value: 230},
+                        {name: 'Group C', value: 325}, {name: 'Group D', value: 240}];
+        const data6 = [{name: 'Group A', value: 1400}, {name: 'Group B', value: 365},
+                        {name: 'Group C', value: 230}, {name: 'Group D', value: 111}];
         const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
         const RADIAN = Math.PI / 180;

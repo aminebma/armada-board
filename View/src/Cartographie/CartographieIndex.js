@@ -2,6 +2,7 @@ import React from 'react'
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { Drawer, Paper, AppBar, makeStyles, Toolbar, Typography, ListItem, ListItemIcon, ListItemText, List, Container, CardMedia, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import TableFlotte from '../TableauDeBord/Flotte/TableFlotte'
 
  
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +42,7 @@ function SimpleMap() {
     <Grid container spacing={2} style={{paddingTop : 40}}>
         <Grid item xs={9}>
             <Paper className={classes.paper}>
+                <Typography variant='h6'>Table de tous les véhicules</Typography>
                 <LoadScript
                     googleMapsApiKey="AIzaSyC8uooJvBbe5IjZop2cRJYOw6eFBoBkc1M"
                 >
@@ -56,6 +58,12 @@ function SimpleMap() {
                     </GoogleMap>
                 </LoadScript>
             </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Typography variant='h6'>Table de tous les véhicules</Typography>
+            <TableFlotte/>
+          </Paper>
         </Grid>
     </Grid>
   )

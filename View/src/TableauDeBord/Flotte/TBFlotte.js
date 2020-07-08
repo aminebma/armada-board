@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Grid, Paper, makeStyles } from '@material-ui/core'
+import { Grid, Paper, makeStyles, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import TypeVehicule from './TypeVehicule'
 import Kilometrage from './Kilometrage'
@@ -23,11 +23,13 @@ class Flotte extends Component{
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
+                        <Typography variant='body2'>Nombre de véhicule par type et région</Typography>
                         <TypeVehicule/>
                     </Paper>
                 </Grid>
                 <Grid item xs={8}>
                     <Paper className={classes.paper}>
+                        <Typography variant='body2'>Kilométrage parcourrus par chaque type de véhicule par région</Typography>
                         <Kilometrage />
                     </Paper>
                 </Grid>
@@ -38,6 +40,7 @@ class Flotte extends Component{
                 </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
+                        <Typography variant='body2'>Table de tous les véhicules</Typography>
                         <TableFlotte />
                     </Paper>
                 </Grid>
