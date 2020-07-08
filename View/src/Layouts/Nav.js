@@ -14,6 +14,7 @@ import KpiList from '../Reporting/indexReport'
 import SimpleMap from '../Cartographie/CartographieIndex'
 import Cartographie from '../Cartographie/CartographieIndex'
 import Login from '../Layouts/Login'
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: { 

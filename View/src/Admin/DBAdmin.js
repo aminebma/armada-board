@@ -129,11 +129,11 @@ export default function DBAdmin (){
                         <Link to="/login" className={classes.link}>
                             <ListItem 
                                 button
-                                selected={choice === 4}
+                                selected={choice === 5}
                                 onClick={(e) => {
                                     localStorage.clear()
                                     window.location='/login'
-                                    handleListItemClick(e, 4)
+                                    handleListItemClick(e, 5)
                                 }}
                             >
                                 <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><ExitToAppIcon /></ListItemIcon>
@@ -171,7 +171,11 @@ export default function DBAdmin (){
                         </Grid>
                     </Route>
                     <Route exact path="/admin/RefMaintenance">
+                    <Grid container style={{paddingTop : '55px'}}>
+                        <Grid item xs={12}>
                             <RefMaintenance />
+                        </Grid>
+                    </Grid>
                     </Route>
                     <Route exact path="/login">
                             <Login />
