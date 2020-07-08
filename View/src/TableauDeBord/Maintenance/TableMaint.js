@@ -216,11 +216,20 @@ export default class TableMaint extends Component {
             <DialogTitle id="alert-dialog-slide-title">{"Maintenance "}{this.state.id}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="body1">Type : {this.state.pane} </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Véhicule : {this.state.vehicule} </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body1">Niveau : {this.state.niveau}</Typography>
+                  </Grid>
+                </Grid>
                 <Typography variant="body1">Statut : {this.state.effectuee} </Typography>
                 <Typography variant="body1">Date d'attribution : {this.state.dateAttrinution}     Date de réalisation : {this.state.dateRealisation}</Typography>
-                <Typography variant="body1">Niveau : {this.state.niveau}     Echelon : {this.state.echelon}</Typography>
-                <Typography variant="body1">Véhicule : {this.state.vehicule} </Typography>
-                <Typography variant="body1">Type : {this.state.pane} </Typography>
+                     Echelon : {this.state.echelon}
               </DialogContentText>
             </DialogContent>
             <DialogActions>

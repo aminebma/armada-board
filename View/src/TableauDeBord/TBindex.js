@@ -91,7 +91,6 @@ export default function MaintenanceNav() {
         >
           <LinkTab label="Maintenance" href="/drafts" {...a11yProps(0)} />
           <LinkTab label="Flotte" href="/trash" {...a11yProps(1)} />
-          <LinkTab label="Chauffeurs" href="/spam" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -99,9 +98,6 @@ export default function MaintenanceNav() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Flotte/>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Chauffeurs
       </TabPanel>
     </div>
   );
