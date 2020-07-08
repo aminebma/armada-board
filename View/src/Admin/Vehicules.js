@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
-
+import axios from 'axios';
 
 const styles = theme => ({
     paper: {
@@ -25,6 +25,61 @@ const theme = createMuiTheme({
   });
 
 class Vehicules extends Component{
+
+    state={
+        affectation: '',
+        sexe: ''
+    }
+
+    handleAddVehicule = () => {
+        const body = {
+            affectation: this.state.affectation,
+            type: document.getElementById('type').value,
+            marque: document.getElementById('marque').value,
+            modele: document.getElementById('modele').value,
+            matricule_interne: document.getElementById('matricule_interne').value,
+            matricule_externe: document.getElementById('matricule_externe').value,
+          }
+          axios.post('http://localhost:3001/api/vehicules/', body)
+            .then(res => {
+                alert("Véhicule ajouté avec succès !");
+            })
+            .catch((error) => {
+              alert("Une erreur s'est produite.");
+            })
+    }
+
+    handleAddDriver = () => {
+        const body = {
+            affectation: this.state.affectation,
+            nom: document.getElementById('nom').value,
+            prenom: document.getElementById('prenom').value,
+            dateNaiss: document.getElementById('datenaiss').value,
+            adresseResidence: document.getElementById('adresse').value,
+            numTel: document.getElementById('numtel').value,
+            mail: document.getElementById('mail').value,
+            sexe: this.state.sexe
+          }
+          axios.post('http://localhost:3001/api/admin/chauffeurs', body)
+            .then(res => {
+                alert("Chauffeur ajouté avec succès !");
+            })
+            .catch((error) => {
+              alert("Chauffeur existant");
+            })
+    }
+
+    handleAffectationChange = event => {
+        this.setState({
+            affectation: event.target.value
+        })
+    }
+
+    handleSexeChange = event => {
+        this.setState({
+            sexe: event.target.value
+        })
+    }
     render() {
         const { classes } = this.props;
         return (
@@ -35,27 +90,28 @@ class Vehicules extends Component{
                             <Typography variant="h6" color="secondary">Ajout de véhicule.</Typography> 
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Type" />
+                            <TextField id="type" label="Type" />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Marque" />
+                            <TextField id="marque" label="Marque" />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Modèle" />
+                            <TextField id="modele" label="Modèle" />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Matricule interne" />
+                            <TextField id="matricule_interne" label="Matricule interne" />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Matricule externe" />
+                            <TextField id="matricule_externe" label="Matricule externe" />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
-                                id="standard-select-currency"
+                                id="unite"
                                 select
                                 label="Unité"
                                 helperText="Choisissez une unité"
                                 color="secondary"
+                                onChange={this.handleAffectationChange}
                             >
                                 <MenuItem key={"1"} value={"1"}>
                                     {"1"}
@@ -75,7 +131,7 @@ class Vehicules extends Component{
                             </TextField>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant="contained" color="secondary">Ajouter</Button>
+                            <Button variant="contained" color="secondary" onClick={this.handleAddVehicule}>Ajouter</Button>
                         </Grid>
                     </Grid>
                     <Divider style={{paddingTop : 100, background : 'white'}}/>
@@ -84,52 +140,48 @@ class Vehicules extends Component{
                             <Typography variant="h6" color="secondary">Ajout de chauffeurs.</Typography> 
                         </Grid>
                         <Grid item xs={4}>
+                            <TextField id="nom" label="Nom" />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField id="prenom" label="Prénom" />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <TextField id="datenaiss" label="Date de naissance" />
+                        </Grid>
+                        <Grid item xs={4}>
                             <TextField
-                                id="standard-select-currency"
+                                id="sexe"
                                 select
-                                label="Niveau"
-                                helperText="Choisissez un niveau"
+                                label="Sexe"
+                                helperText="Choisissez une unité"
                                 color="secondary"
+                                onChange={this.handleSexeChange}
                             >
-                                <MenuItem key={"1"} value={"Admin"}>
-                                    {"Admin"}
+                                <MenuItem key={"1"} value={"H"}>
+                                    {"Homme"}
                                 </MenuItem>
-                                <MenuItem key={"2"} value={"Opérationel"}>
-                                    {"Opérationel"}
-                                </MenuItem>
-                                <MenuItem key={"3"} value={"Régional"}>
-                                    {"Régional"}
-                                </MenuItem>
-                                <MenuItem key={"4"} value={"Central"}>
-                                    {"Central"}
+                                <MenuItem key={"2"} value={"F"}>
+                                    {"Femme"}
                                 </MenuItem>
                             </TextField>
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Nom" />
+                            <TextField id="adresse" label="Adresse postale" />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Prénom" />
+                            <TextField id="mail" label="Adresse mail" />
                         </Grid>
                         <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Date de naissance" />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Adresse postale" />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Adresse mail" />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <TextField id="standard-basic" label="Numéro de téléphone" />
+                            <TextField id="numtel" label="Numéro de téléphone" />
                         </Grid>
                         <Grid item xs={4}>
                             <TextField
-                                id="standard-select-currency"
+                                id="unite"
                                 select
                                 label="Unité"
                                 helperText="Choisissez une unité"
                                 color="secondary"
+                                onChange={this.handleAffectationChange}
                             >
                                 <MenuItem key={"1"} value={"1"}>
                                     {"1"}
@@ -149,7 +201,7 @@ class Vehicules extends Component{
                             </TextField>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant="contained" color="secondary">Ajouter</Button>
+                            <Button variant="contained" color="secondary" onClick={this.handleAddDriver}>Ajouter</Button>
                         </Grid>
                     </Grid>
                 </Paper>
