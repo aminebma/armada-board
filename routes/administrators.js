@@ -118,9 +118,10 @@ router.put('/users/reset-password', async(req,res)=>{
             const pass = await bCrypt.hash(req.body.password,salt)
 
             text = "UPDATE Utilisateur SET password=$1 WHERE id=$2"
-            values = [pass, user.id]
+            values = [pass, user.rows[0].id]
             await pool.query(text,values)
                 .then(()=>{
+                    console.log(`Password changed successfully. new password: ${req.body.password}`)
                     res.send({ Message: 'Password changed successfuly.'})
                 })
                 .catch(e =>{

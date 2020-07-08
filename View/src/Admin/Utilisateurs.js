@@ -58,9 +58,9 @@ class Utilisateurs extends Component{
     handleResetPassword = () => {
         const body = {
             username: document.getElementById('rusername').value,
-            password: document.getElementById('newpassword').value,
+            password: document.getElementById('newpassword').value
           }
-          axios.put('http://localhost:3001/api/admin/users', body)
+          axios.put('http://localhost:3001/api/admin/users/reset-password', body)
             .then(res => {
                 alert("Mot de passe utilisateur modifié avec succès !");
             })
@@ -199,7 +199,7 @@ class Utilisateurs extends Component{
                                 <TextField id="rusername" label="Nom d'utilisateur" />
                             </Grid>
                             <Grid item xs={4}>
-                                <TextField id="mewpassword" label="Mot de passe" type="password"/>
+                                <TextField id="newpassword" label="Mot de passe" type="password"/>
                             </Grid>
                             <Grid item xs={12}>
                                 <Button variant="contained" color="secondary" onClick={this.handleResetPassword}>Modifier</Button>
