@@ -247,7 +247,7 @@ export default class Planning extends Component {
                         <DateNavigator />
                         <TodayButton />
                         <ViewSwitcher />
-                        <ConfirmationDialog messages="Etes vous sur de vouloir supprimer cette maintenance ?" />
+                        <ConfirmationDialog confirmDeleteMessage="Etes vous sur de vouloir supprimer cette maintenance ?" confirmCancelMessage="Abandonner les changements ?"/>
                         <Appointments appointmentComponent={UneMaintenance} appointmentContentComponent={MaintenanceContent} />
                         <Resources data={this.state.RessourceFormulaire} mainResourceName="niveau" />
                         {this.state.isGroupByNiveau ? <IntegratedGrouping /> : null}
