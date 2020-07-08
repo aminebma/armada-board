@@ -3,14 +3,9 @@ import {  BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { Drawer, AppBar, makeStyles, Toolbar, Typography, ListItem, ListItemIcon, ListItemText, List, Container, CardMedia, Grid } from '@material-ui/core';
 import BuildIcon from '@material-ui/icons/Build';
 import MapIcon from '@material-ui/icons/Map';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LineStyleIcon from '@material-ui/icons/LineStyle';
-import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
-import RecentActorsIcon from '@material-ui/icons/RecentActors';
-import DescriptionIcon from '@material-ui/icons/Description';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Unites from '../Admin/Unites';
 import Utilisateurs from '../Admin/Utilisateurs';
 import Vehicules from '../Admin/Vehicules';
@@ -74,13 +69,13 @@ export default function DBAdmin (){
                     <List component="nav">
                         <ListItem alignItems="flex-start" >
                         </ListItem>
-                        <Link to="/admin/Unite" className={classes.link}>
+                        <Link to="/admin/unites" className={classes.link}>
                             <ListItem 
                             button
                             selected={choice === 0}
                             onClick={(e) => handleListItemClick(e, 0)}
                             >
-                                <ListItemIcon style={{color : (choice ===0) ? 'white' : '#424242'}}><AccountBalanceIcon/></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===0) ? 'white' : '#424242'}}><BuildIcon/></ListItemIcon>
                                 <ListItemText style={{color : (choice ===0) ? 'white' : '#424242'}} primary={"Gestion des unités"}/>
                             </ListItem>
                         </Link>
@@ -90,7 +85,7 @@ export default function DBAdmin (){
                                 selected={choice === 1}
                                 onClick={(e) => handleListItemClick(e, 1)}
                             >
-                                <ListItemIcon style={{color : (choice ===1) ? 'white' : '#424242'}}><RecentActorsIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===1) ? 'white' : '#424242'}}><MapIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===1) ? 'white' : '#424242'}} primary={"Gestion des utilisateurs"}/>
                             </ListItem>
                         </Link>
@@ -100,7 +95,7 @@ export default function DBAdmin (){
                                 selected={choice === 2}
                                 onClick={(e) => handleListItemClick(e, 2)}
                             >
-                                <ListItemIcon style={{color : (choice ===2) ? 'white' : '#424242'}}><DirectionsCarIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===2) ? 'white' : '#424242'}}><DashboardIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===2) ? 'white' : '#424242'}} primary={"Gestion des vehicules"}/>
                             </ListItem>
                         </Link>
@@ -110,7 +105,7 @@ export default function DBAdmin (){
                                 selected={choice === 3}
                                 onClick={(e) => handleListItemClick(e, 3)}
                             >
-                                <ListItemIcon style={{color : (choice ===3) ? 'white' : '#424242'}}><DescriptionIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===3) ? 'white' : '#424242'}}><LineStyleIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===3) ? 'white' : '#424242'}} primary={"Gestion des fichiers"}/>
                             </ListItem>
                         </Link>
@@ -122,7 +117,7 @@ export default function DBAdmin (){
                                     handleListItemClick(e, 4)
                                 }}
                             >
-                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><AssignmentIcon /></ListItemIcon>
+                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
                                 <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Gestion Ref. Maintenance"}/>
                             </ListItem>
                         </Link>
@@ -136,8 +131,8 @@ export default function DBAdmin (){
                                     handleListItemClick(e, 5)
                                 }}
                             >
-                                <ListItemIcon style={{color : (choice ===4) ? 'white' : '#424242'}}><ExitToAppIcon /></ListItemIcon>
-                                <ListItemText style={{color : (choice ===4) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
+                                <ListItemIcon style={{color : (choice ===5) ? 'white' : '#424242'}}><SettingsIcon /></ListItemIcon>
+                                <ListItemText style={{color : (choice ===5  ) ? 'white' : '#424242'}} primary={"Deconnexion"}/>
                             </ListItem>
                         </Link>
                     </List>
@@ -150,7 +145,7 @@ export default function DBAdmin (){
                             </Grid>
                         </Grid>
                     </Route>
-                    <Route exact path="/admin/Unites">
+                    <Route exact path="/admin/unites">
                         <Container style={{paddingTop : '50px'}}>
                             <Unites/>
                         </Container>
