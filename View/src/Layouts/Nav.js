@@ -9,6 +9,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Maintenance from '../Maintenance/Maintenance'
 import MaintenanceNav from '../TableauDeBord/TBindex'
 import KpiList from '../Reporting/indexReport'
+import SimpleMap from '../Cartographie/CartographieIndex'
 import Cartographie from '../Cartographie/CartographieIndex'
 import Login from '../Layouts/Login'
 
@@ -138,7 +139,7 @@ export default function Nav (){
                     </Route>
                     <Route exact path="/Cartographie">
                         <Container style={{paddingTop : '50px'}}>
-                            <Cartographie />
+                            <SimpleMap />
                         </Container>
                     </Route>
                     <Route exact path="/Maintenance">
