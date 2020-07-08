@@ -28,19 +28,18 @@ export default class RadarMaint extends Component {
     render() {
         return (
             <div style={{width : "350px", height : "350px"}}>
-            <ResponsiveContainer width="99%">
-                <RadarChart cx={200} cy={135} outerRadius={100} width={300} height={300} data={data}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="zone" />
-                    <PolarRadiusAxis angle={30} domain={[0, 200]} />
-                    <Radar name="Maintenances" dataKey="summ" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                    <Radar name="Effectuées" dataKey="A" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-                    <Radar name="En attentes" dataKey="B" stroke="#d50000" fill="#d50000" fillOpacity={0.6} />
-                    <Legend />
-                </RadarChart>
-            </ResponsiveContainer>
+                <ResponsiveContainer width="99%">
+                    <RadarChart cx={200} cy={135} outerRadius={100} width={300} height={300} data={data}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="zone" />
+                        <PolarRadiusAxis angle={30} domain={[0, 200]} />
+                        <Radar name="Maintenances" dataKey="summ" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                        <Radar name="Effectuées" dataKey="A" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
+                        <Radar name="En attentes" dataKey="B" stroke="#d50000" fill="#d50000" fillOpacity={0.6} />
+                        <Legend />
+                    </RadarChart>
+                </ResponsiveContainer>
             </div>
-            
         );
     }
 }

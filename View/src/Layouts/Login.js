@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const handleLogin = () => {
-  console.log('hey1')
   const body = {
     username: document.getElementById('username').value,
     password: document.getElementById('password').value
