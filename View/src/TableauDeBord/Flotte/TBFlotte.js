@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TypeVehicule from './TypeVehicule'
 import Kilometrage from './Kilometrage'
 import MissionRadar from './Mission'
+import TableFlotte from './TableFlotte'
 
 
 const styles = theme => ({
@@ -37,6 +38,7 @@ class Flotte extends Component{
                 </Grid>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
+                        <TableFlotte />
                     </Paper>
                 </Grid>
             </Grid>
