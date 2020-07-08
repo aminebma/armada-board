@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Nav from './Layouts/Nav'
 import Login from './Layouts/Login'
+import DBAdmin from './Admin/DBAdmin'
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 function App() {
@@ -8,11 +9,12 @@ function App() {
     <div>
       <BrowserRouter>
         <Switch>
-            <Route path="/login" component={Login}/>
-            {localStorage.getItem('jwt')?<Route path='/' component={Nav}/>:<Redirect to={"/login"}/>}
+          <Route path="/login" component={Login} />
+          <Route path="/admin" component={DBAdmin} />
+          <Route path="/" component={Nav} />
         </Switch>
       </BrowserRouter>
-      </div>
+    </div>
   );
 }
 

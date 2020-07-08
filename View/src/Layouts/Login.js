@@ -75,7 +75,10 @@ const handleLogin = () => {
         localStorage.setItem('adresse', res.data.adresse);
         localStorage.setItem('mail', res.data.mail);
         localStorage.setItem('numTel', res.data.numTel);
-        window.location='/'
+        if(res.data.type===0)
+          window.location='/admin'
+        else
+          window.location='/'
       })
       .catch((error)=>{
         alert("Nom d'utilisateur ou mot de passe incorrect.");

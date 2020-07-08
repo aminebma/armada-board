@@ -92,8 +92,6 @@ router.put('/users/reset-password', async(req,res)=>{
     let values = [req.body.username]
     await pool.query(text, values)
         .then(async user =>{
-            const validPass =  await bCrypt.compare(req.body.password, user.rows[0].password)
-            if(!validPass) return res.status(400).send(new Error('Invalid password.'))
 
             const salt = await bCrypt.genSalt(10)
             const pass = await bCrypt.hash(req.body.password,salt)
