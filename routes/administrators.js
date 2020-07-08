@@ -8,6 +8,27 @@ const pool = new Pool({
 })
 pool.connect()
 
+//This will add a new unity. The request body should include the name, class, affiliation and region of the unity
+router.post('/unites', async (req,res)=>{
+    const text = "INSERT INTO Unite(nom, classe, affiliation, region) VALUES($1,$2,$3,$4) RETURNING id"
+    const values = [
+        req.body.nom,
+        req.body.classe,
+        req.body.affiliation,
+        req.body.region
+    ]
+
+    await pool.query(text, values)
+        .then(result => {
+            console.log(`New unité added successfully. id: ${result.rows[0].id}`)
+            res.send(result.rows[0].id)
+        })
+        .catch(e => {
+            console.error(e.message)
+            res.send(e.message)
+        })
+})
+
 //This will add a new driver to the database. The request body should contain the firstname, lastname, date of birth in
 //the YYYY-MM-DD format, address, sex that is a single char, and the id of the driver's unity.
 router.post('/chauffeurs', async (req,res) => {

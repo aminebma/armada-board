@@ -3,7 +3,7 @@ import { TextField , Button, Drawer, Paper, AppBar, makeStyles, Toolbar, Typogra
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
+import axios from 'axios';
 
 const styles = theme => ({
     paper: {
@@ -24,6 +24,47 @@ const theme = createMuiTheme({
   });
 
 class Unites extends Component{
+
+    state = {
+        classe: '',
+        affiliation : '',
+        region : ''
+    }
+
+    handleAddUnite = () => {
+        const body = {
+            nom: document.getElementById('nom').value,
+            classe: this.state.classe,
+            affiliation: this.state.affiliation,
+            region: this.state.region,
+          }
+          axios.post('http://localhost:3001/api/admin/unites', body)
+            .then(res => {
+                alert("Unité ajoutée avec succès !");
+            })
+            .catch((error) => {
+              alert("Une erreur s'est produite");
+            })
+    }
+
+    handleClasseChange = event => {
+        this.setState({
+            classe: event.target.value
+        })
+    }
+
+    handleAffiliationChange = event => {
+        this.setState({
+            affiliation: event.target.value
+        })
+    }
+
+    handleRegionChange = event => {
+        this.setState({
+            region: event.target.value
+        })
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -35,15 +76,16 @@ class Unites extends Component{
                         <Typography variant="h6" color="secondary">Gestion des unités.</Typography> 
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField id="standard-basic" label="Nom de l'unité" />
+                        <TextField id="nom" label="Nom de l'unité" />
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
-                            id="standard-select-currency"
+                            id="classe"
                             select
                             label="Classe"
                             helperText="Choisissez la classe de l'unité"
                             color="secondary"
+                            onChange={this.handleClasseChange}
                         >
                             <MenuItem key={"1"} value={"Opérationelle"}>
                                 {"Opérationelle"}
@@ -58,11 +100,12 @@ class Unites extends Component{
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
-                            id="standard-select-currency"
+                            id="affiliation"
                             select
                             label="Affiliation"
                             helperText="Choisissez une affiliation"
                             color="secondary"
+                            onChange={this.handleAffiliationChange}
                         >
                             <MenuItem key={"1"} value={"1"}>
                                 {"1"}
@@ -83,11 +126,12 @@ class Unites extends Component{
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
-                            id="standard-select-currency"
+                            id="region"
                             select
                             label="Région"
                             helperText="Choisissez une région"
                             color="secondary"
+                            onChange={this.handleRegionChange}
                         >
                             <MenuItem key={"1"} value={"1"}>
                                 {"1"}
@@ -110,7 +154,7 @@ class Unites extends Component{
                         </TextField>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="contained" color="secondary">Ajouter</Button>
+                        <Button variant="contained" color="secondary" onClick={this.handleAddUnite}>Ajouter</Button>
                     </Grid>
             </Grid>
             </Paper>
