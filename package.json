@@ -25,7 +25,7 @@
     "express": "^4.17.1",
     "helmet": "^3.23.1",
     "java": "^0.12.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
     "morgan": "^1.10.0",
